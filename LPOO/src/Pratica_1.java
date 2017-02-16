@@ -21,6 +21,5 @@ public class Pratica_1 {
 			System.out.print('\n');
 		}
 	}	
-	
 }
 
