@@ -29,14 +29,22 @@ public class Pratica_1 {
 	}
 	public static void main(String[] args)
 	{
-		System.out.println("Introduza um carater (w,s,a,d) para mover o heroi"); 
 		Scanner input = new Scanner(System.in);
-		switch(input.next()){
-		case "w":
-//				if()
-			
-			
+		
+		System.out.println("Introduza um carater (w,s,a,d) para mover o heroi");
+		
+			switch(input.next())
+			{
+				case "w":
+				case "s":
+				case "a":
+				case "d":
+				default:
+					break;
+			}
+		update();
+		display();
 		}
-	}	
-}
+	}
+
 
