@@ -7,26 +7,26 @@ class DungeonKeep
 {	
 	// Represent coordinates, formatted {y, x}
 	private Hero hero_;
-	private Guard[] guard_;
-	private Ogre[] ogre_;
+	private Guard[] guards_;
+	private Ogre[] ogres_;
 	private Map map_;
 	
 	private int state_ = -1;
 	private boolean unlocked_ = false;
 	private Random rng_ = new Random();
 	
-	DungeonKeep(int level_id) // Needs more parameters
+	DungeonKeep(int level_id)
 	{	
 		hero_ = new Hero(level_id);
-		guard_ = new Guard[Guard.get_amount(level_id)];
-		for (Guard guard : guard_)
+		guards_ = new Guard[Guard.get_amount(level_id)];
+		for (Guard guard_ : guards_)
 		{
-			guard.init(level_id);
+			guard_.init(level_id);
 		}
-		ogre_ = new Ogre[Ogre.get_amount(level_id)];
-		for (Ogre ogre : ogre_)
+		ogres_ = new Ogre[Ogre.get_amount(level_id)];
+		for (Ogre ogre_ : ogres_)
 		{
-			ogre.init(level_id);
+			ogre_.init(level_id);
 		}
 		map_ = new Map(level_id);
 		
@@ -73,26 +73,26 @@ class DungeonKeep
 		hero_.setNewY(hero_.getY());
 		
 		// Guard position
-		for (Guard guard : guard_)
+		int guard_index_ = 0;
+		for (Guard guard_ : guards_)
 		{
-			map_.update(guard.getX(), guard.getY(), ' ');
-			guard.update();
+			map_.update(guard_.getX(), guard_.getY(), ' ');
+			guard_.update(guard_index_++);
 		}
 		
+		// Missing ogre and club position
+		
 		// Represent characters (hierarchy)
-		dungeon[8][7] = 'K';
-		if (unlocked)
+		map_.refresh('K');
+		if (unlocked_)
 		{
-			dungeon[1][4] = 'S';
-			dungeon[3][2] = 'S';
-			dungeon[3][4] = 'S';
-			dungeon[5][0] = 'S';
-			dungeon[6][0] = 'S';
-			dungeon[8][2] = 'S';
-			dungeon[8][4] = 'S';
+			map_.refresh('S');
 		}
-		dungeon[hero_y][hero_x] = 'H';
-		dungeon[guard_pos[guard_pos_index][1]][guard_pos[guard_pos_index][0]] = 'G';
+		map_.update(hero_.getX(), hero_.getY(), 'H');
+		for (Guard guard_ : guards_)
+		{
+			map_.update(guard_.getX(), guard_.getY(), 'G');
+		}
 		
 		// Game state
 		if (dungeon[5][0] == 'H' || dungeon[6][0] == 'H')

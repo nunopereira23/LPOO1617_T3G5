@@ -2,25 +2,19 @@ package dkeep.logic;
 
 class Guard
 {
-	private int guard_id_;
-	private char[] guard_1_map_1_ = {'a','s','s','s','s','a','a','a','a','a','a','s','d','d','d','d','d','d','d','w','w','w','w','w'};
-	private int[] guard_1_map_1_pos_ = {1, 8};
+	private int level_id_;
+	private int[][][] guard_map_ = {{{3,2,2,2,2,3,3,3,3,3,3,2,1,1,1,1,1,1,1,0,0,0,0,0}}, {{}}};
+	private int[][][] guard_map_pos_ = {{{1, 8}}, {{}}};
 	
-	private int guard_x_, guard_y_;
 	private int guard_type_;
-	private int guard_index_ = 0;
+	private int guard_x_, guard_y_;
+	private int guard_pos_index_ = 0;
+	
 	public void init(int level_id)
 	{
-		guard_id_ = level_id;
-		switch (guard_id_)
-		{
-		case 1:
-			guard_x_ = guard_1_map_1_pos_[1];
-			guard_y_ = guard_1_map_1_pos_[0];
-			break;
-		case 2:
-			break;
-		}
+		level_id_ = level_id;
+		guard_x_ = guard_map_pos_[level_id_][0][1];
+		guard_y_ = guard_map_pos_[level_id_][0][0];
 	}
 	public static int get_amount(int level_id)
 	{
@@ -37,5 +31,26 @@ class Guard
 	{	
 		return guard_x_;
 	}
-	
+	public int getY()
+	{	
+		return guard_y_;
+	}
+	public void update(int guard_index)
+	{
+		switch (guard_map_[level_id_][guard_index][guard_pos_index_])
+		{
+		case 0:
+			--guard_y_;
+			break;
+		case 1:
+			++guard_x_;
+			break;
+		case 2:
+			++guard_y_;
+			break;
+		case 3:
+			--guard_x_;
+			break;
+		}
+	}
 }
