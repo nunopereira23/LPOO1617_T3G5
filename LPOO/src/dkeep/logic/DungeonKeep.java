@@ -2,7 +2,7 @@ package dkeep.logic;
 
 public class DungeonKeep
 {	
-	public enum GameState {LEVEL_START, LEVEL_PLAYING, LEVEL_COMPLETED, LEVEL_RESTART, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
+	public enum GameState {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
 	
 	// Must be changed accordingly
 	private int count = 2;

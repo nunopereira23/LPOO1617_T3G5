@@ -5,7 +5,7 @@ import dkeep.logic.*;
 
 public class DKInterface
 {
-	private DungeonKeep.GameState state = DungeonKeep.GameState.LEVEL_START;
+	private DungeonKeep.GameState state;
 	private static Scanner buffer = new Scanner(System.in);
 	public void run()
 	{
@@ -14,6 +14,7 @@ public class DKInterface
 		String input;
 		do
 		{
+			// Do a pretty introductory message?
 			level.display();
 			do
 			{
@@ -31,7 +32,6 @@ public class DKInterface
 						state = DungeonKeep.GameState.GAME_COMPLETED;
 						break;
 					}
-				case LEVEL_START:
 				case LEVEL_RESTART:
 					level = new DungeonKeep(level_number);
 					break;
@@ -72,16 +72,17 @@ public class DKInterface
 					while (!input.equals("yes") && !input.equals("no"));
 					if (input.equals("yes"))
 					{
+						level_number = 1;
 						level = new DungeonKeep(level_number);
 					}
 					else
 					{
 						state = DungeonKeep.GameState.GAME_EXITING;
 					}
-				default:
 					break;
+				default:
+					break;	
 			}
-			
 		}
 		while (state != DungeonKeep.GameState.GAME_EXITING);
 	}

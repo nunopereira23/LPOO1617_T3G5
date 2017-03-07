@@ -83,7 +83,15 @@ class Map
 	public Map(int level_id)
 	{
 		level_id_ = level_id - 1;
-		map_backup_ = map_level_[level_id_];
+		map_backup_ = new char[map_level_[level_id_].length][];
+		for (int i = 0; i < map_level_[level_id_].length; ++i)
+		{
+			map_backup_[i] = new char[map_level_[level_id_][i].length];
+			for (int j = 0; j < map_level_[level_id_][i].length; ++j)
+			{
+				map_backup_[i][j] = map_level_[level_id_][i][j];
+			}
+		}
 	}
 	
 	public void update(int map_x, int map_y, char map_char)
