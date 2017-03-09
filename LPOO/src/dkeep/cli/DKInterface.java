@@ -5,13 +5,16 @@ import dkeep.logic.*;
 
 public class DKInterface
 {
-	private DungeonKeep.GameState state;
+	private int level_number = 1;
+	private DungeonKeep level;
+	private DungeonKeep.State state;
+	
+	private String input;
 	private static Scanner buffer = new Scanner(System.in);
+	
 	public void run()
 	{
-		int level_number = 1;
-		DungeonKeep level = new DungeonKeep(level_number);
-		String input;
+		level = new DungeonKeep(level_number);
 		do
 		{
 			// Do a pretty introductory message?
@@ -22,24 +25,15 @@ public class DKInterface
 				state = level.update(input);
 				level.display();
 			}
-			while (state == DungeonKeep.GameState.LEVEL_PLAYING);
+			while (state == DungeonKeep.State.LEVEL_PLAYING);
 			
 			switch (state)
 			{
 				case LEVEL_COMPLETED:
-					if (++level_number > level.count())
-					{
-						state = DungeonKeep.GameState.GAME_COMPLETED;
-						break;
-					}
+					++level_number;
 				case LEVEL_RESTART:
 					level = new DungeonKeep(level_number);
 					break;
-				default:
-					break;
-			}
-			switch (state)
-			{
 				case GAME_OVER:
 					System.out.println("Game over!");
 					System.out.println("Continue?");
@@ -54,7 +48,8 @@ public class DKInterface
 					}
 					else
 					{
-						state = DungeonKeep.GameState.GAME_EXITING;
+						level_number = 1;
+						level = new DungeonKeep(level_number);
 					}
 					break;
 				case GAME_RESTART:
@@ -77,15 +72,16 @@ public class DKInterface
 					}
 					else
 					{
-						state = DungeonKeep.GameState.GAME_EXITING;
+						state = DungeonKeep.State.GAME_EXITING;
 					}
 					break;
 				default:
 					break;	
 			}
 		}
-		while (state != DungeonKeep.GameState.GAME_EXITING);
+		while (state != DungeonKeep.State.GAME_EXITING);
 	}
+	 
 	public static void main(String[] args)
 	{
 		DKInterface instance = new DKInterface();

@@ -24,7 +24,7 @@ class Map
 								      {'X',' ',' ',' ',' ',' ',' ',' ','X'},
 								      {'X',' ',' ',' ',' ',' ',' ',' ','X'},
 								      {'X',' ',' ',' ',' ',' ',' ',' ','X'},
-								      {'X','H',' ',' ',' ',' ',' ',' ','X'},
+								      {'X','A',' ',' ',' ',' ',' ',' ','X'},
 								      {'X','X','X','X','X','X','X','X','X'}
 								     }
 								  	};
@@ -129,6 +129,7 @@ class Map
 		map_backup_[map_y][map_x] = ' ';
 		return map_keys_level_[level_id_][map_y][map_x];
 	}
+	
 	public int checkDoor(int map_x, int map_y)
 	{
 		return map_doors_level_[level_id_][map_y][map_x];

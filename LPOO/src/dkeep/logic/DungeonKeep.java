@@ -2,10 +2,10 @@ package dkeep.logic;
 
 public class DungeonKeep
 {	
-	public enum GameState {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
+	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
 	
-	// Must be changed accordingly
-	private int count = 2;
+	private int level_actual_ = 0;
+	private int level_count_ = 2; // This is const
 	
 	private Hero hero_;
 	private Guard[] guards_;
@@ -14,13 +14,14 @@ public class DungeonKeep
 	
 	public DungeonKeep(int level_id)
 	{	
+		level_actual_ = level_id;
 		hero_ = new Hero(level_id);
 		guards_ = new Guard[Guard.getN(level_id)];
 		for (int i = 0; i < guards_.length; ++i)
 		{
 			guards_[i] = new Guard(level_id, i);
 		}
-		ogres_ = new Ogre[Ogre.getN(level_id)];
+		ogres_ = new Ogre[Ogre.getN(level_id, true)];
 		for (int i = 0; i < ogres_.length; ++i)
 		{
 			ogres_[i] = new Ogre(level_id, i);
@@ -28,7 +29,7 @@ public class DungeonKeep
 		map_ = new Map(level_id);
 	}
 	
-	public GameState update(String input)
+	public State update(String input)
 	{
 		// Read input
 		switch(input)
@@ -46,13 +47,13 @@ public class DungeonKeep
 				hero_.update(3);
 				break;
 			case "restart":
-				return GameState.LEVEL_RESTART;
+				return State.LEVEL_RESTART;
 			case "reset":
-				return GameState.GAME_RESTART;
+				return State.GAME_RESTART;
 			case "exit":
-				return GameState.GAME_EXITING;
+				return State.GAME_EXITING;
 			default:
-				return GameState.LEVEL_PLAYING;
+				return State.LEVEL_PLAYING;
 		}
 		
 		// Hero position
@@ -74,6 +75,8 @@ public class DungeonKeep
 				{
 					map_.unlockDoor(map_.checkKey(hero_.getNewX(), hero_.getNewY()));
 				}
+			case '8': // Death play
+			case 'g': // Death play
 			case 'S':
 			case ' ':
 				hero_.setCoord();
@@ -130,26 +133,33 @@ public class DungeonKeep
 		// Represent characters (hierarchy)
 		map_.refresh('k');
 		map_.refresh('S');
-		map_.update(hero_.getX(), hero_.getY(), hero_.checkKey(0) ? 'K' : 'H');
+		map_.update(hero_.getX(), hero_.getY(), (hero_.checkKey(0) ? 'K' : (hero_.checkArmed() ? 'A' : 'H')));
 		for (Guard guard_ : guards_)
 		{
-			map_.update(guard_.getX(), guard_.getY(), 'G');
+			map_.update(guard_.getX(), guard_.getY(), (guard_.checkSleep() ? 'g' : 'G'));
 		}
 		for (Ogre ogre_ : ogres_)
 		{
+			if (hero_.checkArmed() &&
+					((Math.abs(hero_.getX() - ogre_.getOgreX()) < 2 && Math.abs(hero_.getY() - ogre_.getOgreY()) == 0) ||
+					 (Math.abs(hero_.getX() - ogre_.getOgreX()) == 0 && Math.abs(hero_.getY() - ogre_.getOgreY()) < 2)))
+			{
+				ogre_.putStun();
+			}
+			
 			if (map_.check(ogre_.getOgreX(), ogre_.getOgreY()) == 'k')
 			{
-				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), '$');
+				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), (ogre_.checkStun() ? '8' : '$'));
 				map_.update(ogre_.getClubX(), ogre_.getClubY(), '*');
 			}
 			else if (map_.check(ogre_.getClubX(), ogre_.getClubY()) == 'k')
 			{
-				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), 'O');
+				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), (ogre_.checkStun() ? '8' : 'O'));
 				map_.update(ogre_.getClubX(), ogre_.getClubY(), '$');
 			}
 			else
 			{
-				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), 'O');
+				map_.update(ogre_.getOgreX(), ogre_.getOgreY(), (ogre_.checkStun() ? '8' : 'O'));
 				map_.update(ogre_.getClubX(), ogre_.getClubY(), '*');
 			}
 		}
@@ -157,13 +167,19 @@ public class DungeonKeep
 		// Check game state
 		if (hero_.getX() == 0 || hero_.getY() == 0)
 		{
-			return GameState.LEVEL_COMPLETED;
+			if (++level_actual_ > level_count_)
+			{
+				return State.GAME_COMPLETED;
+			}
+			return State.LEVEL_COMPLETED;
 		}
-		else if (map_.check(hero_.getX(), hero_.getY()) == 'G' ||
+		else if (map_.check(hero_.getX(), hero_.getY()) == 'g' ||
+				map_.check(hero_.getX(), hero_.getY()) == 'G' ||
 				map_.check(hero_.getX() - 1, hero_.getY()) == 'G' ||
 				map_.check(hero_.getX() + 1, hero_.getY()) == 'G' ||
 				map_.check(hero_.getX(), hero_.getY() - 1) == 'G' ||
 				map_.check(hero_.getX(), hero_.getY() + 1) == 'G' ||
+				map_.check(hero_.getX(), hero_.getY()) == '8' ||
 				map_.check(hero_.getX(), hero_.getY()) == 'O' ||
 				map_.check(hero_.getX() - 1, hero_.getY()) == 'O' ||
 				map_.check(hero_.getX() + 1, hero_.getY()) == 'O' ||
@@ -180,10 +196,10 @@ public class DungeonKeep
 				map_.check(hero_.getX(), hero_.getY() - 1) == '$' ||
 				map_.check(hero_.getX(), hero_.getY() + 1) == '$')
 		{
-			return GameState.GAME_OVER;
+			return State.GAME_OVER;
 		}
 		
-		return GameState.LEVEL_PLAYING;
+		return State.LEVEL_PLAYING;
 	}
 	public void display()
 	{
@@ -199,9 +215,5 @@ public class DungeonKeep
 			}
 			System.out.println();
 		}
-	}
-	public int count()
-	{
-		return count;
 	}
 }
