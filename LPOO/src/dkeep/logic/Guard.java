@@ -11,7 +11,7 @@ class Guard
 	private static int[][][] guard_move_level_ = {{{1,2,2,2,2,1,1,1,1,1,1,2,3,3,3,3,3,3,3,0,0,0,0,0}}, {}};
 	private int[] guard_move_index_level_;
 	
-	private Type guard_type_ = Type.DRUNKEN;
+	private Type guard_type_ = Type.ROOKIE;
 	private boolean guard_asleep_ = false;
 	private boolean guard_reversed_ = false;
 	
@@ -19,12 +19,13 @@ class Guard
 	
 	private static Random rng_ = new Random();
 	
-	public Guard(int level_id, int guard_index)
+	public Guard(int level_id, int guard_index, Type guard_type)
 	{
 		level_id_ = level_id - 1;
 		guard_x_ = guard_pos_level_[level_id_][guard_index][0];
 		guard_y_ = guard_pos_level_[level_id_][guard_index][1];
 		guard_move_index_level_ = new int[guard_move_level_[level_id_].length];
+		guard_type_ = guard_type;
 	}
 	
 	public static int getN(int level_id)

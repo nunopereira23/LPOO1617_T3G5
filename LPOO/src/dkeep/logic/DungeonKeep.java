@@ -1,5 +1,7 @@
 package dkeep.logic;
 
+import java.io.PrintStream;
+
 public class DungeonKeep
 {	
 	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
@@ -12,14 +14,14 @@ public class DungeonKeep
 	private Ogre[] ogres_;
 	private Map map_;
 	
-	public DungeonKeep(int level_id)
+	public DungeonKeep(int level_id, Guard.Type[] guard_type)
 	{	
 		level_actual_ = level_id;
 		hero_ = new Hero(level_id);
 		guards_ = new Guard[Guard.getN(level_id)];
 		for (int i = 0; i < guards_.length; ++i)
 		{
-			guards_[i] = new Guard(level_id, i);
+			guards_[i] = new Guard(level_id, i, guard_type[i]);
 		}
 		ogres_ = new Ogre[Ogre.getN(level_id, true)];
 		for (int i = 0; i < ogres_.length; ++i)
@@ -201,19 +203,19 @@ public class DungeonKeep
 		
 		return State.LEVEL_PLAYING;
 	}
-	public void display()
+	public void display(PrintStream stream)
 	{
 		for (int i = 0; i < 50; ++i)
 		{
-			System.out.println();
+			stream.println();
 		}
 		for (int i = 0; i < map_.display().length; ++i)
 		{
 			for (int j = 0; j < map_.display()[i].length; ++j)
 			{
-				System.out.print(map_.display()[i][j] + " ");
+				stream.print(map_.display()[i][j] + " ");
 			}
-			System.out.println();
+			stream.println();
 		}
 	}
 }
