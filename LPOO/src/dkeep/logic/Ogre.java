@@ -19,7 +19,7 @@ class Ogre
 
 	public Ogre(int level_id, int ogre_index)
 	{
-		level_id_ = level_id - 1;
+		level_id_ = level_id;
 		new_ogre_x_ = ogre_x_ = ogre_pos_level_[level_id_][ogre_index][0];
 		new_ogre_y_ = ogre_y_ = ogre_pos_level_[level_id_][ogre_index][1];
 		new_club_x_ = club_x_ = club_pos_level_[level_id_][ogre_index][0];
@@ -28,7 +28,7 @@ class Ogre
 	
 	public static int getN(int level_id)
 	{
-		return ogre_pos_level_[level_id - 1].length;
+		return ogre_pos_level_[level_id].length;
 	}	
 	
 	public void updateOgre()

@@ -21,7 +21,7 @@ class Guard
 	
 	public Guard(int level_id, int guard_index, int guard_type)
 	{
-		level_id_ = level_id - 1;
+		level_id_ = level_id;
 		guard_x_ = guard_pos_level_[level_id_][guard_index][0];
 		guard_y_ = guard_pos_level_[level_id_][guard_index][1];
 		guard_move_index_level_ = new int[guard_move_level_[level_id_].length];
@@ -43,7 +43,7 @@ class Guard
 	
 	public static int getN(int level_id)
 	{
-		return guard_pos_level_[level_id - 1].length;
+		return guard_pos_level_[level_id].length;
 	}
 	
 	public void update(int guard_index)

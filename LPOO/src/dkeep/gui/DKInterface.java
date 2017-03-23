@@ -31,12 +31,19 @@ public class DKInterface
 	private int current_guard_type = 0;
 	private int current_ogre_number = 0;
 	private DungeonKeep level;
-	private int level_number = 1;
+	private int level_number = 0;
 	
 	private JFrame frmDungeonKeep = new JFrame();
 	private JTextArea txtrMap = new JTextArea();
 	private JLabel lbl1GameStatus = new JLabel("Please select game settings");
 	private JLabel lbl2GameStatus = new JLabel("");
+	
+	private JButton bttnNext = new JButton("Next");
+	private JButton bttnRestart = new JButton("Restart");
+	private JButton bttnDirectionUp = new JButton("Up");
+	private JButton bttnDirectionLeft = new JButton("Left");
+	private JButton bttnDirectionRight = new JButton("Right");
+	private JButton bttnDirectionDown = new JButton("Down");
 
 	/**
 	 * Launch the application.
@@ -75,12 +82,33 @@ public class DKInterface
 		switch (game_state)
 		{
 			case LEVEL_COMPLETED:
-				lbl1GameStatus.setText("Level cleared. Good job!");
-				lbl2GameStatus.setText("On to level " + ((Integer) level_number).toString());
-				level = new DungeonKeep(++level_number, current_guard_type, current_ogre_number);
-				update();
+				lbl1GameStatus.setText("Level cleared!");
+				lbl2GameStatus.setText("On to level " + ((Integer) (level_number + 2)).toString());
+				bttnNext.setEnabled(true);
+				bttnNext.setVisible(true);
+				bttnRestart.setEnabled(false);
+				bttnRestart.setVisible(false);
+				bttnDirectionUp.setEnabled(false);
+				bttnDirectionLeft.setEnabled(false);
+				bttnDirectionRight.setEnabled(false);
+				bttnDirectionDown.setEnabled(false);				
 				break;
 			case GAME_OVER:
+				lbl1GameStatus.setText("Game over!");
+				lbl2GameStatus.setText("Try again?");
+				bttnDirectionUp.setEnabled(false);
+				bttnDirectionLeft.setEnabled(false);
+				bttnDirectionRight.setEnabled(false);
+				bttnDirectionDown.setEnabled(false);
+				break;
+			case GAME_COMPLETED:
+				lbl1GameStatus.setText("Game cleared!");
+				lbl2GameStatus.setText("Congratulations!");
+				bttnRestart.setEnabled(false);
+				bttnDirectionUp.setEnabled(false);
+				bttnDirectionLeft.setEnabled(false);
+				bttnDirectionRight.setEnabled(false);
+				bttnDirectionDown.setEnabled(false);
 				break;
 			default:
 				lbl1GameStatus.setText("");
@@ -115,11 +143,6 @@ public class DKInterface
 		// ==
 		
 		JButton bttnNewGame = new JButton("New Game");
-		JButton bttnRestart = new JButton("Restart");
-		JButton bttnDirectionUp = new JButton("Up");
-		JButton bttnDirectionLeft = new JButton("Left");
-		JButton bttnDirectionRight = new JButton("Right");
-		JButton bttnDirectionDown = new JButton("Down");
 		JButton bttnExitGame = new JButton("Exit Game");
 		
 		JTextField txtfldNumberOfOgres = new JTextField();
@@ -201,7 +224,8 @@ public class DKInterface
 		bttnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent act_evn) {
 				if (guard_type * ogre_number != 0) {
-					level = new DungeonKeep(level_number = 1, current_guard_type = guard_type, current_ogre_number = ogre_number);
+					game_state = DungeonKeep.State.LEVEL_PLAYING;
+					level = new DungeonKeep(level_number = 0, current_guard_type = guard_type, current_ogre_number = ogre_number);
 					bttnRestart.setEnabled(true);
 					bttnDirectionUp.setEnabled(true);
 					bttnDirectionLeft.setEnabled(true);
@@ -222,6 +246,7 @@ public class DKInterface
 		
 		bttnRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent act_evn) {
+				game_state = DungeonKeep.State.LEVEL_PLAYING;
 				level = new DungeonKeep(level_number, current_guard_type, current_ogre_number);
 				bttnDirectionUp.setEnabled(true);
 				bttnDirectionLeft.setEnabled(true);
@@ -234,6 +259,27 @@ public class DKInterface
 		bttnRestart.setFont(new Font("Consolas", Font.PLAIN, 12));
 		bttnRestart.setBounds(150, 110, 100, 20);
 		frmDungeonKeep.getContentPane().add(bttnRestart);
+		
+		bttnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent act_evn) {
+				game_state = DungeonKeep.State.LEVEL_PLAYING;
+				level = new DungeonKeep(++level_number, current_guard_type, current_ogre_number);
+				bttnNext.setEnabled(false);
+				bttnNext.setVisible(false);
+				bttnRestart.setEnabled(true);
+				bttnRestart.setVisible(true);
+				bttnDirectionUp.setEnabled(true);
+				bttnDirectionLeft.setEnabled(true);
+				bttnDirectionRight.setEnabled(true);
+				bttnDirectionDown.setEnabled(true);
+				update();
+			}
+		});
+		bttnNext.setEnabled(false);
+		bttnNext.setVisible(false);
+		bttnNext.setFont(new Font("Consolas", Font.PLAIN, 12));
+		bttnNext.setBounds(150, 110, 100, 20);
+		frmDungeonKeep.getContentPane().add(bttnNext);
 		
 		bttnDirectionUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent act_evn) {

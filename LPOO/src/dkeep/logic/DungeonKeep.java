@@ -169,7 +169,7 @@ public class DungeonKeep
 		// Check game state
 		if (hero_.getX() == 0 || hero_.getY() == 0)
 		{
-			if (++level_actual_ > level_count_)
+			if (level_actual_ + 1 == level_count_)
 			{
 				return State.GAME_COMPLETED;
 			}

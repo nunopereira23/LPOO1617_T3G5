@@ -5,7 +5,7 @@ import dkeep.logic.*;
 
 public class DKInterface
 {
-	private int level_number = 1;
+	private int level_number = 0;
 	private DungeonKeep level;
 	private DungeonKeep.State state;
 	
@@ -14,16 +14,16 @@ public class DKInterface
 	
 	public void run()
 	{
-		level = new DungeonKeep(level_number);
+		level = new DungeonKeep(level_number, 0, 0);
 		do
 		{
 			// Do a pretty introductory message?
-			level.display();
+			level.display(System.out);
 			do
 			{
 				input = buffer.next();
 				state = level.update(input);
-				level.display();
+				level.display(System.out);
 			}
 			while (state == DungeonKeep.State.LEVEL_PLAYING);
 			
@@ -32,7 +32,7 @@ public class DKInterface
 				case LEVEL_COMPLETED:
 					++level_number;
 				case LEVEL_RESTART:
-					level = new DungeonKeep(level_number);
+					level = new DungeonKeep(level_number, 0, 0);
 					break;
 				case GAME_OVER:
 					System.out.println("Game over!");
@@ -44,17 +44,17 @@ public class DKInterface
 					while (!input.equals("yes") && !input.equals("no"));
 					if (input.equals("yes"))
 					{
-						level = new DungeonKeep(level_number);
+						level = new DungeonKeep(level_number, 0, 0);
 					}
 					else
 					{
 						level_number = 1;
-						level = new DungeonKeep(level_number);
+						level = new DungeonKeep(level_number, 0, 0);
 					}
 					break;
 				case GAME_RESTART:
 					level_number = 1;
-					level = new DungeonKeep(level_number);
+					level = new DungeonKeep(level_number, 0, 0);
 					break;
 				case GAME_COMPLETED:
 					System.out.println("Congratulations!");
@@ -68,7 +68,7 @@ public class DKInterface
 					if (input.equals("yes"))
 					{
 						level_number = 1;
-						level = new DungeonKeep(level_number);
+						level = new DungeonKeep(level_number, 0, 0);
 					}
 					else
 					{

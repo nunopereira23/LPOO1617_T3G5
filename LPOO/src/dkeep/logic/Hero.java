@@ -13,7 +13,7 @@ class Hero
 	
 	public Hero(int level_id)
 	{
-		level_id_ = level_id - 1;
+		level_id_ = level_id;
 		new_hero_x_ = hero_x_ = hero_pos_level_[level_id_][0];
 		new_hero_y_ = hero_y_ = hero_pos_level_[level_id_][1];
 		hero_armed_ = hero_armed_level_[level_id_];
