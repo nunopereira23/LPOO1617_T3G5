@@ -2,12 +2,13 @@ package dkeep.cli;
 
 import java.util.Scanner;
 import dkeep.logic.*;
+import dkeep.logic.DungeonKeep.State;
 
 public class DKInterface
 {
 	private int level_number = 0;
 	private DungeonKeep level;
-	private DungeonKeep.State state;
+	public DungeonKeep.State state;
 	
 	private String input;
 	private static Scanner buffer = new Scanner(System.in);
@@ -82,6 +83,10 @@ public class DKInterface
 		while (state != DungeonKeep.State.GAME_EXITING);
 	}
 	 
+	public State getGameState(){
+		return this.state;
+	}
+	
 	public static void main(String[] args)
 	{
 		DKInterface instance = new DKInterface();
@@ -92,5 +97,7 @@ public class DKInterface
 		}
 		System.out.println("Goodbye!");
 	}
+	
+	
 } 
 

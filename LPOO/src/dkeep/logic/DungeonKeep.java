@@ -2,21 +2,26 @@ package dkeep.logic;
 
 import java.io.PrintStream;
 
+import dkeep.logic.DungeonKeep.State;
+
 public class DungeonKeep
 {	
-	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING};
+	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
+
 	
-	private int level_actual_ = 0;
+	
+	private int level_id_ = 0;
 	private int level_count_ = 2; // This is const
 	
 	private Hero hero_;
 	private Guard[] guards_;
 	private Ogre[] ogres_;
 	private Map map_;
+	public static  DungeonKeep.State getGameState;
 	
 	public DungeonKeep(int level_id, int guard_type, int ogre_number)
 	{	
-		level_actual_ = level_id;
+		level_id_ = level_id;
 		hero_ = new Hero(level_id);
 		guards_ = new Guard[Guard.getN(level_id)];
 		for (int i = 0; i < guards_.length; ++i)
@@ -30,6 +35,20 @@ public class DungeonKeep
 		}
 		map_ = new Map(level_id);
 	}
+	
+	public DungeonKeep(int[] posicaoHeroi, char [][] mapa){
+		level_id_ = level_count_++;
+		map_ = new Map(mapa);
+		hero_ = new Hero(posicaoHeroi);
+		guards_ = new Guard[0];
+		ogres_ = new Ogre[0];
+	}
+	
+	public int[] getHeroPos(){
+		return new int[] {this.hero_.getX(), this.hero_.getY()};
+	}
+	
+	
 	
 	public State update(String input)
 	{
@@ -57,6 +76,7 @@ public class DungeonKeep
 			default:
 				return State.LEVEL_PLAYING;
 		}
+		
 		
 		// Hero position
 		map_.update(hero_.getX(), hero_.getY(), ' ');
@@ -169,7 +189,7 @@ public class DungeonKeep
 		// Check game state
 		if (hero_.getX() == 0 || hero_.getY() == 0)
 		{
-			if (level_actual_ + 1 == level_count_)
+			if (level_id_ + 1 == level_count_)
 			{
 				return State.GAME_COMPLETED;
 			}

@@ -1,9 +1,9 @@
 package dkeep.logic;
 
-class Map
+public class Map
 {
 	private int level_id_;
-	private char[][][] map_level_ = {
+	public char[][][] map_level_ = {
 								     {// Level 1
 									  {'X','X','X','X','X','X','X','X','X','X'},
 									  {'X','H',' ',' ','I',' ','X',' ','G','X'},
@@ -83,6 +83,27 @@ class Map
 	public Map(int level_id)
 	{
 		level_id_ = level_id;
+		map_backup_ = new char[map_level_[level_id_].length][];
+		for (int i = 0; i < map_level_[level_id_].length; ++i)
+		{
+			map_backup_[i] = new char[map_level_[level_id_][i].length];
+			for (int j = 0; j < map_level_[level_id_][i].length; ++j)
+			{
+				map_backup_[i][j] = map_level_[level_id_][i][j];
+			}
+		}
+	}
+	
+	public Map(char [][] mapa){
+		
+		level_id_ = map_level_.length;
+		char[][][] new_map_level_ = new char[map_level_.length + 1][][];
+		for (int i = 0; i < map_level_.length; ++i)
+		{
+			new_map_level_[i] = map_level_[i];
+		}
+		new_map_level_[map_level_.length] = mapa;
+		map_level_ = new_map_level_;
 		map_backup_ = new char[map_level_[level_id_].length][];
 		for (int i = 0; i < map_level_[level_id_].length; ++i)
 		{

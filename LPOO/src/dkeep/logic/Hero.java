@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-class Hero
+public class Hero
 {
 	private int level_id_;
 	private int[][] hero_pos_level_ = {{1, 1}, {1, 7}};
@@ -14,6 +14,34 @@ class Hero
 	public Hero(int level_id)
 	{
 		level_id_ = level_id;
+		new_hero_x_ = hero_x_ = hero_pos_level_[level_id_][0];
+		new_hero_y_ = hero_y_ = hero_pos_level_[level_id_][1];
+		hero_armed_ = hero_armed_level_[level_id_];
+	}
+	
+	public Hero(int[] hero_pos){
+		level_id_ = hero_pos_level_.length;
+		int[][] new_hero_pos_level_ = new int[hero_pos_level_.length + 1][];
+		for (int i = 0; i < hero_pos_level_.length; ++i)
+		{
+			new_hero_pos_level_[i] = hero_pos_level_[i];
+		}
+		new_hero_pos_level_[hero_pos_level_.length] = hero_pos;
+		hero_pos_level_ = new_hero_pos_level_;
+		boolean[] new_hero_armed_level_ = new boolean[hero_armed_level_.length + 1];
+		for (int i = 0; i < hero_armed_level_.length; ++i)
+		{
+			new_hero_armed_level_[i] = hero_armed_level_[i];
+		}
+		new_hero_armed_level_[hero_armed_level_.length] = false;
+		hero_armed_level_ = new_hero_armed_level_;
+		int[][] new_hero_keys_level_ = new int[hero_keys_level_.length + 1][];
+		for (int i = 0; i < hero_keys_level_.length; ++i)
+		{
+			new_hero_keys_level_[i] = hero_keys_level_[i];
+		}
+		new_hero_keys_level_[hero_keys_level_.length] = new int[]{0};
+		hero_keys_level_ = new_hero_keys_level_;
 		new_hero_x_ = hero_x_ = hero_pos_level_[level_id_][0];
 		new_hero_y_ = hero_y_ = hero_pos_level_[level_id_][1];
 		hero_armed_ = hero_armed_level_[level_id_];
@@ -54,6 +82,7 @@ class Hero
 	{
 		return new_hero_y_;
 	}
+	
 	
 	public void setCoord()
 	{
