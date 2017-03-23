@@ -8,7 +8,7 @@ public class DKInterface
 {
 	private int level_number = 0;
 	private DungeonKeep level;
-	public DungeonKeep.State state;
+	private DungeonKeep.State state;
 	
 	private String input;
 	private static Scanner buffer = new Scanner(System.in);
@@ -97,7 +97,5 @@ public class DKInterface
 		}
 		System.out.println("Goodbye!");
 	}
-	
-	
-} 
+}
 

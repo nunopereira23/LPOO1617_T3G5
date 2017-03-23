@@ -8,8 +8,6 @@ public class DungeonKeep
 {	
 	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
 
-	
-	
 	private int level_id_ = 0;
 	private int level_count_ = 2; // This is const
 	
@@ -17,7 +15,6 @@ public class DungeonKeep
 	private Guard[] guards_;
 	private Ogre[] ogres_;
 	private Map map_;
-	public static  DungeonKeep.State getGameState;
 	
 	public DungeonKeep(int level_id, int guard_type, int ogre_number)
 	{	
@@ -36,9 +33,9 @@ public class DungeonKeep
 		map_ = new Map(level_id);
 	}
 	
-	public DungeonKeep(int[] posicaoHeroi, char [][] mapa){
+	public DungeonKeep(int[] posicaoHeroi, char[][] mapa, int[][] mapaPortas, int[][] mapaChaves){
 		level_id_ = level_count_++;
-		map_ = new Map(mapa);
+		map_ = new Map(mapa, mapaPortas, mapaChaves);
 		hero_ = new Hero(posicaoHeroi);
 		guards_ = new Guard[0];
 		ogres_ = new Ogre[0];
@@ -47,8 +44,6 @@ public class DungeonKeep
 	public int[] getHeroPos(){
 		return new int[] {this.hero_.getX(), this.hero_.getY()};
 	}
-	
-	
 	
 	public State update(String input)
 	{
@@ -76,7 +71,6 @@ public class DungeonKeep
 			default:
 				return State.LEVEL_PLAYING;
 		}
-		
 		
 		// Hero position
 		map_.update(hero_.getX(), hero_.getY(), ' ');

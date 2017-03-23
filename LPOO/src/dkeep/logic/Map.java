@@ -3,7 +3,7 @@ package dkeep.logic;
 public class Map
 {
 	private int level_id_;
-	public char[][][] map_level_ = {
+	private char[][][] map_level_ = {
 								     {// Level 1
 									  {'X','X','X','X','X','X','X','X','X','X'},
 									  {'X','H',' ',' ','I',' ','X',' ','G','X'},
@@ -94,9 +94,9 @@ public class Map
 		}
 	}
 	
-	public Map(char [][] mapa){
-		
+	public Map(char[][] mapa, int[][] mapaPortas, int[][] mapaChaves){
 		level_id_ = map_level_.length;
+		
 		char[][][] new_map_level_ = new char[map_level_.length + 1][][];
 		for (int i = 0; i < map_level_.length; ++i)
 		{
@@ -104,6 +104,23 @@ public class Map
 		}
 		new_map_level_[map_level_.length] = mapa;
 		map_level_ = new_map_level_;
+		
+		int[][][] new_map_doors_level_ = new int[map_doors_level_.length + 1][][];
+		for (int i = 0; i < map_doors_level_.length; ++i)
+		{
+			new_map_doors_level_[i] = map_doors_level_[i];
+		}
+		new_map_doors_level_[map_doors_level_.length] = mapaPortas; 
+		map_doors_level_ = new_map_doors_level_;
+		
+		int[][][] new_map_keys_level_ = new int[map_keys_level_.length + 1][][];
+		for (int i = 0; i < map_keys_level_.length; ++i)
+		{
+			new_map_keys_level_[i] = map_keys_level_[i];
+		}
+		new_map_keys_level_[map_keys_level_.length] = mapaChaves; 
+		map_keys_level_ = new_map_keys_level_;
+		
 		map_backup_ = new char[map_level_[level_id_].length][];
 		for (int i = 0; i < map_level_[level_id_].length; ++i)
 		{
