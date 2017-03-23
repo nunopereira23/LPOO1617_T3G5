@@ -5,8 +5,8 @@ import java.util.Random;
 class Ogre
 {
 	private int level_id_;
-	private static int[][][] ogre_pos_level_ = {{}, {{4, 1}, {4, 1}, {4, 1}, {4, 1}, {4, 1}}};
-	private static int[][][] club_pos_level_ = {{}, {{4, 2}, {4, 2}, {4, 2}, {4, 2}, {4, 2}}};
+	private static int[][][] ogre_pos_level_ = {{}, {{4, 1}}};
+	private static int[][][] club_pos_level_ = {{}, {{4, 2}}};
 
 	private int ogre_x_, ogre_y_;
 	private int new_ogre_x_, new_ogre_y_;
@@ -26,12 +26,8 @@ class Ogre
 		new_club_y_ = club_y_ = club_pos_level_[level_id_][ogre_index][1];
 	}
 	
-	public static int getN(int level_id, boolean random)
+	public static int getN(int level_id)
 	{
-		if (random && ogre_pos_level_[level_id - 1].length > 0)
-		{
-			return rng_.nextInt(ogre_pos_level_[level_id - 1].length) + 1;
-		}
 		return ogre_pos_level_[level_id - 1].length;
 	}	
 	

@@ -19,13 +19,26 @@ class Guard
 	
 	private static Random rng_ = new Random();
 	
-	public Guard(int level_id, int guard_index, Type guard_type)
+	public Guard(int level_id, int guard_index, int guard_type)
 	{
 		level_id_ = level_id - 1;
 		guard_x_ = guard_pos_level_[level_id_][guard_index][0];
 		guard_y_ = guard_pos_level_[level_id_][guard_index][1];
 		guard_move_index_level_ = new int[guard_move_level_[level_id_].length];
-		guard_type_ = guard_type;
+		switch (guard_type)
+		{
+			case 1:
+				guard_type_ = Type.ROOKIE;
+				break;
+			case 2:
+				guard_type_ = Type.DRUNKEN;
+				break;
+			case 3:
+				guard_type_ = Type.SUSPICIOUS;
+				break;
+			default:
+				break;
+		}
 	}
 	
 	public static int getN(int level_id)

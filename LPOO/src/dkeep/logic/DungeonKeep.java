@@ -14,19 +14,19 @@ public class DungeonKeep
 	private Ogre[] ogres_;
 	private Map map_;
 	
-	public DungeonKeep(int level_id, Guard.Type[] guard_type)
+	public DungeonKeep(int level_id, int guard_type, int ogre_number)
 	{	
 		level_actual_ = level_id;
 		hero_ = new Hero(level_id);
 		guards_ = new Guard[Guard.getN(level_id)];
 		for (int i = 0; i < guards_.length; ++i)
 		{
-			guards_[i] = new Guard(level_id, i, guard_type[i]);
+			guards_[i] = new Guard(level_id, i, guard_type);
 		}
-		ogres_ = new Ogre[Ogre.getN(level_id, true)];
+		ogres_ = new Ogre[(ogre_number * Ogre.getN(level_id) == 0 ? Ogre.getN(level_id) : ogre_number)];
 		for (int i = 0; i < ogres_.length; ++i)
 		{
-			ogres_[i] = new Ogre(level_id, i);
+			ogres_[i] = new Ogre(level_id, (ogre_number == 0 ? i : 0));
 		}
 		map_ = new Map(level_id);
 	}
