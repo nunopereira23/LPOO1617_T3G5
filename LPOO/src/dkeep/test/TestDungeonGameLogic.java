@@ -69,8 +69,21 @@ public class TestDungeonGameLogic {
 		assertEquals(DungeonKeep.State.GAME_OVER, state);
 	}
 	
-	@Test                 //Esta dar Game COmpleted quando devia dar Level Completed
+	@Test
 	public void testMoveHeroIntoKeyCell(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		assertEquals(1, dk1.getHeroPos()[0]);
+		assertEquals(1, dk1.getHeroPos()[1]);
+		dk1.update("s");
+		dk1.update("s");
+		assertEquals(true, dk1.getHero().checkKey(1));     // Porquê que o checkKey tem parametro? Talvez haja uma melhor solucao
+	}
+	
+	
+	
+	
+	@Test                 //Esta dar Game COmpleted quando devia dar Level Completed
+	public void testLevelCompleted(){
 		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
@@ -80,4 +93,5 @@ public class TestDungeonGameLogic {
 		DungeonKeep.State state = dk1.update("a");
 		assertEquals(DungeonKeep.State.LEVEL_COMPLETED, state);
 	}
+	
 }

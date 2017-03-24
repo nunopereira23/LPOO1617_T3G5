@@ -41,6 +41,10 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
+	public Hero getHero(){
+		return this.hero_;
+	}
+	
 	public int[] getHeroPos(){
 		return new int[] {this.hero_.getX(), this.hero_.getY()};
 	}

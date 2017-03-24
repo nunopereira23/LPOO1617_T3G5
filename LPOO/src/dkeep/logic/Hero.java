@@ -119,6 +119,8 @@ public class Hero
 		}
 		return false;
 	}
+	
+	
 	public void pickKey(int key)
 	{
 		for (int i = 0; i < hero_keys_level_[level_id_].length; ++i)
