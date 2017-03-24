@@ -5,7 +5,7 @@ public class Hero
 	private int level_id_;
 	private int[][] hero_pos_level_ = {{1, 1}, {1, 7}};
 	private boolean[] hero_armed_level_ = {false, true};
-	private int[][] hero_keys_level_ = {{0}, {0}};
+	private int[][] hero_keys_level_ = {{}, {}};
 	
 	private int hero_x_, hero_y_;
 	private int new_hero_x_, new_hero_y_;
@@ -107,30 +107,22 @@ public class Hero
 				}
 			}
 		}
-		else
+		else if (hero_keys_level_[level_id_].length > 0)
 		{
-			for (int i = 0; i < hero_keys_level_[level_id_].length; ++i)
-			{
-				if (hero_keys_level_[level_id_][i] != 0)
-				{
-					return true;
-				}
-			}
+			return true;
 		}
 		return false;
 	}
 	
-	
 	public void pickKey(int key)
 	{
+		int[] new_hero_keys_level_ = new int[hero_keys_level_[level_id_].length + 1];
 		for (int i = 0; i < hero_keys_level_[level_id_].length; ++i)
 		{
-			if (hero_keys_level_[level_id_][i] == 0)
-			{
-				hero_keys_level_[level_id_][i] = key;
-				break;
-			}
+			new_hero_keys_level_[i] = hero_keys_level_[level_id_][i]; 
 		}
+		new_hero_keys_level_[hero_keys_level_[level_id_].length] = key;
+		hero_keys_level_[level_id_] = new_hero_keys_level_;
 	}
 	
 	public boolean checkArmed()
