@@ -68,4 +68,16 @@ public class TestDungeonGameLogic {
 		DungeonKeep.State state = dk1.update("d");
 		assertEquals(DungeonKeep.State.GAME_OVER, state);
 	}
+	
+	@Test                 //Esta dar Game COmpleted quando devia dar Level Completed
+	public void testMoveHeroIntoKeyCell(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		assertEquals(1, dk1.getHeroPos()[0]);
+		assertEquals(1, dk1.getHeroPos()[1]);
+		dk1.update("s");
+		dk1.update("s");
+		dk1.update("a");
+		DungeonKeep.State state = dk1.update("a");
+		assertEquals(DungeonKeep.State.LEVEL_COMPLETED, state);
+	}
 }
