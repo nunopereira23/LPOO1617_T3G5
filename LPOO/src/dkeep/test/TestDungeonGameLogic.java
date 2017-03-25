@@ -77,12 +77,17 @@ public class TestDungeonGameLogic {
 		dk1.update("s");
 		dk1.update("s");
 		assertEquals(true, dk1.getHero().checkKey(1));     // Porquê que o checkKey tem parametro? Talvez haja uma melhor solucao
+														   // O checkKey é usado para ver se o heroi tem a chave que corresponde ao argumento dado.
+														   // A função é usada para verificar se o heroi pode abrir uma porta quando se move contra ela
+														   // (se a porta corresponde a alguma das chaves que o heroi possa ter)
+														   // Se o argumento dado for 0, a função diz te só se o heroi tem alguma chave ou não; 
+														   // talvez prefiras dar 0 como argumento? Só para verificar se ele tem alguma chave?
 	}
 	
 	
 	
 	
-	@Test                 //Esta dar Game COmpleted quando devia dar Level Completed
+	@Test                 //Esta dar Game Completed quando devia dar Level Completed
 	public void testLevelCompleted(){
 		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
 		assertEquals(1, dk1.getHeroPos()[0]);
@@ -91,7 +96,8 @@ public class TestDungeonGameLogic {
 		dk1.update("s");
 		dk1.update("a");
 		DungeonKeep.State state = dk1.update("a");
-		assertEquals(DungeonKeep.State.LEVEL_COMPLETED, state);
-	}
-	
+		assertEquals(DungeonKeep.State.LEVEL_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
+	}															// mas é uma maneira de dizer à interface que não há mais níveis.
+																// Isto acontece pq quando criamos o nivel pomos o no fim da lista de niveis
+																// Acho que aqui o melhor é mesmo comparares com LEVEL_COMPLETED || GAME_COMPLETED
 }
