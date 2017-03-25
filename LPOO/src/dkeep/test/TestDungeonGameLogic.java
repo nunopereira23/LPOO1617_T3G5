@@ -96,8 +96,7 @@ public class TestDungeonGameLogic {
 		dk1.update("s");
 		dk1.update("a");
 		DungeonKeep.State state = dk1.update("a");
-		assertEquals(DungeonKeep.State.LEVEL_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
+		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
 	}															// mas é uma maneira de dizer à interface que não há mais níveis.
 																// Isto acontece pq quando criamos o nivel pomos o no fim da lista de niveis
-																// Acho que aqui o melhor é mesmo comparares com LEVEL_COMPLETED || GAME_COMPLETED
 }
