@@ -180,8 +180,12 @@ public class TestDungeonGameLogic {
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("w");
+	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Error here probably it isn't 1 the number of that key idk
+																						  // Mandaste as coordenadas do heroi para a checkDoor, pelo que o valor que 
+																						  // a função devolve é 0, pois nao ha nenhuma porta onde o heroi esta
+																						  // Se decrementares o X em 1, ves a posicao à esquerda do heroi, e esta sim tem uma porta
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));  //Error here probably it isn't 1 the number of that key idk
+	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Repara que é indiferente verificar antes de abrir ou depois
 	}
 	
 	
