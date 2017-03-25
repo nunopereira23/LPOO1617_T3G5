@@ -24,39 +24,41 @@ public class TestDungeonGameLogic {
 					{'X','A',' ',' ',' '},
 					{'X','X','X','X','X'}};
 	
-	int[][][] mapDoors = {{0, 0, 0, 0, 0}, // Mapa que representa as portas
-						{0, 0, 0, 0, 0}, // Se a porta é aberta por uma chave
-						{1, 0, 0, 0, 0}, // o numero deve ser positivo
-						{1, 0, 0, 0, 0}, // Se a porta é aberta por uma alavanca
-						{0, 0, 0, 0, 0}
-						},					// o numero deve ser negativo
-	
+	int[][][] mapDoors = {
+						  {
+						   {0, 0, 0, 0, 0}, // Mapa que representa as portas
+						   {0, 0, 0, 0, 0}, // Se a porta é aberta por uma chave
+						   {1, 0, 0, 0, 0}, // o numero deve ser positivo
+						   {1, 0, 0, 0, 0}, // Se a porta é aberta por uma alavanca
+						   {0, 0, 0, 0, 0}
+						  },					// o numero deve ser negativo
+						  {// Level 2
+						   {0,0,0,0,0},
+						   {1,0,0,0,0},
+						   {0,0,0,0,0},
+						   {0,0,0,0,0},
+						   {0,0,0,0,0},
+						   {0,0,0,0,0},
+						  }
+						 };
+			
+	int[][][] mapKeys = {
+						 {
+						  {0, 0, 0, 0, 0}, // Mapa que representa as chaves ou alavancas,
+						  {0, 0, 0, 0, 0}, // que abrem as portas com o respectivo numero
+						  {0, 0, 0, 0, 0}, // Se é uma chave, o numero deve ser positivo 
+						  {0, 1, 0, 0, 0}, // Se é uma alavanca, o numero deve ser negativo
+						  {0, 0, 0, 0, 0}
+						 },
 						 {// Level 2
-				  	   {0,0,0,0,0},
-				  	   {1,0,0,0,0},
-				  	   {0,0,0,0,0},
-				  	   {0,0,0,0,0},
-				  	   {0,0,0,0,0},
-				  	   {0,0,0,0,0},
-				 	  }};
-			
-			
-			
-			
-	int[][][] mapKeys = {{0, 0, 0, 0, 0}, // Mapa que representa as chaves ou alavancas,
-					   {0, 0, 0, 0, 0}, // que abrem as portas com o respectivo numero
-					   {0, 0, 0, 0, 0}, // Se é uma chave, o numero deve ser positivo 
-					   {0, 1, 0, 0, 0}, // Se é uma alavanca, o numero deve ser negativo
-					   {0, 0, 0, 0, 0},
-					   
-					   {// Level 2
-					  	   {0,0,0,0,0},
-					  	   {0,0,0,0,0},
-					  	   {0,0,0,0,0},
-					  	   {0,1,0,0,0},
-					  	   {0,0,0,0,0},
-					  	   {0,0,0,0,0},
-					 	  }};
+					  	  {0,0,0,0,0},
+					  	  {0,0,0,0,0},
+					  	  {0,0,0,0,0},
+					  	  {0,1,0,0,0},
+					  	  {0,0,0,0,0},
+					  	  {0,0,0,0,0}
+					 	 }
+						};
 	
 	@Test
 	public void testMoveHeroIntoToFreeCell(){
