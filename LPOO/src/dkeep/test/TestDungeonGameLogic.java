@@ -16,21 +16,51 @@ public class TestDungeonGameLogic {
 					{'I','k',' ',' ','X'},
 					{'X','X','X','X','X'}};
 	
-	int[][] mapDoors = {{0, 0, 0, 0, 0}, // Mapa que representa as portas
+	
+	char[][] map2 = {{'X','X','X','X','X'},
+					{'I',' ',' ',' ','O'},
+					{'X',' ',' ',' ','*'},
+					{'X','k',' ',' ',' '},
+					{'X','A',' ',' ',' '},
+					{'X','X','X','X','X'}};
+	
+	int[][][] mapDoors = {{0, 0, 0, 0, 0}, // Mapa que representa as portas
 						{0, 0, 0, 0, 0}, // Se a porta é aberta por uma chave
 						{1, 0, 0, 0, 0}, // o numero deve ser positivo
 						{1, 0, 0, 0, 0}, // Se a porta é aberta por uma alavanca
-						{0, 0, 0, 0, 0}};// o numero deve ser negativo
+						{0, 0, 0, 0, 0}
+						},					// o numero deve ser negativo
 	
-	int[][] mapKeys = {{0, 0, 0, 0, 0}, // Mapa que representa as chaves ou alavancas,
+						 {// Level 2
+				  	   {0,0,0,0,0},
+				  	   {1,0,0,0,0},
+				  	   {0,0,0,0,0},
+				  	   {0,0,0,0,0},
+				  	   {0,0,0,0,0},
+				  	   {0,0,0,0,0},
+				 	  }};
+			
+			
+			
+			
+	int[][][] mapKeys = {{0, 0, 0, 0, 0}, // Mapa que representa as chaves ou alavancas,
 					   {0, 0, 0, 0, 0}, // que abrem as portas com o respectivo numero
 					   {0, 0, 0, 0, 0}, // Se é uma chave, o numero deve ser positivo 
 					   {0, 1, 0, 0, 0}, // Se é uma alavanca, o numero deve ser negativo
-					   {0, 0, 0, 0, 0}};
+					   {0, 0, 0, 0, 0},
+					   
+					   {// Level 2
+					  	   {0,0,0,0,0},
+					  	   {0,0,0,0,0},
+					  	   {0,0,0,0,0},
+					  	   {0,1,0,0,0},
+					  	   {0,0,0,0,0},
+					  	   {0,0,0,0,0},
+					 	  }};
 	
 	@Test
 	public void testMoveHeroIntoToFreeCell(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
@@ -40,7 +70,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToWall(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("a");
@@ -50,7 +80,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroToClosedDoor(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
@@ -62,7 +92,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroToAdjacentGuardPosition(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		DungeonKeep.State state = dk1.update("d");
@@ -71,12 +101,12 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoKeyCell(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
 		dk1.update("s");
-		assertEquals(true, dk1.getHero().checkKey(1));     // Porquê que o checkKey tem parametro? Talvez haja uma melhor solucao
+		assertEquals(true, dk1.getHero().checkKey(0));     // Porquê que o checkKey tem parametro? Talvez haja uma melhor solucao
 														   // O checkKey é usado para ver se o heroi tem a chave que corresponde ao argumento dado.
 														   // A função é usada para verificar se o heroi pode abrir uma porta quando se move contra ela
 														   // (se a porta corresponde a alguma das chaves que o heroi possa ter)
@@ -89,7 +119,7 @@ public class TestDungeonGameLogic {
 	
 	@Test                 //Esta dar Game Completed quando devia dar Level Completed
 	public void testLevelCompleted(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors, mapKeys);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
