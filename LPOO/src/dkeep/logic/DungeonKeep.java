@@ -41,6 +41,10 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
+	public Map getMap(){
+		return this.map_;
+	}
+	
 	public Hero getHero(){
 		return this.hero_;
 	}

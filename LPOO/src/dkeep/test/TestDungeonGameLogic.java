@@ -169,6 +169,32 @@ public class TestDungeonGameLogic {
 	dk1.update("w");
 	dk1.update("a");
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals(0,map2.checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));
+	assertEquals(0,dk1.getMap().checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));
+	}
+	
+	@Test
+	public void testHeroMovesIntoClosedDoorsWithKey(){
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	assertEquals(1, dk1.getHeroPos()[0]);
+	assertEquals(4, dk1.getHeroPos()[1]);
+	dk1.update("w");
+	dk1.update("w");
+	dk1.update("w");
+	DungeonKeep.State state = dk1.update("a");
+	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));  //Error here probably it isn't 1 the number of that key idk
+	}
+	
+	
+	@Test
+	public void testHeroMovesIntoOpenDoorsWithKey(){
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	assertEquals(1, dk1.getHeroPos()[0]);
+	assertEquals(4, dk1.getHeroPos()[1]);
+	dk1.update("w");
+	dk1.update("w");
+	dk1.update("w");
+	dk1.update("a");
+	DungeonKeep.State state = dk1.update("a");
+	assertEquals(DungeonKeep.State.GAME_COMPLETED, state);
 	}
 }
