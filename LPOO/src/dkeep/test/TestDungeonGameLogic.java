@@ -131,4 +131,44 @@ public class TestDungeonGameLogic {
 		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
 	}															// mas é uma maneira de dizer à interface que não há mais níveis.
 																// Isto acontece pq quando criamos o nivel pomos o no fim da lista de niveis
+	
+	// Testes Ogre
+	
+	@Test
+	public void testHeroMovesToOgreAdjacentPosition(){
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	assertEquals(1, dk1.getHeroPos()[0]);
+	assertEquals(4, dk1.getHeroPos()[1]);
+	dk1.update("d");
+	dk1.update("d");
+	dk1.update("w");
+	dk1.update("w");
+	DungeonKeep.State state = dk1.update("w");
+	assertEquals(DungeonKeep.State.GAME_OVER, state);
+	
+	}
+	
+	@Test
+	public void testHeroMovesToKeyCell(){
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	assertEquals(1, dk1.getHeroPos()[0]);
+	assertEquals(4, dk1.getHeroPos()[1]);
+	DungeonKeep.State state = dk1.update("w");
+	assertEquals(true, dk1.getHero().checkKey(0));
+	}
+	
+	
+	@Test
+	public void testHeroMovesIntoClosedDoorsWithoutKey(){
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	assertEquals(1, dk1.getHeroPos()[0]);
+	assertEquals(4, dk1.getHeroPos()[1]);
+	dk1.update("d");
+	dk1.update("w");
+	dk1.update("w");
+	dk1.update("w");
+	dk1.update("a");
+	DungeonKeep.State state = dk1.update("a");
+	assertEquals(0,map2.checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));
+	}
 }
