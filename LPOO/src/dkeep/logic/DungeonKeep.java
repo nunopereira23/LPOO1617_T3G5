@@ -43,6 +43,7 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
+	
 	/*
 	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int nOgres){
 		level_id_ = level_count_++;

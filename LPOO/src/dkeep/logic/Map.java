@@ -174,6 +174,7 @@ public class Map
 			}
 		}
 	}
+	
 	char[][] display()
 	{
 		return map_;
