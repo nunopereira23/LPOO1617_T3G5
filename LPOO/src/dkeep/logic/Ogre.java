@@ -139,6 +139,17 @@ public class Ogre
 		return new_club_y_;
 	}
 	
+	public void changeX(int x, int length){
+		if (x < (length - 1) && x > 0)
+			ogre_x_ = x;
+	}
+
+	public void changeY(int y, int length){
+		if (y < (length - 1) && y > 0)
+			ogre_y_ = y;
+	}
+
+	
 	void setOgreCoord()
 	{
 		ogre_x_ = new_ogre_x_;

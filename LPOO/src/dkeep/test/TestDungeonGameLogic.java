@@ -24,10 +24,6 @@ public class TestDungeonGameLogic {
 					{'X','A',' ',' ',' '},
 					{'X','X','X','X','X'}};
 	
-	public char[][] getMap2() {
-		return map2;
-	}
-	
 	
 	int[][][] mapDoors = {
 						  {
@@ -190,8 +186,8 @@ public class TestDungeonGameLogic {
 	assertEquals(1, dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));
 	assertEquals('I', dk1.getMap().check(0, 1));	
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals('S', dk1.getMap().check(0, 1));	// Como tavas a fazer nao funcionava pq o construtor da class Map cria um novo array,
-													// nao fica com pointer que tu lhe mandas, entao tavas a comparar com o map2, que nao foi alterado desde o inicio
+	assertEquals('S', dk1.getMap().check(0, 1));	
+													
 	
 	}
 	
@@ -208,4 +204,16 @@ public class TestDungeonGameLogic {
 	DungeonKeep.State state = dk1.update("a");
 	assertEquals(DungeonKeep.State.GAME_COMPLETED, state);
 	}
+	
+	@Test
+	public void testOgreMovesIntoKey(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 7}, false, map2, mapDoors[1], mapKeys[1],1);
+		dk1.update("d");
+		dk1.update("d");
+		dk1.update("d");
+		dk1.getOgres()[0].changeX(1, 5);
+		dk1.getOgres()[0].changeY(3, 5);
+		assertEquals('$', dk1.getMap().check(1, 3));
+	}
+	
 }
