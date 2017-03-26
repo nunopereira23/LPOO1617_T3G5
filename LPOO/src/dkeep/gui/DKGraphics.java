@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class DKGraphics extends JPanel {
-
 	private DKInterfaceV2 window = null;
 	
 	private BufferedImage img_title_screen;
