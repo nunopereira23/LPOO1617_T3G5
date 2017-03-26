@@ -1,25 +1,15 @@
 package dkeep.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import dkeep.logic.DungeonKeep;
@@ -29,6 +19,7 @@ public class DKSettings extends JFrame {
 	private JPanel contentPane;
 	private JComboBox cmbbxNumberOfOgres;
 	private JComboBox cmbbxGuardPersonality;
+	
 	public boolean available = false;
 	public int ogre_number = 0;
 	public int guard_type = 0;
@@ -38,6 +29,7 @@ public class DKSettings extends JFrame {
 	 */
 	public DKSettings(DKInterfaceV2 window, boolean start) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setTitle("Settings");
 		setResizable(false);
 		setBounds(100, 100, 320, 160);
 		contentPane = new JPanel();
@@ -57,7 +49,6 @@ public class DKSettings extends JFrame {
 			}
 		});
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBounds(100, 100, 320, 160);
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		

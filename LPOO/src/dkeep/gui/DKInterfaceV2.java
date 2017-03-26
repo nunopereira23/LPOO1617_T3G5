@@ -2,24 +2,10 @@ package dkeep.gui;
 
 import dkeep.logic.*;
 
-import java.io.*;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -27,17 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.awt.event.WindowStateListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.SystemColor;
 import javax.swing.UIManager;
 
 public class DKInterfaceV2
@@ -57,6 +35,7 @@ public class DKInterfaceV2
 	DKInterfaceV2 this_ = this;
 	DKGraphics graphics;
 	DKSettings settings;
+	DKEditor editor;
 	
 	private JFrame frmDungeonKeep = new JFrame();
 	JButton bttnNewGame = new JButton("New Game");
@@ -91,7 +70,6 @@ public class DKInterfaceV2
 	
 	public void update()
 	{
-		level.display(System.out);
 		graphics.repaint();
 		
 		switch (game_state)
@@ -115,6 +93,8 @@ public class DKInterfaceV2
 	private void initialize() {
 		graphics = new DKGraphics(this);		
 		settings = new DKSettings(this, false);
+		editor = new DKEditor(this);
+		editor.setVisible(true);
 		
 		graphics.addKeyListener(new KeyListener() {
 			@Override
@@ -175,6 +155,7 @@ public class DKInterfaceV2
 				else {
 					game_state = DungeonKeep.State.LEVEL_PLAYING;
 					level = new DungeonKeep(level_number = 0, guard_type = new_guard_type, ogre_number = new_ogre_number);
+					new_guard_type = new_ogre_number = 0;
 					graphics.setSize(getWidth(), getHeight() - 30);
 					bttnNewGame.setVisible(false);
 					bttnSettings.setVisible(false);
