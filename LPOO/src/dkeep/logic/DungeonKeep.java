@@ -43,6 +43,7 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
+	/*
 	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int nOgres){
 		level_id_ = level_count_++;
 		map_ = new Map(map, map_doors, map_keys);
@@ -50,6 +51,7 @@ public class DungeonKeep
 		guards_ = new Guard[0];
 		ogres_ = new Ogre[nOgres];
 	}
+	*/
 	
 	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int[][] guard_pos, int[][] guard_move, int guard_type, int[][] ogre_pos, int[][] club_pos) {
 		level_id_ = level_count_++;

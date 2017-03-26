@@ -176,6 +176,10 @@ public class Guard
 		return guard_y_;
 	}
 	
+	public Type getPersonality(){
+		return this.guard_type_;
+	}
+	
 	public boolean checkSleep()
 	{
 		return guard_asleep_;
