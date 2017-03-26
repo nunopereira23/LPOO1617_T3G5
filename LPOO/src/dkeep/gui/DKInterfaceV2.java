@@ -35,7 +35,7 @@ public class DKInterfaceV2
 	DKInterfaceV2 this_ = this;
 	DKGraphics graphics;
 	DKSettings settings;
-	DKEditor editor;
+	//DKEditor editor;
 	
 	private JFrame frmDungeonKeep = new JFrame();
 	JButton bttnNewGame = new JButton("New Game");
@@ -93,8 +93,8 @@ public class DKInterfaceV2
 	private void initialize() {
 		graphics = new DKGraphics(this);		
 		settings = new DKSettings(this, false);
-		editor = new DKEditor(this);
-		editor.setVisible(true);
+		//editor = new DKEditor(this);
+		//editor.setVisible(true);
 		
 		graphics.addKeyListener(new KeyListener() {
 			@Override

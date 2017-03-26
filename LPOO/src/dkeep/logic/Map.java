@@ -167,6 +167,7 @@ public class Map
 		return map_level_[level_id_].length;
 	}
 	
+	
 	public int checkKey(int map_x, int map_y)
 	{
 		return map_keys_level_[level_id_][map_y][map_x];

@@ -24,6 +24,11 @@ public class TestDungeonGameLogic {
 					{'X','A',' ',' ',' '},
 					{'X','X','X','X','X'}};
 	
+	public char[][] getMap2() {
+		return map2;
+	}
+	
+	
 	int[][][] mapDoors = {
 						  {
 						   {0, 0, 0, 0, 0}, // Mapa que representa as portas
@@ -163,14 +168,16 @@ public class TestDungeonGameLogic {
 	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
-	dk1.update("d");
+	DungeonKeep.State state= dk1.update("d");
+	assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("a");
-	DungeonKeep.State state = dk1.update("a");
-	assertEquals(0,dk1.getMap().checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));
+	DungeonKeep.State state2 = dk1.update("a");
+	assertEquals(DungeonKeep.State.LEVEL_PLAYING, state2);
 	}
+	
 	
 	@Test
 	public void testHeroMovesIntoClosedDoorsWithKey(){
@@ -180,12 +187,11 @@ public class TestDungeonGameLogic {
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("w");
-	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Error here probably it isn't 1 the number of that key idk
-																						  // Mandaste as coordenadas do heroi para a checkDoor, pelo que o valor que 
-																						  // a função devolve é 0, pois nao ha nenhuma porta onde o heroi esta
-																						  // Se decrementares o X em 1, ves a posicao à esquerda do heroi, e esta sim tem uma porta
+	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  
+	assertEquals('I', this.getMap2()[1][0]);	//First y, then x but only with getMap2
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Repara que é indiferente verificar antes de abrir ou depois
+	assertEquals('S', this.getMap2()[1][0]);
+	
 	}
 	
 	
