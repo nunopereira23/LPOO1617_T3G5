@@ -182,6 +182,11 @@ public class Guard
 		}
 	}
 	
+	public Type getPersonality()
+	{
+		return guard_type_;
+	}
+	
 	/**
 	 * Getter that returns a guard's position in the x-axis of the map
 	 */

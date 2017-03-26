@@ -2,7 +2,7 @@ package dkeep.logic;
 
 public class Map
 {
-	private int level_id_;
+	private int level_id_;	
 	private static char[][][] map_level_ = {
 								     {// Level 1
 									  {'X','X','X','X','X','X','X','X','X','X'},
@@ -81,11 +81,6 @@ public class Map
 	private char[][] map_;
 	private char[][] map_backup_; // To use with refresh
 	
-	
-	/**
-	 *  Basic map constructor, it also creates a backup to use in conjunction with other methods
-	 * @param level_id Identifies the map to load
-	 */
 	public Map(int level_id)
 	{
 		level_id_ = level_id;
@@ -110,9 +105,6 @@ public class Map
 		}
 	}
 	
-	/**
-	 *	Special constructor used in JUnit tests
-	 */
 	public Map(char[][] map, int[][] map_doors, int[][] map_keys){
 		level_id_ = map_doors_level_.length;
 		
@@ -165,10 +157,6 @@ public class Map
 	{
 		map_[map_y][map_x] = map_char;
 	}
-	
-	/**
-	 *	Getter that returns the character in the map with coordinates equal to the arguments 
-	 */
 	public char check(int map_x, int map_y)
 	{
 		return map_[map_y][map_x];
@@ -186,30 +174,21 @@ public class Map
 			}
 		}
 	}
+	
 	char[][] display()
 	{
 		return map_;
 	}
 	
-	/**
-	 * Getter that returns the size of the level map in the x-axis
-	 */
 	public int getMapXSize()
 	{
 		return map_[0].length;
 	}
-	
-	/**
-	 * Getter that returns the size of the level map in the y-axis
-	 */
 	public int getMapYSize()
 	{
 		return map_.length;
 	}
 	
-	/**
-	 * Getter that returns the value of the key (or lever) in the given position, if there is one (returns 0 otherwise)
-	 */
 	public int checkKey(int map_x, int map_y)
 	{
 		return map_keys_level_[level_id_][map_y][map_x];
@@ -220,10 +199,6 @@ public class Map
 		return map_keys_level_[level_id_][map_y][map_x];
 	}
 	
-	/**
-	 * Getter that returns the value of the door (the key/lever with the corresponding value opens that door) in the given position,
-	 *  if there is one (returns 0 otherwise, or if the door can't be open)
-	 */
 	public int checkDoor(int map_x, int map_y)
 	{
 		return map_doors_level_[level_id_][map_y][map_x];
