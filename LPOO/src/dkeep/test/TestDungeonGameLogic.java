@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import dkeep.logic.DungeonKeep;
 import dkeep.logic.DungeonKeep.State;
+import dkeep.logic.Guard.Type;
 import dkeep.logic.Map;
 import dkeep.logic.Hero;
 
@@ -23,10 +24,6 @@ public class TestDungeonGameLogic {
 					{'X','k',' ',' ',' '},
 					{'X','A',' ',' ',' '},
 					{'X','X','X','X','X'}};
-	
-	public char[][] getMap2() {
-		return map2;
-	}
 	
 	
 	int[][][] mapDoors = {
@@ -65,6 +62,46 @@ public class TestDungeonGameLogic {
 					 	 }
 						};
 	
+	
+	
+	
+	
+	
+	@Test
+	public void testGameMap1(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
+		assertEquals(5, dk1.getMap().getMapXSize());
+		assertEquals(5, dk1.getMap().getMapYSize());
+	}
+	
+	@Test
+	public void testExitGame(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep.State state = dk1.update("a");
+		assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
+		DungeonKeep.State state2 = dk1.update("exit");
+		assertEquals(DungeonKeep.State.GAME_EXITING, state2);
+	}
+	
+	@Test
+	public void testRestartGame(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep.State state = dk1.update("a");
+		assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
+		DungeonKeep.State state2 = dk1.update("restart");
+		assertEquals(DungeonKeep.State.LEVEL_RESTART, state2);
+	}
+	
+	@Test
+	public void testResetGame(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep.State state = dk1.update("a");
+		assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
+		DungeonKeep.State state2 = dk1.update("reset");
+		assertEquals(DungeonKeep.State.GAME_RESTART, state2);
+	}
+	
+	
 	@Test
 	public void testMoveHeroIntoToFreeCell(){
 		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
@@ -94,6 +131,7 @@ public class TestDungeonGameLogic {
 		DungeonKeep.State state = dk1.update("a");
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(2, dk1.getHeroPos()[1]);
+		assertEquals(false, dk1.getHero().checkKey(0)); 
 		assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
 	}
 	
@@ -113,12 +151,8 @@ public class TestDungeonGameLogic {
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
 		dk1.update("s");
-		assertEquals(true, dk1.getHero().checkKey(0));     // Porquê que o checkKey tem parametro? Talvez haja uma melhor solucao
-														   // O checkKey é usado para ver se o heroi tem a chave que corresponde ao argumento dado.
-														   // A função é usada para verificar se o heroi pode abrir uma porta quando se move contra ela
-														   // (se a porta corresponde a alguma das chaves que o heroi possa ter)
-														   // Se o argumento dado for 0, a função diz te só se o heroi tem alguma chave ou não; 
-														   // talvez prefiras dar 0 como argumento? Só para verificar se ele tem alguma chave?
+		assertEquals(true, dk1.getHero().checkKey(0));     
+														   
 	}
 	
 	
@@ -135,7 +169,32 @@ public class TestDungeonGameLogic {
 		DungeonKeep.State state = dk1.update("a");
 		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); 
 	}															
-																
+	
+	@Test
+	public void testNumberOfGuards(){
+		DungeonKeep dk1 = new DungeonKeep(0, 1, 0); 
+		assertEquals(1,dk1.getGuards().length);
+	}
+	
+	@Test
+	public void testGuardsPersonality1(){
+		DungeonKeep dk1 = new DungeonKeep(0, 1, 0); 
+		assertEquals(Type.ROOKIE,dk1.getGuards()[0].getPersonality());
+	}
+	
+	@Test
+	public void testGuardsPersonality2(){
+		DungeonKeep dk1 = new DungeonKeep(0, 2, 0); 
+		assertEquals(Type.DRUNKEN,dk1.getGuards()[0].getPersonality());
+	}
+	
+	@Test
+	public void testGuardsPersonality3(){
+		DungeonKeep dk1 = new DungeonKeep(0, 3, 0); 
+		assertEquals(Type.SUSPICIOUS,dk1.getGuards()[0].getPersonality());
+	}
+	
+	
 	
 	// Testes Ogre
 	
@@ -168,7 +227,7 @@ public class TestDungeonGameLogic {
 	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
-	DungeonKeep.State state= dk1.update("d");
+	DungeonKeep.State state = dk1.update("d");
 	assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
 	dk1.update("w");
 	dk1.update("w");
@@ -190,11 +249,10 @@ public class TestDungeonGameLogic {
 	assertEquals(1, dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));
 	assertEquals('I', dk1.getMap().check(0, 1));	
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals('S', dk1.getMap().check(0, 1));	// Como tavas a fazer nao funcionava pq o construtor da class Map cria um novo array,
-													// nao fica com pointer que tu lhe mandas, entao tavas a comparar com o map2, que nao foi alterado desde o inicio
+	assertEquals('S', dk1.getMap().check(0, 1));	
+													
 	
 	}
-	
 	
 	@Test
 	public void testHeroMovesIntoOpenDoorsWithKey(){
@@ -208,4 +266,18 @@ public class TestDungeonGameLogic {
 	DungeonKeep.State state = dk1.update("a");
 	assertEquals(DungeonKeep.State.GAME_COMPLETED, state);
 	}
+	
+	/*
+	@Test
+	public void testOgreMovesIntoKey(){
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 7}, false, map2, mapDoors[1], mapKeys[1],1);
+		dk1.update("d");
+		dk1.update("d");
+		dk1.update("d");
+		dk1.getOgres()[0].changeX(1, 5);
+		dk1.getOgres()[0].changeY(3, 5);
+		assertEquals('$', dk1.getMap().check(1, 3));
+	}
+	*/
+	
 }

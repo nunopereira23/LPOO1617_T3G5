@@ -11,6 +11,10 @@ public class Hero
 	private boolean hero_armed_;
 	private int[] hero_keys_ = {};
 	
+	/**
+	 * Basic hero constructor
+	 * @param level_id Identifies what information should be loaded
+	 */
 	public Hero(int level_id)
 	{
 		level_id_ = level_id;
@@ -19,6 +23,9 @@ public class Hero
 		hero_armed_ = hero_armed_level_[level_id_];
 	}
 	
+	/**
+	 *	Special constructor used in JUnit tests
+	 */
 	public Hero(int[] hero_pos, boolean hero_armed){
 		level_id_ = hero_pos_level_.length;
 		
@@ -62,19 +69,28 @@ public class Hero
 		}
 	}
 	
+	/**
+	 * Getter that returns the hero's position in the x-axis of the map
+	 */
 	public int getX()
 	{
 		return hero_x_;
 	}
+	
+	/**
+	 * Getter that returns the hero's position in the y-axis of the map
+	 */
 	public int getY()
 	{
 		return hero_y_;
 	}
-	public int getNewX()
+
+	int getNewX()
 	{
 		return new_hero_x_;
 	}
-	public int getNewY()
+	
+	int getNewY()
 	{
 		return new_hero_y_;
 	}
@@ -90,6 +106,11 @@ public class Hero
 		new_hero_y_ = hero_y_; 
 	}
 	
+	/**
+	 * Getter that returns a boolean based on whether the hero holds a particular key, or any at all
+	 * @param key If this argument is 0, it checks if the hero holds any key; if it is anything other than 0,
+	 * 				it checks if the hero holds that particular key. Note that the keys can only take positive values
+	 */
 	public boolean checkKey(int key)
 	{
 		if (key != 0)
@@ -108,7 +129,7 @@ public class Hero
 		}
 		return false;
 	}
-	
+		
 	void pickKey(int key)
 	{
 		int[] new_hero_keys_level_ = new int[hero_keys_.length + 1];
@@ -120,6 +141,9 @@ public class Hero
 		hero_keys_ = new_hero_keys_level_;
 	}
 	
+	/**
+	 * Getter that returns a boolean based on whether the hero is armed (and therefore, can stun ogres) 
+	 */
 	public boolean checkArmed()
 	{
 		return hero_armed_;

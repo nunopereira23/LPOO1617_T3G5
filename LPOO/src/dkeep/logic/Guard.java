@@ -4,6 +4,9 @@ import java.util.Random;
 
 public class Guard
 {
+	/**
+	 *	Enum type that defines the guards' behaviour on their patrols
+	 */
 	public enum Type {ROOKIE, DRUNKEN, SUSPICIOUS};
 	
 	private int level_id_;
@@ -19,6 +22,12 @@ public class Guard
 	
 	private static Random rng_ = new Random();
 	
+	/**
+	 * Basic guard constructor
+	 * @param level_id Identifies what information should be loaded
+	 * @param guard_index Allows the loading of information particular to a certain guard in a certain level 
+	 * @param guard_type Defines the behaviour of the guard
+	 */
 	public Guard(int level_id, int guard_index, int guard_type)
 	{
 		level_id_ = level_id;
@@ -41,6 +50,9 @@ public class Guard
 		}
 	}
 	
+	/**
+	 *	Special constructor used in JUnit tests
+	 */
 	public Guard(int[][] guard_pos, int[][] guard_move)
 	{
 		level_id_ = guard_pos_level_.length;
@@ -70,6 +82,9 @@ public class Guard
 		guard_move_level_ = new_guard_move_level_;
 	}
 	
+	/**
+	 *	Static method used for the initialization of the guards array, based on level
+	 */
 	public static int getN(int level_id)
 	{
 		return guard_pos_level_[level_id].length;
@@ -167,15 +182,30 @@ public class Guard
 		}
 	}
 	
+	public Type getPersonality()
+	{
+		return guard_type_;
+	}
+	
+	/**
+	 * Getter that returns a guard's position in the x-axis of the map
+	 */
 	public int getX()
 	{	
 		return guard_x_;
 	}
+	
+	/**
+	 * Getter that returns a guard's position in the y-axis of the map
+	 */
 	public int getY()
 	{	
 		return guard_y_;
 	}
 	
+	/**
+	 * Getter that returns a boolean based on whether a guard is asleep
+	 */
 	public boolean checkSleep()
 	{
 		return guard_asleep_;

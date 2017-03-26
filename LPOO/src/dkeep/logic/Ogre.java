@@ -17,6 +17,11 @@ public class Ogre
 	
 	private static Random rng_ = new Random();
 
+	/**
+	 * Basic ogre constructor
+	 * @param level_id Identifies what information should be loaded
+	 * @param ogre_index Allows the loading of information particular to a certain guard in a certain level 
+	 */
 	public Ogre(int level_id, int ogre_index)
 	{
 		level_id_ = level_id;
@@ -26,6 +31,9 @@ public class Ogre
 		new_club_y_ = club_y_ = club_pos_level_[level_id_][ogre_index][1];
 	}
 	
+	/**
+	 *	Special constructor used in JUnit tests
+	 */
 	public Ogre(int[][] ogre_pos, int[][] club_pos)
 	{
 		level_id_ = ogre_pos_level_.length;
@@ -55,6 +63,9 @@ public class Ogre
 		club_pos_level_ = new_club_pos_level_;
 	}
 	
+	/**
+	 *	Static method used for the initialization of the ogres array, based on level
+	 */
 	public static int getN(int level_id)
 	{
 		return ogre_pos_level_[level_id].length;
@@ -106,35 +117,48 @@ public class Ogre
 		}
 	}
 	
+	/**
+	 * Getter that returns the ogre's position in the x-axis of the map
+	 */
 	public int getOgreX()
 	{
 		return ogre_x_;
 	}
+	
+	/**
+	 * Getter that returns the ogre's position in the y-axis of the map
+	 */
 	public int getOgreY()
 	{
 		return ogre_y_;
 	}
-	public int getNewOgreX()
+	int getNewOgreX()
 	{
 		return new_ogre_x_;
 	}
-	public int getNewOgreY()
+	int getNewOgreY()
 	{
 		return new_ogre_y_;
 	}
+	/**
+	 * Getter that returns the position of the ogre's club in the x-axis of the map
+	 */
 	public int getClubX()
 	{
 		return club_x_;
 	}
+	/**
+	 * Getter that returns the position of the ogre's club in the y-axis of the map
+	 */
 	public int getClubY()
 	{
 		return club_y_;
 	}
-	public int getNewClubX()
+	int getNewClubX()
 	{
 		return new_club_x_;
 	}
-	public int getNewClubY()
+	int getNewClubY()
 	{
 		return new_club_y_;
 	}
@@ -165,6 +189,9 @@ public class Ogre
 		ogre_stunned_ = 2;
 	}
 
+	/**
+	 * Getter that returns a boolean value based on whether the ogre is stunned (and thus unable to move)
+	 */
 	public boolean checkStun()
 	{
 		return ogre_stunned_ != 0;
