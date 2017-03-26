@@ -6,8 +6,14 @@ import dkeep.logic.DungeonKeep.State;
 
 public class DungeonKeep
 {	
+	/**
+	 *	Enum type that describes the game's current state, with respect to the player's last movement
+	 */
 	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_START, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
-
+	
+	/**
+	 *  A unique identifier that describes the current level; every component of the logic uses it to understand which information they should acquire
+	 */
 	private int level_id_ = 0;
 	private static int level_count_ = 2; // This is const
 	
@@ -16,6 +22,14 @@ public class DungeonKeep
 	private Ogre[] ogres_;
 	private Map map_;
 	
+	/**
+	 * Basic level constructor 
+	 * @param level_id Identifies the level that should be loaded
+	 * @param guard_type A number between 1 and 3, that represent a enum type Guard.Type that defines the guards' behaviour 
+	 * @param ogre_number A number between 0 and 5, where 0 is ignored as a parameter, 
+	 * 						and the rest define the amount of ogres that spawn in the level
+	 * 						(if there is a ogre in the first place) 
+	 */
 	public DungeonKeep(int level_id, int guard_type, int ogre_number)
 	{	
 		level_id_ = level_id;
@@ -33,7 +47,10 @@ public class DungeonKeep
 		map_ = new Map(level_id);
 	}
 	
-	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys){
+	/**
+	 *	Special constructor used in JUnit tests
+	 */
+	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys) {
 		level_id_ = level_count_++;
 		map_ = new Map(map, map_doors, map_keys);
 		hero_ = new Hero(hero_pos, hero_armed);
@@ -41,14 +58,9 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
-	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int nOgres){
-		level_id_ = level_count_++;
-		map_ = new Map(map, map_doors, map_keys);
-		hero_ = new Hero(hero_pos, hero_armed);
-		guards_ = new Guard[0];
-		ogres_ = new Ogre[nOgres];
-	}
-	
+	/**
+	 *	Special constructor used in JUnit tests
+	 */
 	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int[][] guard_pos, int[][] guard_move, int guard_type, int[][] ogre_pos, int[][] club_pos) {
 		level_id_ = level_count_++;
 		map_ = new Map(map, map_doors, map_keys);
@@ -67,26 +79,48 @@ public class DungeonKeep
 		}
 	}
 	
+	/**
+	 *	Getter method used in JUnit tests
+	 */
 	public Hero getHero(){
 		return this.hero_;
 	}
 	
+	/**
+	 *	Getter method used in JUnit tests
+	 */
 	public Guard[] getGuards(){
 		return this.guards_;
 	}
 	
+	/**
+	 *	Getter method used in JUnit tests
+	 */
 	public Ogre[] getOgres(){
 		return this.ogres_;
 	}
 	
+	/**
+	 *	Getter method used in JUnit tests
+	 */
 	public Map getMap(){
 		return this.map_;
 	}
 	
+	/**
+	 *	Getter method used in JUnit tests
+	 */
 	public int[] getHeroPos(){
 		return new int[] {this.hero_.getX(), this.hero_.getY()};
 	}
 	
+	/**
+	 * Method that updates the state of the game based on the input received through the String
+	 * @param input String type that holds a basic form of user input
+	 * @return Enum type State that after updating every element in the game, describes the state of the player,
+	 * 			determining whether he may still play or not. Be aware that this function doesn't enforce the state that it returns,
+	 * 			being dependent on the interface whether or not to continue the game after receiving the state.
+	 */
 	public State update(String input)
 	{
 		// Read input
@@ -259,6 +293,11 @@ public class DungeonKeep
 		
 		return State.LEVEL_PLAYING;
 	}
+	
+	/**
+	 *	Method that outputs the game map to a stream. 
+	 * @param stream Stream type that holds a string representation of the game map
+	 */
 	public void display(PrintStream stream)
 	{
 		for (int i = 0; i < 50; ++i)
@@ -273,8 +312,5 @@ public class DungeonKeep
 			}
 			stream.println();
 		}
-	}
-	public static int getN() {
-		return level_count_;
 	}
 }

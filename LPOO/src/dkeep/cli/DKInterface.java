@@ -8,7 +8,7 @@ public class DKInterface
 {
 	private int level_number = 0;
 	private DungeonKeep level;
-	private DungeonKeep.State state;
+	private DungeonKeep.State state = DungeonKeep.State.GAME_START;
 	
 	private String input;
 	private static Scanner buffer = new Scanner(System.in);
@@ -49,12 +49,12 @@ public class DKInterface
 					}
 					else
 					{
-						level_number = 1;
+						level_number = 0;
 						level = new DungeonKeep(level_number, 0, 0);
 					}
 					break;
 				case GAME_RESTART:
-					level_number = 1;
+					level_number = 0;
 					level = new DungeonKeep(level_number, 0, 0);
 					break;
 				case GAME_COMPLETED:
@@ -68,7 +68,7 @@ public class DKInterface
 					while (!input.equals("yes") && !input.equals("no"));
 					if (input.equals("yes"))
 					{
-						level_number = 1;
+						level_number = ;
 						level = new DungeonKeep(level_number, 0, 0);
 					}
 					else
