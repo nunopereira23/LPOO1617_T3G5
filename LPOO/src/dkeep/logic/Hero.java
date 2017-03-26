@@ -47,7 +47,7 @@ public class Hero
 		hero_armed_ = hero_armed_level_[level_id_];
 	}
 	
-	public void update(int hero_pos)
+	void update(int hero_pos)
 	{
 		switch (hero_pos)
 		{
@@ -83,13 +83,12 @@ public class Hero
 		return new_hero_y_;
 	}
 	
-	
-	public void setCoord()
+	void setCoord()
 	{
 		hero_x_ = new_hero_x_;
 		hero_y_ = new_hero_y_;
 	}
-	public void resetCoord()
+	void resetCoord()
 	{
 		new_hero_x_ = hero_x_;
 		new_hero_y_ = hero_y_; 
@@ -114,7 +113,7 @@ public class Hero
 		return false;
 	}
 	
-	public void pickKey(int key)
+	void pickKey(int key)
 	{
 		int[] new_hero_keys_level_ = new int[hero_keys_level_[level_id_].length + 1];
 		for (int i = 0; i < hero_keys_level_[level_id_].length; ++i)

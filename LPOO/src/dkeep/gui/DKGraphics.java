@@ -188,7 +188,7 @@ public class DKGraphics extends JPanel {
 						}
 					}
 					
-					int x_count = window.getLevel().getMap().display()[0].length, y_count = window.getLevel().getMap().display().length;
+					int x_count = window.getLevel().getMap().getMapXSize(), y_count = window.getLevel().getMap().getMapYSize();
 					int x_size = window.getWidth() / x_count, y_size = (window.getHeight() - 30) / y_count;
 					
 					for (int y = 0; y < y_count; ++y)

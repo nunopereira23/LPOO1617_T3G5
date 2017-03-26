@@ -132,7 +132,7 @@ public class Map
 		}
 	}
 	
-	public void update(int map_x, int map_y, char map_char)
+	void update(int map_x, int map_y, char map_char)
 	{
 		map_level_[level_id_][map_y][map_x] = map_char;
 	}
@@ -140,7 +140,7 @@ public class Map
 	{
 		return map_level_[level_id_][map_y][map_x];
 	}
-	public void refresh(char map_char)
+	void refresh(char map_char)
 	{
 		for (int i = 0; i < map_level_[level_id_].length; ++i)
 		{
@@ -153,16 +153,25 @@ public class Map
 			}
 		}
 	}
-	public char[][] display()
+	char[][] display()
 	{
 		return map_level_[level_id_];
+	}
+	
+	public int getMapXSize()
+	{
+		return map_level_[level_id_][0].length;
+	}
+	public int getMapYSize()
+	{
+		return map_level_[level_id_].length;
 	}
 	
 	public int checkKey(int map_x, int map_y)
 	{
 		return map_keys_level_[level_id_][map_y][map_x];
 	}
-	public int pickKey(int map_x, int map_y)
+	int pickKey(int map_x, int map_y)
 	{
 		map_backup_[map_y][map_x] = ' ';
 		return map_keys_level_[level_id_][map_y][map_x];
@@ -172,7 +181,7 @@ public class Map
 	{
 		return map_doors_level_[level_id_][map_y][map_x];
 	}
-	public void unlockDoor(int key)
+	void unlockDoor(int key)
 	{
 		for (int i = 0; i < map_doors_level_[level_id_].length; ++i)
 		{

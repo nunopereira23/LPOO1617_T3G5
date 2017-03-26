@@ -31,7 +31,7 @@ public class Ogre
 		return ogre_pos_level_[level_id].length;
 	}	
 	
-	public void updateOgre()
+	void updateOgre()
 	{
 		if (ogre_stunned_ != 0)
 		{
@@ -56,7 +56,7 @@ public class Ogre
 			}
 		}
 	}
-	public void updateClub()
+	void updateClub()
 	{
 		new_club_x_ = new_ogre_x_;
 		new_club_y_ = new_ogre_y_;
@@ -110,28 +110,28 @@ public class Ogre
 		return new_club_y_;
 	}
 	
-	public void setOgreCoord()
+	void setOgreCoord()
 	{
 		ogre_x_ = new_ogre_x_;
 		ogre_y_ = new_ogre_y_;
 	}
-	public void setClubCoord()
+	void setClubCoord()
 	{
 		club_x_ = new_club_x_;
 		club_y_ = new_club_y_;
 	}
-	public void resetOgreCoord()
+	void resetOgreCoord()
 	{
 		new_ogre_x_ = ogre_x_;
 		new_ogre_y_ = ogre_y_;
 	}
-	public void resetClubCoord()
+	void resetClubCoord()
 	{
 		new_club_x_ = club_x_;
 		new_club_y_ = club_y_;
 	}
 	
-	public void putStun()
+	void putStun()
 	{
 		ogre_stunned_ = 2;
 	}

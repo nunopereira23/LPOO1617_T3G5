@@ -46,7 +46,7 @@ public class Guard
 		return guard_pos_level_[level_id].length;
 	}
 	
-	public void update(int guard_index)
+	void update(int guard_index)
 	{	
 		if (guard_type_ == Type.DRUNKEN && rng_.nextInt(5) == 0)
 		{
