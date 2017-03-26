@@ -124,7 +124,7 @@ public class TestDungeonGameLogic {
 	
 	
 	
-	@Test                 //Esta dar Game Completed quando devia dar Level Completed
+	@Test                 
 	public void testLevelCompleted(){
 		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
@@ -133,9 +133,9 @@ public class TestDungeonGameLogic {
 		dk1.update("s");
 		dk1.update("a");
 		DungeonKeep.State state = dk1.update("a");
-		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
-	}															// mas é uma maneira de dizer à interface que não há mais níveis.
-																// Isto acontece pq quando criamos o nivel pomos o no fim da lista de niveis
+		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); 
+	}															
+																
 	
 	// Testes Ogre
 	
@@ -197,7 +197,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testHeroMovesIntoOpenDoorsWithKey(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 7}, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
 	dk1.update("w");
