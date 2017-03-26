@@ -26,6 +26,35 @@ public class Ogre
 		new_club_y_ = club_y_ = club_pos_level_[level_id_][ogre_index][1];
 	}
 	
+	public Ogre(int[][] ogre_pos, int[][] club_pos)
+	{
+		level_id_ = ogre_pos_level_.length;
+		
+		int[][][] new_ogre_pos_level_ = new int[ogre_pos_level_.length + 1][][];
+		for (int i = 0; i < ogre_pos_level_.length; ++i)
+		{
+			new_ogre_pos_level_[i] = new int[ogre_pos_level_[i].length][];
+			for (int j = 0; j < ogre_pos_level_[i].length; ++j)
+			{
+				new_ogre_pos_level_[i][j] = new int[]{ogre_pos_level_[i][j][0], ogre_pos_level_[i][j][1]};				
+			}
+		}
+		new_ogre_pos_level_[ogre_pos_level_.length] = ogre_pos;
+		ogre_pos_level_ = new_ogre_pos_level_;
+		
+		int[][][] new_club_pos_level_ = new int[club_pos_level_.length + 1][][];
+		for (int i = 0; i < club_pos_level_.length; ++i)
+		{
+			new_club_pos_level_[i] = new int[club_pos_level_[i].length][];
+			for (int j = 0; j < club_pos_level_[i].length; ++j)
+			{
+				new_club_pos_level_[i][j] = new int[]{club_pos_level_[i][j][0], club_pos_level_[i][j][1]};				
+			}
+		}
+		new_club_pos_level_[club_pos_level_.length] = club_pos;
+		club_pos_level_ = new_club_pos_level_;
+	}
+	
 	public static int getN(int level_id)
 	{
 		return ogre_pos_level_[level_id].length;
