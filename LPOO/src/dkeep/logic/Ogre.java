@@ -2,7 +2,7 @@ package dkeep.logic;
 
 import java.util.Random;
 
-class Ogre
+public class Ogre
 {
 	private int level_id_;
 	private static int[][][] ogre_pos_level_ = {{}, {{4, 1}}};

@@ -27,7 +27,7 @@ public class DKInterface
 	private ByteArrayOutputStream stos;
 	private PrintStream stream;
 	
-	private DungeonKeep.State game_state = null; // Acts as null
+	private DungeonKeep.State game_state = DungeonKeep.State.GAME_START; // Acts as null
 	private int guard_type = 0;
 	private int ogre_number = 0;
 	private int current_guard_type = 0;

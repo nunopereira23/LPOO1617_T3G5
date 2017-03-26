@@ -6,7 +6,7 @@ import dkeep.logic.DungeonKeep.State;
 
 public class DungeonKeep
 {	
-	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
+	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_START, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
 
 	private int level_id_ = 0;
 	private int level_count_ = 2; // This is const
@@ -41,12 +41,20 @@ public class DungeonKeep
 		ogres_ = new Ogre[0];
 	}
 	
-	public Map getMap(){
-		return this.map_;
-	}
-	
 	public Hero getHero(){
 		return this.hero_;
+	}
+	
+	public Guard[] getGuards(){
+		return this.guards_;
+	}
+	
+	public Ogre[] getOgres(){
+		return this.ogres_;
+	}
+	
+	public Map getMap(){
+		return this.map_;
 	}
 	
 	public int[] getHeroPos(){

@@ -2,7 +2,7 @@ package dkeep.logic;
 
 import java.util.Random;
 
-class Guard
+public class Guard
 {
 	public enum Type {ROOKIE, DRUNKEN, SUSPICIOUS};
 	
