@@ -66,7 +66,7 @@ public class Guard
 				new_guard_move_level_[i][j] = new int[]{guard_move_level_[i][j][0], guard_move_level_[i][j][1]};				
 			}
 		}
-		new_guard_move_level_[guard_pos_level_.length] = guard_move;
+		new_guard_move_level_[guard_move_level_.length] = guard_move;
 		guard_move_level_ = new_guard_move_level_;
 	}
 	
