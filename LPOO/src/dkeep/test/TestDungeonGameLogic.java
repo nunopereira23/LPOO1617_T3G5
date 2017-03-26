@@ -24,6 +24,11 @@ public class TestDungeonGameLogic {
 					{'X','A',' ',' ',' '},
 					{'X','X','X','X','X'}};
 	
+	public char[][] getMap2() {
+		return map2;
+	}
+	
+	
 	int[][][] mapDoors = {
 						  {
 						   {0, 0, 0, 0, 0}, // Mapa que representa as portas
@@ -62,7 +67,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToFreeCell(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
@@ -72,7 +77,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoToWall(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("a");
@@ -82,7 +87,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroToClosedDoor(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
@@ -94,7 +99,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroToAdjacentGuardPosition(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		DungeonKeep.State state = dk1.update("d");
@@ -103,7 +108,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testMoveHeroIntoKeyCell(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
@@ -119,24 +124,24 @@ public class TestDungeonGameLogic {
 	
 	
 	
-	@Test                 //Esta dar Game Completed quando devia dar Level Completed
+	@Test                 
 	public void testLevelCompleted(){
-		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, map, mapDoors[0], mapKeys[0]);
+		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
 		assertEquals(1, dk1.getHeroPos()[0]);
 		assertEquals(1, dk1.getHeroPos()[1]);
 		dk1.update("s");
 		dk1.update("s");
 		dk1.update("a");
 		DungeonKeep.State state = dk1.update("a");
-		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); // Isso é pq é o ultimo nivel da lista de niveis, para todos os efeitos é o mesmo que LEVEL_COMPLETED,
-	}															// mas é uma maneira de dizer à interface que não há mais níveis.
-																// Isto acontece pq quando criamos o nivel pomos o no fim da lista de niveis
+		assertEquals(DungeonKeep.State.GAME_COMPLETED, state); 
+	}															
+																
 	
 	// Testes Ogre
 	
 	@Test
 	public void testHeroMovesToOgreAdjacentPosition(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
 	dk1.update("d");
@@ -150,7 +155,7 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testHeroMovesToKeyCell(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
 	DungeonKeep.State state = dk1.update("w");
@@ -160,38 +165,40 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void testHeroMovesIntoClosedDoorsWithoutKey(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
-	dk1.update("d");
+	DungeonKeep.State state= dk1.update("d");
+	assertEquals(DungeonKeep.State.LEVEL_PLAYING, state);
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("a");
-	DungeonKeep.State state = dk1.update("a");
-	assertEquals(0,dk1.getMap().checkDoor(dk1.getHeroPos()[0],dk1.getHeroPos()[1]));
+	DungeonKeep.State state2 = dk1.update("a");
+	assertEquals(DungeonKeep.State.LEVEL_PLAYING, state2);
 	}
+	
 	
 	@Test
 	public void testHeroMovesIntoClosedDoorsWithKey(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
 	dk1.update("w");
 	dk1.update("w");
 	dk1.update("w");
-	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Error here probably it isn't 1 the number of that key idk
-																						  // Mandaste as coordenadas do heroi para a checkDoor, pelo que o valor que 
-																						  // a função devolve é 0, pois nao ha nenhuma porta onde o heroi esta
-																						  // Se decrementares o X em 1, ves a posicao à esquerda do heroi, e esta sim tem uma porta
+	assertEquals(1, dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));
+	assertEquals('I', dk1.getMap().check(0, 1));	
 	DungeonKeep.State state = dk1.update("a");
-	assertEquals(1,dk1.getMap().checkDoor(dk1.getHeroPos()[0] - 1,dk1.getHeroPos()[1]));  // Repara que é indiferente verificar antes de abrir ou depois
+	assertEquals('S', dk1.getMap().check(0, 1));	// Como tavas a fazer nao funcionava pq o construtor da class Map cria um novo array,
+													// nao fica com pointer que tu lhe mandas, entao tavas a comparar com o map2, que nao foi alterado desde o inicio
+	
 	}
 	
 	
 	@Test
 	public void testHeroMovesIntoOpenDoorsWithKey(){
-	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, map2, mapDoors[1], mapKeys[1]);
+	DungeonKeep dk1 = new DungeonKeep(new int[]{1, 4}, false, map2, mapDoors[1], mapKeys[1]);
 	assertEquals(1, dk1.getHeroPos()[0]);
 	assertEquals(4, dk1.getHeroPos()[1]);
 	dk1.update("w");

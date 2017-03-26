@@ -41,6 +41,35 @@ public class Guard
 		}
 	}
 	
+	public Guard(int[][] guard_pos, int[][] guard_move)
+	{
+		level_id_ = guard_pos_level_.length;
+		
+		int[][][] new_guard_pos_level_ = new int[guard_pos_level_.length + 1][][];
+		for (int i = 0; i < guard_pos_level_.length; ++i)
+		{
+			new_guard_pos_level_[i] = new int[guard_pos_level_[i].length][];
+			for (int j = 0; j < guard_pos_level_[i].length; ++j)
+			{
+				new_guard_pos_level_[i][j] = new int[]{guard_pos_level_[i][j][0], guard_pos_level_[i][j][1]};				
+			}
+		}
+		new_guard_pos_level_[guard_pos_level_.length] = guard_pos;
+		guard_pos_level_ = new_guard_pos_level_;
+		
+		int[][][] new_guard_move_level_ = new int[guard_move_level_.length + 1][][];
+		for (int i = 0; i < guard_move_level_.length; ++i)
+		{
+			new_guard_move_level_[i] = new int[guard_move_level_[i].length][];
+			for (int j = 0; j < guard_move_level_[i].length; ++j)
+			{
+				new_guard_move_level_[i][j] = new int[]{guard_move_level_[i][j][0], guard_move_level_[i][j][1]};				
+			}
+		}
+		new_guard_move_level_[guard_pos_level_.length] = guard_move;
+		guard_move_level_ = new_guard_move_level_;
+	}
+	
 	public static int getN(int level_id)
 	{
 		return guard_pos_level_[level_id].length;

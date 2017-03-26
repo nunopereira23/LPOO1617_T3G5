@@ -9,7 +9,7 @@ public class DungeonKeep
 	public enum State {LEVEL_PLAYING, LEVEL_RESTART, LEVEL_COMPLETED, GAME_START, GAME_OVER, GAME_RESTART, GAME_COMPLETED, GAME_EXITING}
 
 	private int level_id_ = 0;
-	private int level_count_ = 2; // This is const
+	private static int level_count_ = 2; // This is const
 	
 	private Hero hero_;
 	private Guard[] guards_;
@@ -33,12 +33,30 @@ public class DungeonKeep
 		map_ = new Map(level_id);
 	}
 	
-	public DungeonKeep(int[] posicaoHeroi, char[][] mapa, int[][] mapaPortas, int[][] mapaChaves){
+	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys){
 		level_id_ = level_count_++;
-		map_ = new Map(mapa, mapaPortas, mapaChaves);
-		hero_ = new Hero(posicaoHeroi);
+		map_ = new Map(map, map_doors, map_keys);
+		hero_ = new Hero(hero_pos, hero_armed);
 		guards_ = new Guard[0];
 		ogres_ = new Ogre[0];
+	}
+	
+	public DungeonKeep(int[] hero_pos, boolean hero_armed, char[][] map, int[][] map_doors, int[][] map_keys, int[][] guard_pos, int[][] guard_move, int guard_type, int[][] ogre_pos, int[][] club_pos) {
+		level_id_ = level_count_++;
+		map_ = new Map(map, map_doors, map_keys);
+		hero_ = new Hero(hero_pos, hero_armed);
+		new Guard(guard_pos, guard_move);
+		new Ogre(ogre_pos, club_pos);
+		guards_ = new Guard[Guard.getN(level_id_)];
+		for (int i = 0; i < guards_.length; ++i)
+		{
+			guards_[i] = new Guard(level_id_, i, guard_type);
+		}
+		ogres_ = new Ogre[Ogre.getN(level_id_)];
+		for (int i = 0; i < ogres_.length; ++i)
+		{
+			ogres_[i] = new Ogre(level_id_, i);
+		}
 	}
 	
 	public Hero getHero(){
@@ -247,5 +265,8 @@ public class DungeonKeep
 			}
 			stream.println();
 		}
+	}
+	public static int getN() {
+		return level_count_;
 	}
 }

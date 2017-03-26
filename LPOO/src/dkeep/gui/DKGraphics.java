@@ -16,11 +16,12 @@ public class DKGraphics extends JPanel {
 	private BufferedImage img_level_complete_screen;
 	private BufferedImage img_game_over_screen;
 	private BufferedImage img_game_complete_screen;
+	private BufferedImage img_delete_icon;
 	
 	private BufferedImage img_hero_north;
 	private BufferedImage img_hero_west;
 	private BufferedImage img_hero_east;
-	private BufferedImage img_hero_south; // 0
+	private BufferedImage img_hero_south;
 	
 	private BufferedImage img_hero_key_north;
 	private BufferedImage img_hero_key_west;
@@ -30,7 +31,7 @@ public class DKGraphics extends JPanel {
 	private BufferedImage img_hero_armed_north;
 	private BufferedImage img_hero_armed_west;
 	private BufferedImage img_hero_armed_east;
-	private BufferedImage img_hero_armed_south; // 1
+	private BufferedImage img_hero_armed_south;
 	
 	private BufferedImage img_hero_key_armed_north;
 	private BufferedImage img_hero_key_armed_west;
@@ -40,7 +41,7 @@ public class DKGraphics extends JPanel {
 	private BufferedImage img_guard_north;
 	private BufferedImage img_guard_west;
 	private BufferedImage img_guard_east;
-	private BufferedImage img_guard_south; // 2
+	private BufferedImage img_guard_south;
 	
 	private BufferedImage img_guard_asleep_north;
 	private BufferedImage img_guard_asleep_west;
@@ -50,7 +51,7 @@ public class DKGraphics extends JPanel {
 	private BufferedImage img_ogre_north;
 	private BufferedImage img_ogre_west;
 	private BufferedImage img_ogre_east;
-	private BufferedImage img_ogre_south; // 3
+	private BufferedImage img_ogre_south;
 
 	private BufferedImage img_ogre_stunned_north;
 	private BufferedImage img_ogre_stunned_west;
@@ -60,21 +61,21 @@ public class DKGraphics extends JPanel {
 	private BufferedImage img_club_north;
 	private BufferedImage img_club_west;
 	private BufferedImage img_club_east;
-	private BufferedImage img_club_south; // 4
+	private BufferedImage img_club_south;
 	
-	private BufferedImage img_wall; // 5
-	private BufferedImage img_door_closed; // 6
+	private BufferedImage img_wall;
+	private BufferedImage img_door_closed;
 	private BufferedImage img_door_open;
-	private BufferedImage img_key; // 7
-	private BufferedImage img_lever; // 8
+	private BufferedImage img_key;
+	private BufferedImage img_lever;
 	
 	private int[] hero_last_pos = {};
 	private int hero_current_pos = 3;
 	private int[][] guards_last_pos = {};
 	private int[] guards_current_pos = {};
 	
-	private int draw_id = -1;
-	private int[][] draw_id_array = {};
+	private char draw_id = ' ';
+	private char[][] draw_id_array = {};
 	
 	/**
 	 * Create the panel.
@@ -94,6 +95,7 @@ public class DKGraphics extends JPanel {
 			img_level_complete_screen = ImageIO.read(new File("src/resources/LevelComplete.png"));
 			img_game_over_screen = ImageIO.read(new File("src/resources/GameOver.png"));
 			img_game_complete_screen = ImageIO.read(new File("src/resources/GameCleared.png"));
+			img_delete_icon = ImageIO.read(new File("src/resources/Cross.png"));
 			
 			img_hero_north = ImageIO.read(new File("src/resources/HeroNorth.png"));
 			img_hero_west = ImageIO.read(new File("src/resources/HeroWest.png"));
@@ -559,37 +561,40 @@ public class DKGraphics extends JPanel {
 					break;
 			}
 		}
-		else if (draw_id != -1)
+		else if (draw_id != ' ')
 		{
 			switch (draw_id)
 			{
-				case 0:
+				case 'H':
 					g.drawImage(img_hero_south, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 1:
+				case 'A':
 					g.drawImage(img_hero_armed_south, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 2:
+				case 'G':
 					g.drawImage(img_guard_south, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 3:
+				case 'O':
 					g.drawImage(img_ogre_south, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 4:
+				case '*':
 					g.drawImage(img_club_south, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 5:
+				case 'X':
 					g.drawImage(img_wall, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 6:
+				case 'I':
 					g.drawImage(img_door_closed, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 7:
+				case 'k':
 					g.drawImage(img_key, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
-				case 8:
+				case 'l':
 					g.drawImage(img_lever, 0, 0, this.getWidth(), this.getHeight(), null);
 					break;
+				case '?':
+					g.drawImage(img_delete_icon, 0, 0, this.getWidth(), this.getHeight(), null);
+					break;					
 			}
 		}
 		else if (draw_id_array.length > 0 && draw_id_array[0].length > 0)
@@ -603,31 +608,31 @@ public class DKGraphics extends JPanel {
 				{
 					switch (draw_id_array[y][x])
 					{
-						case 0:
+						case 'H':
 							g.drawImage(img_hero_south, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 1:
+						case 'A':
 							g.drawImage(img_hero_armed_south, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 2:
+						case 'G':
 							g.drawImage(img_guard_south, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 3:
+						case 'O':
 							g.drawImage(img_ogre_south, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 4:
+						case '*':
 							g.drawImage(img_club_south, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 5:
+						case 'X':
 							g.drawImage(img_wall, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 6:
+						case 'I':
 							g.drawImage(img_door_closed, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 7:
+						case 'k':
 							g.drawImage(img_key, x * x_size, y * y_size, x_size, y_size, null);
 							break;
-						case 8:
+						case 'l': // Will temporarily replace lever
 							g.drawImage(img_lever, x * x_size, y * y_size, x_size, y_size, null);
 							break;
 					}
@@ -636,11 +641,15 @@ public class DKGraphics extends JPanel {
 		}
 	}
 	
-	void setDraw(int draw_id) {
+	char getDraw() {
+		return draw_id;
+	}
+	
+	void setDraw(char draw_id) {
 		this.draw_id = draw_id;
 	}
 	
-	void setDraw(int[][] draw_id_array) {
+	void setDraw(char[][] draw_id_array) {
 		this.draw_id_array = draw_id_array;
 	}
 	
