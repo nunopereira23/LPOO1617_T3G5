@@ -68,7 +68,7 @@ public class DKInterface
 					while (!input.equals("yes") && !input.equals("no"));
 					if (input.equals("yes"))
 					{
-						level_number = ;
+						level_number = 0;
 						level = new DungeonKeep(level_number, 0, 0);
 					}
 					else
