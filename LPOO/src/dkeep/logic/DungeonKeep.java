@@ -16,6 +16,8 @@ public class DungeonKeep
 	private Ogre[] ogres_;
 	private Map map_;
 	
+	public String[] possibleKeys = {"w","s","a","d"};
+	
 	public DungeonKeep(int level_id, int guard_type, int ogre_number)
 	{	
 		level_id_ = level_id;

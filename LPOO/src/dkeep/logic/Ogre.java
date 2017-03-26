@@ -171,6 +171,7 @@ public class Ogre
 		new_club_y_ = club_y_;
 	}
 	
+	
 	void putStun()
 	{
 		ogre_stunned_ = 2;
