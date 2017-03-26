@@ -62,11 +62,6 @@ public class TestDungeonGameLogic {
 					 	 }
 						};
 	
-	
-	
-	
-	
-	
 	@Test
 	public void testGameMap1(){
 		DungeonKeep dk1 = new DungeonKeep(new int[]{1, 1}, false, map, mapDoors[0], mapKeys[0]);
