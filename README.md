@@ -17,3 +17,7 @@ Settings
 Highscores
 
 ![alt text](https://github.com/nunopereira23/LPOO1617_T3G5/blob/master/CastleHighScores.jpg)
+
+Levels
+
+![alt text](https://github.com/nunopereira23/LPOO1617_T3G5/blob/master/levels.png)
