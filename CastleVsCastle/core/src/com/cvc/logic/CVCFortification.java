@@ -4,8 +4,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class CVCFortification extends CVCStructure {
-	protected Body[] bodies_;
+    public static final float STONE_WIDTH = 2.0f;
+    public static final float STONE_HEIGHT = 1.0f;
+    public static final float STONE_EDGE_WIDTH = 1.0f;
+    public static final float STONE_EDGE_HEIGHT = 2.0f;
+
+	protected int health_ = 100;
+
+	protected Body[] bodies_; // Stone
 	protected boolean[] edges_;
+    protected int high_edges_;
 
 	public CVCFortification(World world) {
 		super(world);
@@ -21,5 +29,9 @@ public class CVCFortification extends CVCStructure {
 
 	public boolean[] getEdges() {
 		return edges_;
-	} // This may change yet
+	}
+
+    public int getHighEdges() {
+        return high_edges_;
+    }
 }

@@ -17,6 +17,6 @@ public class CVCUtils {
 	}
 
 	public static void debugOut(String message) {
-		Gdx.app.debug("DebugOut ", message);
+		Gdx.app.log("DebugOut ", message);
 	}
 }

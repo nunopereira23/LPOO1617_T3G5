@@ -5,18 +5,17 @@ import com.badlogic.gdx.physics.box2d.World;
 public class CVCCastle {
     private final World world_;
 
-    private long health_;
-    private long courtyard_size_;
+    private int health_ = 100;
+//    private long courtyard_size_;
 
     private CVCStructure[] structures_;
     private CVCDefender[] defenders_;
     private CVCResource[] resources_;
 
     public CVCCastle(World world) { // automatically generate necessary structures
-        health_ = 100; // Percentage
         world_ = world;
 
-        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 1, 16, 8)};
+        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8)};
     }
 
     public void update() {

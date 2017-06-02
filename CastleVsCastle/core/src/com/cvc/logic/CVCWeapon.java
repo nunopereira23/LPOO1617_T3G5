@@ -1,22 +1,22 @@
 package com.cvc.logic;
 
-/**
- * Created by nuno1 on 02/06/2017.
- */
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
-public class CVCWeapon {
-    private int ammo;
+public class CVCWeapon extends CVCStructure {
+    protected int health_ = 100;
 
-    public CVCWeapon(int ammo)
-    {
-        this.ammo=ammo;
+    protected Body[] bodies_; // Wood
+
+    public CVCWeapon(World world) {
+        super(world);
     }
 
-    public int getAmmo() {
-        return ammo;
+    public Body[] getBodies(){
+        return bodies_;
     }
 
-    public void setAmmo(int ammo) {
-        this.ammo = ammo;
-    }
+    public StructureType getType() {
+        return StructureType.Weapon;
+    };
 }

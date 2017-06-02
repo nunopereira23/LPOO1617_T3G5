@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCStructure;
+import com.cvc.logic.CVCTower;
 import com.cvc.logic.CVCUtils;
 import com.cvc.logic.CVCWall;
 import com.cvc.logic.CVCWorld;
@@ -48,21 +49,11 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		    world.update(deltaLast);
 
 		    Body ground = world.getGround();
-		    Body[] bricks = null;
-		    boolean[] brick_edges = null;
+
+		    Body[] fortification_bodies = null;
+		    boolean[] fortification_edges = null;
+            int fortification_high_edges = 0;
 //		    Body roof = null; // For the building type, a triangle that can take several colors, depending on subclass; can also be null
-		    for (CVCStructure pStruct : playerStructures)
-		    {
-			    switch (pStruct.getType())
-			    {
-				    case Fortification:
-					    bricks = ((CVCFortification) pStruct).getBodies();
-					    brick_edges = ((CVCFortification) pStruct).getEdges();
-				    	break;
-				    case Weapon:
-				    	break;
-			    }
-		    }
 
 		    renderer.begin(ShapeRenderer.ShapeType.Filled);
 			// Ground
@@ -75,21 +66,34 @@ public class CVCGameScreen implements Screen, InputProcessor {
 				    1, 1,
 				    0,
 				    Color.BROWN, Color.BROWN, Color.GREEN, Color.GREEN);
-		    // Walls (will change)
-		    int n = 0;
-		    for (Body body : bricks)
-		    {
-			    renderer.rect(
-			    		CVCUtils.toPixels(body.getPosition().x),
-					    CVCUtils.toPixels(body.getPosition().y),
-					    0, 0, // Irrelevant
-					    CVCUtils.toPixels(brick_edges[n] ? CVCWall.BRICK_EDGE_WIDTH : CVCWall.BRICK_WIDTH),
-					    CVCUtils.toPixels(CVCWall.BRICK_HEIGHT),
-					    1, 1, // Irrelevant
-					    CVCUtils.DEGUNIT * body.getAngle(),
-					    CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
-			    ++n; if (n == brick_edges.length) { n = 0; }
-		    }
+		    // Structures
+            for (CVCStructure pStruct : playerStructures)
+            {
+                switch (pStruct.getType())
+                {
+                    case Fortification:
+                        fortification_bodies = ((CVCFortification) pStruct).getBodies();
+                        fortification_edges = ((CVCFortification) pStruct).getEdges();
+                        fortification_high_edges = ((CVCFortification) pStruct).getHighEdges();
+                        int n = 0;
+                        for (Body body : fortification_bodies) {
+                            renderer.rect(
+                                    CVCUtils.toPixels(body.getPosition().x),
+                                    CVCUtils.toPixels(body.getPosition().y),
+                                    0, 0, // Irrelevant
+                                    CVCUtils.toPixels(fortification_edges[n] ? CVCFortification.STONE_EDGE_WIDTH : CVCFortification.STONE_WIDTH),
+                                    CVCUtils.toPixels(fortification_high_edges > 0 && fortification_edges[n] ? CVCFortification.STONE_EDGE_HEIGHT : CVCFortification.STONE_HEIGHT),
+                                    1, 1, // Irrelevant
+                                    CVCUtils.DEGUNIT * body.getAngle(),
+                                    CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
+                            if (fortification_high_edges > 0 && fortification_edges[n]) --fortification_high_edges;
+                            ++n; if (n == fortification_edges.length) { n = (((CVCFortification) pStruct).getHighEdges() == 0 ? 0 : 9); }
+                        }
+                        break;
+                    case Weapon:
+                        break;
+                }
+            }
 		    // Debugging
 		    renderer.rect(0f, CVCUtils.toPixels(20f), CVCUtils.toPixels(150f), CVCUtils.toPixels(0.25f), Color.RED, Color.BLUE, Color.BLUE, Color.RED); // Debug
 		    renderer.rect(0f, 0f, CVCUtils.toPixels(0.25f), CVCUtils.toPixels(30f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug
@@ -163,7 +167,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-		if (button != Input.Buttons.LEFT || pointer == 1) return false;
+		if (button != Input.Buttons.LEFT) return false;
 		dragging = true;
 		lastScreenX = screenX;
 		lastScreenY = screenY;
@@ -194,7 +198,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchUp (int screenX, int screenY, int pointer, int button) {
-		if (button != Input.Buttons.LEFT || pointer == 1) return false;
+		if (button != Input.Buttons.LEFT) return false;
 		dragging = false;
 		return true;
 	}
