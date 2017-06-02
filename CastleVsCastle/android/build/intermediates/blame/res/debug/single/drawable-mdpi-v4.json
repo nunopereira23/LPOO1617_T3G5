@@ -2,5 +2,9 @@
     {
         "merged": "C:\\Users\\Utilizador\\Documents\\libGDX\\CastleVsCastle\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
         "source": "C:\\Users\\Utilizador\\Documents\\libGDX\\CastleVsCastle\\android\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\libGdx\\CastleVsCastle\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "D:\\libGdx\\CastleVsCastle\\android\\res\\drawable-mdpi\\ic_launcher.png"
     }
 ]

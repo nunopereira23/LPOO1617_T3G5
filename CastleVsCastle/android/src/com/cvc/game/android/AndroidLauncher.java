@@ -11,8 +11,8 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		config.useAccelerometer = false;
-		config.useCompass = false;
+		config.useAccelerometer = false; // Defaults to true
+		config.useCompass = false; // Defaults to true
 		initialize(new CVCGame(), config);
 	}
 }
