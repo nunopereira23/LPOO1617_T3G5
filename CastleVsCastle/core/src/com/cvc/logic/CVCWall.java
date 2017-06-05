@@ -73,11 +73,11 @@ public class CVCWall extends CVCFortification {
 	        if (posX - originX == width_) { posX = originX; --posY; }
         }
 
-        // Testing
+/*        // Testing
         bodydef.position.set(originX + width_ + 2f, 128f);
 	    Body body = world_.createBody(bodydef);
 	    fixture_edge.density *= 100f;
-	    body.createFixture(fixture_edge);
+	    body.createFixture(fixture_edge); */
     }
 
     // Need getters ???

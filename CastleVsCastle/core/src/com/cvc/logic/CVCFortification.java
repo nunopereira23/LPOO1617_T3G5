@@ -9,8 +9,6 @@ public class CVCFortification extends CVCStructure {
     public static final float STONE_EDGE_WIDTH = 1.0f;
     public static final float STONE_EDGE_HEIGHT = 2.0f;
 
-	protected int health_ = 100;
-
 	protected Body[] bodies_; // Stone
 	protected boolean[] edges_;
     protected int high_edges_;
@@ -25,7 +23,7 @@ public class CVCFortification extends CVCStructure {
 
 	public StructureType getType() {
 		return StructureType.Fortification;
-	};
+	}
 
 	public boolean[] getEdges() {
 		return edges_;

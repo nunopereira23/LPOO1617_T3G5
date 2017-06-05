@@ -15,7 +15,7 @@ public class CVCCastle {
     public CVCCastle(World world) { // automatically generate necessary structures
         world_ = world;
 
-        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8)};
+        structures_ = new CVCStructure[]{/*new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8),*/ new CVCCatapult(world_, 18, 1)};
     }
 
     public void update() {

@@ -2,60 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\net.dermetfan.libgdx-utils\libgdx-utils\0.13.4\27affad2873d1c9c366a2290fc51f3927f3a5f83\libgdx-utils-0.13.4.jar"
+        jar="C:\Users\Utilizador\Documents\libGDX\CastleVsCastle\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="27affad2873d1c9c366a2290fc51f3927f3a5f83">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\libgdx-utils-0.13.4_a763599993531159b657b22dcb58081208636d55.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.9.6\c249ef4060a4fada952f278455c8f7b9cba3c18a\gdx-box2d-1.9.6.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c249ef4060a4fada952f278455c8f7b9cba3c18a">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.9.6_1b005be92edc58ec8cc015edf6cd2bf9026d32b5.jar" />
-    </item>
-    <item
-        jar="D:\libGdx\CastleVsCastle\core\build\libs\core-1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="e731e90f904da6d365352f24501183a6eee42cb3">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\core-1.0_57c5b0580a93e7d4898ca231e9871e44abf51cda.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.6\47d1e9b890e364ec28f128e9bb3b9a12a94c164\gdx-1.9.6.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="047d1e9b890e364ec28f128e9bb3b9a12a94c164">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\gdx-1.9.6_6a416d914f3dd93985150d435110566735c12ab6.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\net.dermetfan.libgdx-utils\libgdx-utils-box2d\0.13.4\918d79a20ea3c898cdb3611782c5b2bfa6ec575b\libgdx-utils-box2d-0.13.4.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="918d79a20ea3c898cdb3611782c5b2bfa6ec575b">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\libgdx-utils-box2d-0.13.4_20a64050a68df408e4a628ccca5dd9879f343c0a.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\com.badlogicgames.box2dlights\box2dlights\1.4\3d77ad5b4164fb32fc67e2446e35911bb0aaf0bd\box2dlights-1.4.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="3d77ad5b4164fb32fc67e2446e35911bb0aaf0bd">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\box2dlights-1.4_64c9a0486c2b86704d4b3e4299a964eb236f7656.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.9.6\57c2831c870743712b808384187ea856e541878f\gdx-backend-android-1.9.6.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="57c2831c870743712b808384187ea856e541878f">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.6_63e1f58f6ac2948bbc5fb5fd1f5359ca84054f47.jar" />
-    </item>
-    <item
-        jar="C:\Users\nuno1\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-ai\1.8.0\ec30677d8ab1a8b8aa4b853c5f4e4b1361f50bf5\gdx-ai-1.8.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ec30677d8ab1a8b8aa4b853c5f4e4b1361f50bf5">
-        <dex dex="D:\libGdx\CastleVsCastle\android\build\intermediates\pre-dexed\debug\gdx-ai-1.8.0_2066d5ccc6f0a0e94a082388204fa9b898803ccb.jar" />
+        sha1="250aa033cdb28584fa01aaaca83da9b12e7b5cba">
+        <dex dex="C:\Users\Utilizador\Documents\libGDX\CastleVsCastle\android\build\intermediates\pre-dexed\debug\core-1.0_6758b5074c284582c774ce59513a9088cf57be6d.jar" />
     </item>
 
 </items>
