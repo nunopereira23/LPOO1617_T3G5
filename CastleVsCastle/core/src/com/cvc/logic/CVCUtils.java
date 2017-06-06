@@ -12,6 +12,11 @@ public class CVCUtils {
 	public static final Color GRAY = new Color(0.5f, 0.5f, 0.5f, 1);
 	public static final Color LIGHT_GRAY = new Color(0.63f, 0.63f, 0.63f, 1);
 
+	/** Converter to pixels
+	 *
+	 * @param meters
+	 * @return float
+	 */
 	public static float toPixels(float meters) {
 		return meters * (Gdx.graphics.getHeight() / 20.0f);
 	}

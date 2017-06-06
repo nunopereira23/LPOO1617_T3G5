@@ -9,6 +9,12 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class CVCCatapult extends CVCWeapon {
 
+	/** Creates the catapult
+	 *
+	 * @param world the world where the catapult is created
+	 * @param posX Position of the catapult in the x axis
+	 * @param posY Position of the catapult in the y axis
+	 */
     public CVCCatapult(World world, float posX, float posY) {
         super(world);
 
@@ -59,5 +65,9 @@ public class CVCCatapult extends CVCWeapon {
 
     }
 
+    /** Get the subtype of the weapon
+     *
+     * @return WeaponType the subtype of the weapon
+     */
 	public WeaponType getSubType() { return WeaponType.Catapult; };
 }

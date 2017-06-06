@@ -2,6 +2,8 @@ package com.cvc.logic;
 
 import com.badlogic.gdx.physics.box2d.World;
 
+
+
 public class CVCCastle {
     private final World world_;
 
@@ -12,6 +14,11 @@ public class CVCCastle {
     private CVCDefender[] defenders_;
     private CVCResource[] resources_;
 
+    /**
+     * Constructs one Castle in the world given
+     *
+     * @param world the world where the castle will be
+     */
     public CVCCastle(World world) { // automatically generate necessary structures
         world_ = world;
 
@@ -22,6 +29,10 @@ public class CVCCastle {
 
     }
 
+    /** Returns all the structures of the castle
+     *
+     * @return CVCStructure[] all the structures of the castle
+     */
 	public CVCStructure[] getStructures() {
 		return structures_;
 	}

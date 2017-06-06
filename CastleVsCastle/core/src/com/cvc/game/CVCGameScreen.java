@@ -28,6 +28,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	private OrthographicCamera camera;
 	private ShapeRenderer renderer;
 
+	/** Create the game screen
+	 *
+	 */
 	public CVCGameScreen() {
         world = new CVCWorld();
 		playerStructures = world.getPlayerStructures();
@@ -41,6 +44,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
     // Screen
 
     @Override
+    /** Render the game screen
+     *
+     */
     public void render(float delta) {
 	    deltaLast += delta;
 	    if (deltaLast > 0.008333) { // Cap at 120fps
@@ -136,6 +142,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
     }
 
     @Override
+    /** Resize the screen
+     *
+     */
     public void resize(int width, int height) {
     }
 
@@ -150,10 +159,16 @@ public class CVCGameScreen implements Screen, InputProcessor {
     }
 
     @Override
+    /** Pause
+     *
+     */
     public void pause() {
     }
 
     @Override
+    /** Resume
+     *
+     */
     public void resume() {
     }
 
@@ -165,26 +180,41 @@ public class CVCGameScreen implements Screen, InputProcessor {
     // Input processor
 
 	@Override
+    /** Handle key down
+     *
+     */
 	public boolean keyDown(int keycode) {
 		return false;
 	}
 
 	@Override
+    /** Handle key up
+     *
+     */
 	public boolean keyUp(int keycode) {
 		return false;
 	}
 
 	@Override
+    /** Handle key typed
+     *
+     */
 	public boolean keyTyped(char character) {
 		return false;
 	}
 
 	@Override
+    /** Handle mouse moved
+     *
+     */
 	public boolean mouseMoved (int screenX, int screenY) {
 		return false;
 	}
 
 	@Override
+    /** Handle scroll
+     *
+     */
 	public boolean scrolled(int amount) {
 		return false;
 	}
@@ -196,6 +226,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	private int lastScreenY;
 
 	@Override
+    /** Handle touch down the screen
+     *
+     */
 	public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 		if (button != Input.Buttons.LEFT) return false;
 		dragging = true;
@@ -205,6 +238,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
+    /** Handle drag the screen
+     *
+     */
 	public boolean touchDragged (int screenX, int screenY, int pointer) {
 		if (!dragging) return false;
 		int lastAbsScreenX = absScreenX;
@@ -227,6 +263,9 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	}
 
 	@Override
+    /** Handle touch up the screen
+     *
+     */
 	public boolean touchUp (int screenX, int screenY, int pointer, int button) {
 		if (button != Input.Buttons.LEFT) return false;
 		dragging = false;

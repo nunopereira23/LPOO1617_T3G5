@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\nuno1\\Documents\\LPOO1617_T3G5\\CastleVsCastle\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\nuno1\\Documents\\LPOO1617_T3G5\\CastleVsCastle\\android\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
         "merged": "C:\\Users\\Utilizador\\Documents\\libGDX\\CastleVsCastle\\android\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
         "source": "C:\\Users\\Utilizador\\Documents\\libGDX\\CastleVsCastle\\android\\res\\drawable-mdpi\\ic_launcher.png"
     },

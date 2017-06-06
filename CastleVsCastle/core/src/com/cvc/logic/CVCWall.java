@@ -11,6 +11,13 @@ public class CVCWall extends CVCFortification {
 	private int width_;
     private int height_;
 
+    /** Creates wall
+     *
+     * @param world world where the wall is going to be created
+     * @param posX Position of the wall in the x axis
+     * @param width Width of the wall
+     * @param height Height of the wall
+     */
     public CVCWall(World world, float posX, int width, int height) { // Minimum 8 width
         super(world);
         width_ = width;

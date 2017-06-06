@@ -8,10 +8,18 @@ public class CVCStructure {
 
 	public enum StructureType {Fortification, Weapon}
 
+    /** Creates one CVCStructure for the desired world
+     *
+     * @param world
+     */
     public CVCStructure(World world) {
         world_ = world;
     }
 
+    /** Returns the type of the structure
+     *
+     * @return StructureType the type of the structure
+     */
     public StructureType getType() {
 	    return null;
     }

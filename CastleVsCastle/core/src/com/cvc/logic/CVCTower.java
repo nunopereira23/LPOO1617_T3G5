@@ -11,6 +11,13 @@ import com.badlogic.gdx.physics.box2d.World;
 public class CVCTower extends CVCFortification {
     private int height_;
 
+
+    /** Creates the tower
+     *
+     * @param world the world where the tower is going to be constroyed
+     * @param posX Position of the tower in the x axis
+     * @param height Height of the tower
+     */
     public CVCTower(World world, float posX, int height) { // Minimum 8 height
         super(world);
         height_ = height;
@@ -83,5 +90,11 @@ public class CVCTower extends CVCFortification {
         world_.createJoint(weldjointdef_2);
     }
 
-    // Need getter for height
+    /** Get height of the tower
+     *
+     * @return int tower height
+     */
+    public int getHeight_(){
+        return height_;
+    }
 }

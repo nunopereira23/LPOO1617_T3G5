@@ -24,6 +24,10 @@ public class CVCWorld {
     private BodyDef bodydef_;
 	private Body body_;
 
+
+    /** Create the world where the game is played
+     *
+     */
     public CVCWorld() {
         world_ = new World(new Vector2(0, -9.8f), true); // don't simulate inactive bodies
 	    world_.setVelocityThreshold(Float.MAX_VALUE);
@@ -48,26 +52,44 @@ public class CVCWorld {
 	    body_.createFixture(fixture_);
     }
 
+    /**  Connect and synchronize with other phone
+     *
+     */
     public void synchronize() {
-        // connect and synchronize with other phone
+
     }
 
+    /** Update the world
+     *
+     * @param delta
+     */
     public void update(float delta) {
         world_.step(delta, 50, 0);
 //        player_castle_.update();
 //        enemy_castle_.update();
     }
 
+    /** Get the ground
+     *
+     * @return Body ground
+     */
     public Body getGround(){
 	    return body_;
     }
 
+    /** Dispose the world
+     *
+     */
     public void dispose() {
         world_.dispose();
     }
 
     // Getters
 
+    /** Get the structures of the player
+     *
+     * @return CVCStructure[] the structures of the player
+     */
 	public CVCStructure[] getPlayerStructures() {
 		return player_castle_.getStructures();
 	}
