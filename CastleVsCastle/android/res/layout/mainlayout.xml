@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="426dp"
+        android:layout_height="741dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/background"
+        tools:layout_editor_absoluteX="-21dp"
+        tools:layout_editor_absoluteY="-144dp" />
+
+    <ImageButton
+        android:id="@+id/newgame"
+        android:layout_width="114dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/box"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="166dp" />
+
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="114dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/settings"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="237dp" />
+
+    <ImageView
+        android:id="@+id/castle"
+        android:layout_width="384dp"
+        android:layout_height="224dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/castle"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <ImageView
+        android:id="@+id/castlewar"
+        android:layout_width="215dp"
+        android:layout_height="88dp"
+        android:src="@drawable/castlewar"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+</android.support.constraint.ConstraintLayout>
