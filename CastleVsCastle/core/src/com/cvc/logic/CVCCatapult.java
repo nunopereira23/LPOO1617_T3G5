@@ -6,8 +6,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+
+import java.util.Arrays;
 
 public class CVCCatapult extends CVCWeapon {
+	public static final float HEIGHT_OFFSET = 0.5f;
 
 	/** Creates the catapult
 	 *
@@ -15,32 +19,42 @@ public class CVCCatapult extends CVCWeapon {
 	 * @param posX Position of the catapult in the x axis
 	 * @param posY Position of the catapult in the y axis
 	 */
-    public CVCCatapult(World world, float posX, float posY) {
+    public CVCCatapult(World world, float posX, float posY, boolean enemy) {
         super(world);
 
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
 
-	    PolygonShape shape = new PolygonShape();
-	    shape.setAsBox(2f, 0.5f);
+	    PolygonShape shape_center = new PolygonShape();
+	    shape_center.set(new float[] {0f, 0f,
+			                          3f, 0f,
+			                          3f, 0.5f,
+			                          0f, 0.5f});
         PolygonShape shape_left = new PolygonShape();
-	    float[] left = new float[] {0f, 0f, // Save offsets in class
-			                        1f, 0f,
-			                        2f, 2f,
-	                                2f, 3f};
-        shape_left.set(left);
+	    shape_left.set(new float[] {0f, 0.5f,
+			                        0.5f, 0.5f,
+			                        1f, 1.5f,
+	                                1f, 2.5f});
 	    PolygonShape shape_right = new PolygonShape();
-	    float[] right = new float[] {1f, 0f, // Save offsets
-								     2f, 0f,
-								     0f, 3f,
-								     0f, 2f};
-	    shape_right.set(right);
+	    shape_right.set(new float[] {0.5f, 0.5f,
+								     1f, 0.5f,
+								     0f, 2.5f,
+								     0f, 1.5f});
+	    PolygonShape shape_arm = new PolygonShape();
+	    shape_arm.set(!enemy ? new float[] {0.25f, 1f,
+			                                -1.75f, 2f,
+			                                -1.5f, 2f,
+			                                0.5f, 1.5f} :
+							   new float[] {0.75f, 1f,
+										    2.75f, 2f,
+										    2.5f, 2f,
+									        0.5f, 1.5f});
 
-        FixtureDef fixture = new FixtureDef();
-	    fixture.shape = shape;
-        fixture.density = 710.0f; // Ashwood kg/m^3
-        fixture.friction = 0.375f; // Wood on Wood
-        fixture.restitution = 0.44f; // Ashwood
+        FixtureDef fixture_center = new FixtureDef();
+	    fixture_center.shape = shape_center;
+        fixture_center.density = 710.0f; // Ashwood kg/m^3
+        fixture_center.friction = 0.375f; // Wood on Wood
+        fixture_center.restitution = 0.44f; // Ashwood
 	    FixtureDef fixture_left = new FixtureDef();
 	    fixture_left.shape = shape_left;
 	    fixture_left.density = 710.0f; // Ashwood kg/m^3
@@ -51,23 +65,58 @@ public class CVCCatapult extends CVCWeapon {
 	    fixture_right.density = 710.0f; // Ashwood kg/m^3
 	    fixture_right.friction = 0.375f; // Wood on Wood
 	    fixture_right.restitution = 0.44f; // Ashwood
+	    FixtureDef fixture_arm = new FixtureDef();
+	    fixture_arm.shape = shape_arm;
+	    fixture_arm.density = 710.0f; // Ashwood kg/m^3
+	    fixture_arm.friction = 0.375f; // Wood on Wood
+	    fixture_arm.restitution = 0.44f; // Ashwood
 
-	    bodies_ = new Body[3];
-	    bodydef.position.set(posX + 2, posY);
+	    bodies_ = new Body[4];
+	    bodydef.position.set(posX, posY);
 	    bodies_[0] = world_.createBody(bodydef);
-	    bodies_[0].createFixture(fixture);
-	    bodydef.position.set(posX, posY+1);
+	    bodies_[0].createFixture(fixture_center);
+	    bodydef.position.set(posX + (!enemy ? 1 : 0), posY);
 	    bodies_[1] = world_.createBody(bodydef);
 	    bodies_[1].createFixture(fixture_left);
-	    bodydef.position.set(posX+2, posY+1);
+	    bodydef.position.set(posX + (!enemy ? 2 : 1), posY);
 	    bodies_[2] = world_.createBody(bodydef);
 	    bodies_[2].createFixture(fixture_right);
+	    bodydef.position.set(posX + 1, posY);
+	    bodies_[3] = world_.createBody(bodydef);
+	    bodies_[3].createFixture(fixture_arm);
 
+	    WeldJointDef weldjointdef_1 = new WeldJointDef();
+	    weldjointdef_1.bodyA = bodies_[0];
+	    weldjointdef_1.bodyB = bodies_[1];
+	    weldjointdef_1.localAnchorA.set(bodies_[0].getLocalCenter());
+	    weldjointdef_1.localAnchorB.set(bodies_[1].getLocalCenter());
+	    world_.createJoint(weldjointdef_1);
+
+	    WeldJointDef weldjointdef_2 = new WeldJointDef();
+	    weldjointdef_2.bodyA = bodies_[0];
+	    weldjointdef_2.bodyB = bodies_[2];
+	    weldjointdef_2.localAnchorA.set(bodies_[0].getLocalCenter());
+	    weldjointdef_2.localAnchorB.set(bodies_[2].getLocalCenter());
+	    world_.createJoint(weldjointdef_2);
+
+	    WeldJointDef weldjointdef_3 = new WeldJointDef();
+	    weldjointdef_3.bodyA = bodies_[(!enemy ? 1 : 2)];
+	    weldjointdef_3.bodyB = bodies_[3];
+	    weldjointdef_3.localAnchorA.set(bodies_[(!enemy ? 1 : 2)].getLocalCenter());
+	    weldjointdef_3.localAnchorB.set(bodies_[3].getLocalCenter());
+	    world_.createJoint(weldjointdef_3);
+
+	    bodies_centers_ = new Vector2[bodies_.length];
+	    for (int n = 0; n < bodies_.length; ++n)
+	        bodies_centers_[n] = new Vector2(bodies_[n].getWorldCenter());
+
+	    dying_bodies_ = new float[bodies_.length];
+	    Arrays.fill(dying_bodies_, 0);
     }
 
     /** Get the subtype of the weapon
      *
      * @return WeaponType the subtype of the weapon
      */
-	public WeaponType getSubType() { return WeaponType.Catapult; };
+	public WeaponType getSubType() { return WeaponType.Catapult; }
 }

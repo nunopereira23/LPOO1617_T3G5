@@ -2,11 +2,93 @@
 <items version="2" >
 
     <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-ai\1.8.0\ec30677d8ab1a8b8aa4b853c5f4e4b1361f50bf5\gdx-ai-1.8.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ec30677d8ab1a8b8aa4b853c5f4e4b1361f50bf5">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-ai-1.8.0_eaea95316715f9d68c1e34a8f454596ca2928944\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\com.badlogicgames.box2dlights\box2dlights\1.4\3d77ad5b4164fb32fc67e2446e35911bb0aaf0bd\box2dlights-1.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3d77ad5b4164fb32fc67e2446e35911bb0aaf0bd">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\box2dlights-1.4_b2f2a7c62f6cff68f400315fe83e2e4b0441009e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.9.6\57c2831c870743712b808384187ea856e541878f\gdx-backend-android-1.9.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="57c2831c870743712b808384187ea856e541878f">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-backend-android-1.9.6_a377da9995a8b51f9b45a212a2bcb7934b55e9ba\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\net.dermetfan.libgdx-utils\libgdx-utils\0.13.4\27affad2873d1c9c366a2290fc51f3927f3a5f83\libgdx-utils-0.13.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="27affad2873d1c9c366a2290fc51f3927f3a5f83">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\libgdx-utils-0.13.4_8c50add55296e87cf04727e82fe508e3c6b17878\classes.dex" />
+    </item>
+    <item
         jar="C:\Users\Utilizador\Documents\libGDX\CastleVsCastle\core\build\libs\core-1.0.jar"
         jumboMode="false"
+        optimize="true"
         revision="23.0.1"
         sha1="250aa033cdb28584fa01aaaca83da9b12e7b5cba">
         <dex dex="C:\Users\Utilizador\Documents\libGDX\CastleVsCastle\android\build\intermediates\pre-dexed\debug\core-1.0_6758b5074c284582c774ce59513a9088cf57be6d.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.9.6\c249ef4060a4fada952f278455c8f7b9cba3c18a\gdx-box2d-1.9.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c249ef4060a4fada952f278455c8f7b9cba3c18a">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-box2d-1.9.6_e92550603b216a8703ff1ebc89b6f99f09b4b1df\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a3fc62c5e52a1f7d6cc0f829686cb0e2d97e7b31\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.6\47d1e9b890e364ec28f128e9bb3b9a12a94c164\gdx-1.9.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="047d1e9b890e364ec28f128e9bb3b9a12a94c164">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-1.9.6_1e358c86fd84df67f821c0d64d29f269b45f4762\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\.gradle\caches\modules-2\files-2.1\net.dermetfan.libgdx-utils\libgdx-utils-box2d\0.13.4\918d79a20ea3c898cdb3611782c5b2bfa6ec575b\libgdx-utils-box2d-0.13.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="918d79a20ea3c898cdb3611782c5b2bfa6ec575b">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10\libgdx-utils-box2d-0.13.4_01fff3d49d0e431d3610c4258e1b04c152860037\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cdbfc3dcdc6c53d3d0791d01bc7a72fa3f492f3f">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_5a25959106cecbeeddffbdd082848ec2efe9644d\classes.dex" />
     </item>
 
 </items>
