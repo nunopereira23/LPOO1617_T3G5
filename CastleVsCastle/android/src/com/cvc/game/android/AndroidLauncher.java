@@ -1,5 +1,8 @@
 package com.cvc.game.android;
 
+import com.cvc.game.R;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 

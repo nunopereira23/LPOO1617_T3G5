@@ -22,7 +22,7 @@ android {
     }
     defaultConfig {
         applicationId "com.cvc.game.android"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 20
     }
 }
@@ -129,22 +129,18 @@ idea {
             }
         }
     }
-<<<<<<< HEAD
 }
 
 repositories {
     mavenCentral()
 }
 
-
 dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:desing:25.2.0'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:gridLayout-v7:25.3.1'
+//    compile 'com.android.support:gridLayout-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.0'
     compile 'com.facebook.android:facebook-android-sdk:4.23.0'
-=======
->>>>>>> a18ab3b20c1f01618d6ddb2d725e25237ae612b3
 }
