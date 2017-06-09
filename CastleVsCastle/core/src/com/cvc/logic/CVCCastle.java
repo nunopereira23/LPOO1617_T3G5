@@ -22,11 +22,12 @@ public class CVCCastle {
     public CVCCastle(World world) { // automatically generate necessary structures
         world_ = world;
 
-        structures_ = new CVCStructure[]{/*new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8),*/ new CVCCatapult(world_, 18, 1)};
+        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8), new CVCCatapult(world_, 18, 11, false)};
     }
 
-    public void update() {
-
+    public void update(float delta) {
+        for (CVCStructure struct : structures_)
+            struct.update(delta);
     }
 
     /** Returns all the structures of the castle

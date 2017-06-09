@@ -8,13 +8,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.Arrays;
+
 public class CVCTower extends CVCFortification {
     private int height_;
 
 
     /** Creates the tower
      *
-     * @param world the world where the tower is going to be constroyed
+     * @param world the world where the tower is going to be created
      * @param posX Position of the tower in the x axis
      * @param height Height of the tower
      */
@@ -82,12 +84,25 @@ public class CVCTower extends CVCFortification {
         }
 
         WeldJointDef weldjointdef_1 = new WeldJointDef();
-        weldjointdef_1.initialize(bodies_[0], bodies_[5], new Vector2(0.5f, 0f));
+        weldjointdef_1.bodyA = bodies_[0];
+        weldjointdef_1.bodyB = bodies_[5];
+        weldjointdef_1.localAnchorA.set(bodies_[0].getLocalCenter());
+        weldjointdef_1.localAnchorB.set(bodies_[5].getLocalCenter());
         world_.createJoint(weldjointdef_1);
 
         WeldJointDef weldjointdef_2 = new WeldJointDef();
-        weldjointdef_2.initialize(bodies_[4], bodies_[8], new Vector2(0.5f, 0f));
+        weldjointdef_2.bodyA = bodies_[4];
+        weldjointdef_2.bodyB = bodies_[8];
+        weldjointdef_2.localAnchorA.set(bodies_[4].getLocalCenter());
+        weldjointdef_2.localAnchorB.set(bodies_[8].getLocalCenter());
         world_.createJoint(weldjointdef_2);
+
+	    bodies_centers_ = new Vector2[bodies_.length];
+	    for (int n = 0; n < bodies_.length; ++n)
+		    bodies_centers_[n] = new Vector2(bodies_[n].getWorldCenter());
+
+	    dying_bodies_ = new float[bodies_.length];
+	    Arrays.fill(dying_bodies_, 0);
     }
 
     /** Get height of the tower

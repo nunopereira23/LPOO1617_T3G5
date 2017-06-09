@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">CastleVsCastle</string>
+<<<<<<< HEAD
     <string name="facebook_app_id">1865549223769530</string>
     <string name="fb_login_protocol_scheme">fb1865549223769530</string>
+=======
+
+>>>>>>> a18ab3b20c1f01618d6ddb2d725e25237ae612b3
 </resources>

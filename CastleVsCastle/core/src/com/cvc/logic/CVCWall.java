@@ -1,11 +1,12 @@
 package com.cvc.logic;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import java.util.Arrays;
 
 public class CVCWall extends CVCFortification {
 	private int width_;
@@ -80,12 +81,11 @@ public class CVCWall extends CVCFortification {
 	        if (posX - originX == width_) { posX = originX; --posY; }
         }
 
-/*        // Testing
-        bodydef.position.set(originX + width_ + 2f, 128f);
-	    Body body = world_.createBody(bodydef);
-	    fixture_edge.density *= 100f;
-	    body.createFixture(fixture_edge); */
-    }
+	    bodies_centers_ = new Vector2[bodies_.length];
+	    for (int n = 0; n < bodies_.length; ++n)
+		    bodies_centers_[n] = new Vector2(bodies_[n].getWorldCenter());
 
-    // Need getters ???
+	    dying_bodies_ = new float[bodies_.length];
+	    Arrays.fill(dying_bodies_, 0);
+    }
 }

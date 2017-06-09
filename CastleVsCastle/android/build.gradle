@@ -14,6 +14,9 @@ android {
 
         instrumentTest.setRoot('tests')
     }
+    aaptOptions {
+        cruncherEnabled = false
+    }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
@@ -126,6 +129,7 @@ idea {
             }
         }
     }
+<<<<<<< HEAD
 }
 
 repositories {
@@ -141,4 +145,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.0'
     compile 'com.facebook.android:facebook-android-sdk:4.23.0'
+=======
+>>>>>>> a18ab3b20c1f01618d6ddb2d725e25237ae612b3
 }

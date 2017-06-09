@@ -65,7 +65,7 @@ public class CVCWorld {
      */
     public void update(float delta) {
         world_.step(delta, 50, 0);
-//        player_castle_.update();
+        player_castle_.update(delta);
 //        enemy_castle_.update();
     }
 

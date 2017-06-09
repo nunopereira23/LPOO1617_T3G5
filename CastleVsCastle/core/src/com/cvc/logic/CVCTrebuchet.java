@@ -2,9 +2,9 @@ package com.cvc.logic;
 
 import com.badlogic.gdx.physics.box2d.World;
 
-public class CVCBallista extends CVCWeapon {
+public class CVCTrebuchet extends CVCWeapon {
 
-    public CVCBallista(World world){
+    public CVCTrebuchet(World world){
         super(world);
     }
 }
