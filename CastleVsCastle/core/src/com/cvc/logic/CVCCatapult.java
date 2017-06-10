@@ -11,8 +11,6 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import java.util.Arrays;
 
 public class CVCCatapult extends CVCWeapon {
-	public static final float HEIGHT_OFFSET = 0.5f;
-
 	/** Creates the catapult
 	 *
 	 * @param world the world where the catapult is created
@@ -21,6 +19,9 @@ public class CVCCatapult extends CVCWeapon {
 	 */
     public CVCCatapult(World world, float posX, float posY, boolean enemy) {
         super(world);
+
+	    posX_ = posX;
+	    posY_ = posY;
 
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
@@ -112,6 +113,17 @@ public class CVCCatapult extends CVCWeapon {
 
 	    dying_bodies_ = new float[bodies_.length];
 	    Arrays.fill(dying_bodies_, 0);
+    }
+
+    public void loadWeapon(boolean enemy)
+    {
+	    ammo_ = new CVCProjectile(world_, CVCProjectile.ProjectileType.Rock, posX_ + (!enemy ? -0.66f : 0.66f), posY_ + 2.5f, enemy);
+	    WeldJointDef weldjointdef = new WeldJointDef();
+	    weldjointdef.bodyA = ammo_.getBody();
+	    weldjointdef.bodyB = bodies_[3];
+	    weldjointdef.localAnchorA.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y + 0.001f);
+	    weldjointdef.localAnchorB.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y - 0.001f);
+	    ammo_.setJoint(world_.createJoint(weldjointdef));
     }
 
     /** Get the subtype of the weapon

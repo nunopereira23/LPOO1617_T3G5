@@ -2,6 +2,7 @@ package com.cvc.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class CVCGame extends Game{
 	@Override
@@ -10,6 +11,8 @@ public class CVCGame extends Game{
 	 */
 	public void create () {
 		Box2D.init();
+		World.setVelocityThreshold(Float.MAX_VALUE);
+
 		setScreen(new CVCGameScreen());
 	}
 

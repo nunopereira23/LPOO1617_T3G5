@@ -12,7 +12,6 @@ public class CVCStructure {
 	protected float[] dying_bodies_;
 	protected Vector2[] bodies_centers_;
 
-
 	public enum StructureType {Fortification, Weapon}
 
     /** Creates one CVCStructure for the desired world
@@ -23,8 +22,9 @@ public class CVCStructure {
 	    world_ = world;
     }
 
-	/** Updates the world's structures' bodies
+	/** Updates the structure's bodies
 	 *
+	 * @param delta The time in seconds since the last update
 	 */
     public void update(float delta)
     {

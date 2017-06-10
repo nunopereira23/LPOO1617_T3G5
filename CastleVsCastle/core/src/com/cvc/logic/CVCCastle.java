@@ -22,9 +22,15 @@ public class CVCCastle {
     public CVCCastle(World world) { // automatically generate necessary structures
         world_ = world;
 
-        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8), new CVCCatapult(world_, 18, 11, false)};
+        // Testing
+        structures_ = new CVCStructure[]{new CVCWall(world_, 8, 8, 4), new CVCTower(world_, 16, 8), new CVCCatapult(world_, 18, 10.5f, false)};
+        ((CVCWeapon) structures_[2]).loadWeapon(false);
     }
 
+    /** Updates the castle's structures
+     *
+     * @param delta The time in seconds since the last update
+     */
     public void update(float delta) {
         for (CVCStructure struct : structures_)
             struct.update(delta);

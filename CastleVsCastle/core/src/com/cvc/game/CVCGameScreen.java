@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.cvc.logic.CVCCatapult;
 import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCStructure;
 import com.cvc.logic.CVCTower;
@@ -34,6 +35,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	public CVCGameScreen() {
         world = new CVCWorld();
 		playerStructures = world.getPlayerStructures();
+//		enemyStructures = world.getEnemyStructures();
 
 	    renderer = new ShapeRenderer();
 	    camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -46,6 +48,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
     @Override
     /** Render the game screen
      *
+     * @param delta The time in seconds since the last render
      */
     public void render(float delta) {
 	    deltaLast += delta;
@@ -58,14 +61,11 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		    world.update(deltaLast);
 
 		    Body ground = world.getGround();
-		    int n = 0;
+		    Body[] bodies = null;
+		    float[] dying_bodies = null;
 
-		    Body[] fortification_bodies = null;
 		    boolean[] fortification_edges = null;
             int fortification_high_edges = 0;
-
-		    Body[] weapon_bodies = null;
-//		    Body roof = null; // For the building type, a triangle that can take several colors, depending on subclass; can also be null
 
 		    renderer.begin(ShapeRenderer.ShapeType.Filled);
 			// Ground
@@ -81,51 +81,71 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		    // Structures
             for (CVCStructure pStruct : playerStructures)
             {
+	            bodies = pStruct.getBodies();
+	            dying_bodies = pStruct.getDyingBodies();
                 switch (pStruct.getType())
                 {
                     case Fortification:
-                        fortification_bodies = ((CVCFortification) pStruct).getBodies();
                         fortification_edges = ((CVCFortification) pStruct).getEdges();
                         fortification_high_edges = ((CVCFortification) pStruct).getHighEdges();
-	                    n = 0;
-                        for (Body body : fortification_bodies) {
-                            renderer.rect(
-                                    CVCUtils.toPixels(body.getPosition().x),
-                                    CVCUtils.toPixels(body.getPosition().y),
-                                    0, 0, // Irrelevant
-                                    CVCUtils.toPixels(fortification_edges[n] ? CVCFortification.STONE_EDGE_WIDTH : CVCFortification.STONE_WIDTH),
-                                    CVCUtils.toPixels(fortification_high_edges > 0 && fortification_edges[n] ? CVCFortification.STONE_EDGE_HEIGHT : CVCFortification.STONE_HEIGHT),
-                                    1, 1, // Irrelevant
-                                    CVCUtils.DEGUNIT * body.getAngle(),
-                                    CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
-                            if (fortification_high_edges > 0 && fortification_edges[n]) --fortification_high_edges;
-                            ++n; if (n == fortification_edges.length) { n = (((CVCFortification) pStruct).getHighEdges() == 0 ? 0 : 9); }
+	                    final boolean high = fortification_high_edges > 0;
+                        for (int n = 0, n1 = 0; n < bodies.length; ++n) {
+	                        if (dying_bodies[n] < 3) {
+		                        renderer.rect(
+				                        CVCUtils.toPixels(bodies[n].getPosition().x),
+				                        CVCUtils.toPixels(bodies[n].getPosition().y),
+				                        0, 0, // Irrelevant
+				                        CVCUtils.toPixels(fortification_edges[n1] ? CVCFortification.STONE_EDGE_WIDTH : CVCFortification.STONE_WIDTH),
+				                        CVCUtils.toPixels(fortification_high_edges > 0 && fortification_edges[n1] ? CVCFortification.STONE_EDGE_HEIGHT : CVCFortification.STONE_HEIGHT),
+				                        1, 1, // Irrelevant
+				                        CVCUtils.DEGUNIT * bodies[n].getAngle(),
+				                        CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
+		                        if (fortification_high_edges > 0 && fortification_edges[n1])
+			                        --fortification_high_edges;
+		                        ++n1;
+		                        if (n1 == fortification_edges.length) {
+			                        n1 = (!high ? 0 : 9);
+		                        }
+	                        }
                         }
                         break;
                     case Weapon:
-	                    weapon_bodies = ((CVCWeapon) pStruct).getBodies();
-	                    for (Body body : weapon_bodies) {
-		                    Vector2[] vertex = new Vector2[]{new Vector2(),new Vector2(),new Vector2(),new Vector2()};
-		                    ((PolygonShape) body.getFixtureList().get(0).getShape()).getVertex(0, vertex[0]);
-			                ((PolygonShape) body.getFixtureList().get(0).getShape()).getVertex(1, vertex[1]);
-			                ((PolygonShape) body.getFixtureList().get(0).getShape()).getVertex(2, vertex[2]);
-		                    ((PolygonShape) body.getFixtureList().get(0).getShape()).getVertex(3, vertex[3]);
-		                    renderer.triangle(
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[0].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[0].y),
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[1].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[1].y),
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[2].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[2].y),
-				                    CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY);
-		                    renderer.triangle(
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[2].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[2].y),
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[3].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[3].y),
-				                    CVCUtils.toPixels(body.getPosition().x + vertex[0].x),
-				                    CVCUtils.toPixels(body.getPosition().y + vertex[0].y),
-				                    CVCUtils.LIGHT_GRAY, CVCUtils.GRAY, CVCUtils.DARK_GRAY);
+	                    for (int n = 0; n < bodies.length; ++n) {
+		                    if (dying_bodies[n] < 3) {
+			                    Vector2[] vertex = new Vector2[]{new Vector2(), new Vector2(), new Vector2(), new Vector2()};
+			                    ((PolygonShape) bodies[n].getFixtureList().get(0).getShape()).getVertex(0, vertex[0]);
+			                    ((PolygonShape) bodies[n].getFixtureList().get(0).getShape()).getVertex(1, vertex[1]);
+			                    ((PolygonShape) bodies[n].getFixtureList().get(0).getShape()).getVertex(2, vertex[2]);
+			                    ((PolygonShape) bodies[n].getFixtureList().get(0).getShape()).getVertex(3, vertex[3]);
+			                    renderer.triangle(
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[0].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[0].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[1].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[1].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[2].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[2].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.DARK_ORANGE, CVCUtils.ORANGE, CVCUtils.LIGHT_ORANGE);
+			                    renderer.triangle(
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[2].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[2].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[3].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[3].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.toPixels(bodies[n].getPosition().x + vertex[0].x),
+					                    CVCUtils.toPixels(bodies[n].getPosition().y + vertex[0].y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.LIGHT_ORANGE, CVCUtils.ORANGE, CVCUtils.DARK_ORANGE);
+		                    }
+	                    }
+	                    Body body = ((CVCWeapon) pStruct).getAmmo();
+	                    switch (((CVCWeapon) pStruct).getSubType())
+	                    {
+		                    case Catapult:
+		                    	renderer.setColor(CVCUtils.GRAY);
+			                    renderer.circle(
+					                    CVCUtils.toPixels(body.getPosition().x),
+					                    CVCUtils.toPixels(body.getPosition().y + CVCUtils.HEIGHT_OFFSET),
+					                    CVCUtils.toPixels(0.5f));
+		                    	break;
+		                    default:
 	                    }
 	                    break;
                 }

@@ -7,4 +7,18 @@ public class CVCBallista extends CVCWeapon {
     public CVCBallista(World world){
         super(world);
     }
+
+    public void loadWeapon(boolean enemy)
+    {
+        // to do
+    }
+
+    /** Get the subtype of the weapon
+     *
+     * @return WeaponType the subtype of the weapon
+     */
+    public WeaponType getSubType()
+    {
+        return WeaponType.Ballista;
+    }
 }

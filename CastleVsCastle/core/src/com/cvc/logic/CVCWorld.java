@@ -30,7 +30,6 @@ public class CVCWorld {
      */
     public CVCWorld() {
         world_ = new World(new Vector2(0, -9.8f), true); // don't simulate inactive bodies
-	    world_.setVelocityThreshold(Float.MAX_VALUE);
 
         player_castle_ = new CVCCastle(world_);
      //   enemy_castle_ = new CVCCastle(world_);
@@ -59,9 +58,9 @@ public class CVCWorld {
 
     }
 
-    /** Update the world
+    /** Updates the world
      *
-     * @param delta
+     * @param delta The time in seconds since the last update
      */
     public void update(float delta) {
         world_.step(delta, 50, 0);
