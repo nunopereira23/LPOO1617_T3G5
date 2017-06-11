@@ -1,59 +1,64 @@
 package com.cvc.logic;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import java.util.Arrays;
 
 public class CVCWall extends CVCFortification {
-	public static final float BRICK_WIDTH = 2.0f;
-	public static final float BRICK_EDGE_WIDTH = 1.0f;
-	public static final float BRICK_HEIGHT = 1.0f;
-
 	private int width_;
     private int height_;
 
-    private PolygonShape shape_;
-    private PolygonShape shape_edge_;
-    private FixtureDef fixture_;
-    private FixtureDef fixture_edge_;
-    private BodyDef bodydef_;
-
-    public CVCWall(World world, int posX, int posY, int width, int height) {
+    /** Creates wall
+     *
+     * @param world world where the wall is going to be created
+     * @param posX Position of the wall in the x axis
+     * @param width Width of the wall
+     * @param height Height of the wall
+     */
+    public CVCWall(World world, float posX, int width, int height) { // Minimum 8 width
         super(world);
         width_ = width;
         height_ = height;
 
-	    int originX = posX;
-	    posY = posY + height_ - 1;
-	    int halfwidth_ = width_ / 2;
+	    float originX = posX;
+        float posY = height_;
+	    int halfwidth = width_ / 2;
 
-        bodydef_ = new BodyDef();
-        bodydef_.type = BodyDef.BodyType.DynamicBody;
+        BodyDef bodydef = new BodyDef();
+        bodydef.type = BodyDef.BodyType.DynamicBody;
+	    bodydef.active = false;
 
-        shape_ = new PolygonShape();
-        shape_.setAsBox(BRICK_WIDTH / 2, BRICK_HEIGHT / 2);
-        shape_edge_ = new PolygonShape();
-        shape_edge_.setAsBox(BRICK_EDGE_WIDTH / 2, BRICK_HEIGHT / 2);
+        PolygonShape shape = new PolygonShape();
+	    shape.set(new float[] {0.0f, 0.0f,
+			                   STONE_WIDTH, 0.0f,
+	                           STONE_WIDTH, STONE_HEIGHT,
+	                           0.0f, STONE_HEIGHT});
+        PolygonShape shape_edge = new PolygonShape();
+        shape_edge.set(new float[] {0.0f, 0.0f,
+							        STONE_EDGE_WIDTH, 0.0f,
+							        STONE_EDGE_WIDTH, STONE_HEIGHT,
+							        0.0f, STONE_HEIGHT});
 
-        fixture_ = new FixtureDef();
-        fixture_.shape = shape_;
-        fixture_.density = 2560.0f; // Limestone kg/m^3
-        fixture_.friction = 0.75f; // Limestone on limestone
-        fixture_.restitution = 0.48f; // Limestone
-        fixture_edge_ = new FixtureDef();
-        fixture_edge_.shape = shape_edge_;
-        fixture_edge_.density = 2560.0f; // Limestone kg/m^3
-        fixture_edge_.friction = 0.75f; // Limestone on limestone
-        fixture_edge_.restitution = 0.48f; // Limestone
+        FixtureDef fixture = new FixtureDef();
+        fixture.shape = shape;
+        fixture.density = 2560.0f; // Limestone kg/m^3
+        fixture.friction = 0.75f; // Limestone on limestone
+        fixture.restitution = 0.20f; // Limestone
+        FixtureDef fixture_edge = new FixtureDef();
+        fixture_edge.shape = shape_edge;
+        fixture_edge.density = 2560.0f; // Limestone kg/m^3
+        fixture_edge.friction = 0.75f; // Limestone on limestone
+        fixture_edge.restitution = 0.20f; // Limestone
 
 	    edges_ = new boolean[width_ + 1];
         if (width_ % 2 == 0) {
-	        bodies_ = new Body[halfwidth_ * height_ + (height_ / 2)];
+	        bodies_ = new Body[halfwidth * height_ + (height_ / 2)];
 	        int n = 0;
-	        for (; n < halfwidth_; ++n)
+	        for (; n < halfwidth; ++n)
 	        	edges_[n] = false;
 	        edges_[n] = true;
 	        for (++n; n < width_; ++n)
@@ -61,31 +66,39 @@ public class CVCWall extends CVCFortification {
 	        edges_[n] = true;
         }
         else {
-	        bodies_ = new Body[halfwidth_ * height_ + height_];
+	        bodies_ = new Body[halfwidth * height_ + height_];
 	        int n = 0;
-	        for (; n < halfwidth_; ++n)
+	        for (; n < halfwidth; ++n)
 		        edges_[n] = false;
 	        edges_[n] = true; ++n;
 	        edges_[n] = true;
 	        for (++n; n < width_; ++n)
 		        edges_[n] = false;
         }
+        high_edges_ = 0;
 
         for (int n = 0, n1 = 0; n < bodies_.length; ++n)
         {
-	        bodydef_.position.set(posX, posY);
-		    bodies_[n] = world_.createBody(bodydef_);
-	        bodies_[n].createFixture(edges_[n1] ? fixture_edge_ : fixture_);
+	        bodydef.position.set(posX, posY);
+		    bodies_[n] = world_.createBody(bodydef);
+	        bodies_[n].createFixture(edges_[n1] ? fixture_edge : fixture);
 
 	        if (!edges_[n1]) { ++posX; } ++posX;
 	        ++n1; if (n1 == edges_.length) { n1 = 0; }
 	        if (posX - originX == width_) { posX = originX; --posY; }
         }
 
-        // Testing
-        bodydef_.position.set(originX + halfwidth_, 128f);
-	    Body body = world_.createBody(bodydef_);
-	    fixture_edge_.density *= 1000f;
-	    body.createFixture(fixture_edge_);
+	    bodies_centers_ = new Vector2[bodies_.length];
+	    for (int n = 0; n < bodies_.length; ++n)
+		    bodies_centers_[n] = new Vector2(bodies_[n].getWorldCenter());
+
+	    dying_bodies_ = new float[bodies_.length];
+	    Arrays.fill(dying_bodies_, 0);
     }
+
+	/** Get the subtype of the fortification
+	 *
+	 * @return the subtype of the fortification
+	 */
+	public FortificationType getSubType() { return FortificationType.Wall; }
 }

@@ -7,11 +7,18 @@ import com.badlogic.gdx.graphics.GL20;
 public class CVCMenuScreen implements Screen {
     final CVCGame game;
 
+    /** Create the menu screen
+     *
+     * @param game
+     */
     public CVCMenuScreen(final CVCGame game) {
         this.game = game;
     }
 
     @Override
+    /** Render the menu screen
+     *
+     */
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
