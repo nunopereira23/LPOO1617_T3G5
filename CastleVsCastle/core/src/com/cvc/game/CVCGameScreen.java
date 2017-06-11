@@ -12,25 +12,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.cvc.logic.CVCCatapult;
+import com.cvc.logic.CVCCastle;
 import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCProjectile;
 import com.cvc.logic.CVCStructure;
-import com.cvc.logic.CVCTower;
 import com.cvc.logic.CVCUtils;
-import com.cvc.logic.CVCWall;
 import com.cvc.logic.CVCWeapon;
 import com.cvc.logic.CVCWorld;
 
 
 public class CVCGameScreen implements Screen, InputProcessor{
-    private CVCWorld world;
-	private CVCStructure[] playerStructures;
-	private CVCStructure[] enemyStructures = new CVCStructure[0]; // testing
-
 	private float deltaLast = 0;
-
-	private CVCMenu menu = null;
 
 	private OrthographicCamera camera;
 	private ShapeRenderer renderer;
@@ -39,10 +31,6 @@ public class CVCGameScreen implements Screen, InputProcessor{
 	 *
 	 */
 	public CVCGameScreen() {
-        world = new CVCWorld();
-		playerStructures = world.getPlayerStructures();
-		enemyStructures = world.getEnemyStructures();
-
 	    renderer = new ShapeRenderer();
 	    camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -59,14 +47,14 @@ public class CVCGameScreen implements Screen, InputProcessor{
     public void render(float delta) {
 	    deltaLast += delta;
 	    if (deltaLast > 0.008333) { // Cap at 120fps
-		    Gdx.gl.glClearColor(0.7f, 1.0f, 1.0f, 1);
-		    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		    Gdx.gl.glEnable(GL20.GL_BLEND);
+		    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		    camera.update();
 		    renderer.setProjectionMatrix(camera.combined);
 
-		    world.update(deltaLast);
-
-		    Body ground = world.getGround();
+		    Body ground = CVCGame.world.getGround();
+		    CVCStructure[] structures = null;
 		    Body[] bodies = null;
 		    float[] dying_bodies = null;
 
@@ -85,15 +73,16 @@ public class CVCGameScreen implements Screen, InputProcessor{
 				    0,
 				    Color.BROWN, Color.BROWN, Color.GREEN, Color.GREEN);
 		    // Player Structures
-            for (CVCStructure pStruct : playerStructures)
+		    structures = CVCGame.world.getPlayerCastle().getStructures();
+            for (CVCStructure playerStructure : structures)
             {
-	            bodies = pStruct.getBodies();
-	            dying_bodies = pStruct.getDyingBodies();
-                switch (pStruct.getType())
+	            bodies = playerStructure.getBodies();
+	            dying_bodies = playerStructure.getDyingBodies();
+                switch (playerStructure.getType())
                 {
                     case Fortification:
-                        fortification_edges = ((CVCFortification) pStruct).getEdges();
-                        fortification_high_edges = ((CVCFortification) pStruct).getHighEdges();
+                        fortification_edges = ((CVCFortification) playerStructure).getEdges();
+                        fortification_high_edges = ((CVCFortification) playerStructure).getHighEdges();
 	                    final boolean high = fortification_high_edges > 0;
                         for (int n = 0, n1 = 0; n < bodies.length; ++n) {
 	                        if (dying_bodies[n] < 3) {
@@ -105,7 +94,10 @@ public class CVCGameScreen implements Screen, InputProcessor{
 				                        CVCUtils.toPixels(fortification_high_edges > 0 && fortification_edges[n1] ? CVCFortification.STONE_EDGE_HEIGHT : CVCFortification.STONE_HEIGHT),
 				                        1, 1, // Irrelevant
 				                        CVCUtils.DEGUNIT * bodies[n].getAngle(),
-				                        CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
+				                        playerStructure.isBuilt() ? CVCUtils.DARK_GRAY : CVCUtils.DARK_GRAY_CLEAR,
+				                        playerStructure.isBuilt() ? CVCUtils.GRAY : CVCUtils.GRAY_CLEAR,
+				                        playerStructure.isBuilt() ? CVCUtils.LIGHT_GRAY : CVCUtils.LIGHT_GRAY_CLEAR,
+				                        playerStructure.isBuilt() ? CVCUtils.GRAY : CVCUtils.GRAY_CLEAR);
 		                        if (fortification_high_edges > 0 && fortification_edges[n1])
 			                        --fortification_high_edges;
 		                        ++n1;
@@ -141,9 +133,9 @@ public class CVCGameScreen implements Screen, InputProcessor{
 					                    CVCUtils.LIGHT_ORANGE, CVCUtils.ORANGE, CVCUtils.DARK_ORANGE);
 		                    }
 	                    }
-	                    Body ammo_body = ((CVCWeapon) pStruct).getAmmoBody();
+	                    Body ammo_body = ((CVCWeapon) playerStructure).getAmmoBody();
 	                    if (ammo_body != null) {
-		                    switch (((CVCWeapon) pStruct).getSubType()) {
+		                    switch (((CVCWeapon) playerStructure).getSubType()) {
 			                    case Catapult:
 				                    renderer.setColor(0.5f, 0.5f, 0.5f, 0.5f); // not final
 				                    renderer.circle(
@@ -161,15 +153,16 @@ public class CVCGameScreen implements Screen, InputProcessor{
                 }
             }
 		    // Enemy Structures
-		    for (CVCStructure eStruct : enemyStructures)
+		    structures = CVCGame.world.getEnemyCastle().getStructures();
+		    for (CVCStructure enemyStructure : structures)
 		    {
-			    bodies = eStruct.getBodies();
-			    dying_bodies = eStruct.getDyingBodies();
-			    switch (eStruct.getType())
+			    bodies = enemyStructure.getBodies();
+			    dying_bodies = enemyStructure.getDyingBodies();
+			    switch (enemyStructure.getType())
 			    {
 				    case Fortification:
-					    fortification_edges = ((CVCFortification) eStruct).getEdges();
-					    fortification_high_edges = ((CVCFortification) eStruct).getHighEdges();
+					    fortification_edges = ((CVCFortification) enemyStructure).getEdges();
+					    fortification_high_edges = ((CVCFortification) enemyStructure).getHighEdges();
 					    final boolean high = fortification_high_edges > 0;
 					    for (int n = 0, n1 = 0; n < bodies.length; ++n) {
 						    if (dying_bodies[n] < 3) {
@@ -181,7 +174,10 @@ public class CVCGameScreen implements Screen, InputProcessor{
 									    CVCUtils.toPixels(fortification_high_edges > 0 && fortification_edges[n1] ? CVCFortification.STONE_EDGE_HEIGHT : CVCFortification.STONE_HEIGHT),
 									    1, 1, // Irrelevant
 									    CVCUtils.DEGUNIT * bodies[n].getAngle(),
-									    CVCUtils.DARK_GRAY, CVCUtils.GRAY, CVCUtils.LIGHT_GRAY, CVCUtils.GRAY);
+									    enemyStructure.isBuilt() ? CVCUtils.DARK_GRAY : CVCUtils.DARK_GRAY_CLEAR,
+									    enemyStructure.isBuilt() ? CVCUtils.GRAY : CVCUtils.GRAY_CLEAR,
+									    enemyStructure.isBuilt() ? CVCUtils.LIGHT_GRAY : CVCUtils.LIGHT_GRAY_CLEAR,
+									    enemyStructure.isBuilt() ? CVCUtils.GRAY : CVCUtils.GRAY_CLEAR);
 							    if (fortification_high_edges > 0 && fortification_edges[n1])
 								    --fortification_high_edges;
 							    ++n1;
@@ -217,9 +213,9 @@ public class CVCGameScreen implements Screen, InputProcessor{
 									    CVCUtils.LIGHT_ORANGE, CVCUtils.ORANGE, CVCUtils.DARK_ORANGE);
 						    }
 					    }
-					   Body ammo_body = ((CVCWeapon) eStruct).getAmmoBody();
+					    Body ammo_body = ((CVCWeapon) enemyStructure).getAmmoBody();
 	                    if (ammo_body != null) {
-		                    switch (((CVCWeapon) eStruct).getSubType()) {
+		                    switch (((CVCWeapon) enemyStructure).getSubType()) {
 			                    case Catapult:
 				                    renderer.setColor(0.5f, 0.5f, 0.5f, 0.5f); // Not final
 				                    renderer.circle(
@@ -246,9 +242,13 @@ public class CVCGameScreen implements Screen, InputProcessor{
 
 		    renderer.end();
 
-		    if (menu != null) {
-			    menu.act(deltaLast);
-			    menu.draw();
+		    Gdx.gl.glDisable(GL20.GL_BLEND);
+
+		    CVCGame.world.update(deltaLast);
+
+		    if (CVCGame.menu != null) {
+			    CVCGame.menu.act(deltaLast);
+			    CVCGame.menu.draw();
 		    }
 
 		    deltaLast = 0;
@@ -286,7 +286,7 @@ public class CVCGameScreen implements Screen, InputProcessor{
 
     @Override
     public void dispose() {
-	    world.dispose();
+	    renderer.dispose();
     }
 
     // Input processor
@@ -332,6 +332,7 @@ public class CVCGameScreen implements Screen, InputProcessor{
 	}
 
 	private boolean dragging = false;
+	private boolean closed = false;
 	private int absScreenX = 0;
 	private int absScreenY = 0;
 	private int lastScreenX;
@@ -350,6 +351,10 @@ public class CVCGameScreen implements Screen, InputProcessor{
 		lastScreenY = screenY;
 		accDeltaX = 0;
 		accDeltaY = 0;
+		if (CVCGame.menu != null) {
+			closed = true;
+			CVCGame.closeMenu();
+		}
 		return true;
 	}
 
@@ -390,23 +395,11 @@ public class CVCGameScreen implements Screen, InputProcessor{
 		if (accDeltaX < 10 && accDeltaY < 10) {
 			if (absScreenY + (Gdx.graphics.getHeight() - screenY) >= CVCUtils.toPixels(1) && absScreenY + (Gdx.graphics.getHeight() - screenY) < CVCUtils.toPixels(20)) {
 				if (absScreenX + screenX >= 0 && absScreenX + screenX < CVCUtils.toPixels(50)) {
-					world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY));
-				}
-				else if (absScreenX + screenX >= CVCUtils.toPixels(100) && absScreenX + screenX < CVCUtils.toPixels(150)) {
-					// to do
+					CVCGame.world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY), closed);
 				}
 			}
 		}
+		closed = false;
 		return true;
-	}
-
-	public void openMenu() {
-		menu = new CVCMenu(new ScreenViewport(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-		CVCGame.pushProcessor(menu);
-	}
-
-	public void closeMenu() {
-		menu = null;
-		CVCGame.popProcessor();
 	}
 }

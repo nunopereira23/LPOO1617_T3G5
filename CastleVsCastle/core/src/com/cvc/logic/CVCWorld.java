@@ -8,7 +8,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class CVCWorld {
-    private final World world_;
+    public final World world_ = new World(new Vector2(0, -9.8f), true); // don't simulate inactive bodies;
+
+	private boolean update = true;
 
 	public static final float GROUND_WIDTH = 150.0f;
 	public static final float GROUND_HEIGHT = 1.0f;
@@ -26,8 +28,6 @@ public class CVCWorld {
      *
      */
     public CVCWorld() {
-        world_ = new World(new Vector2(0, -9.8f), true); // don't simulate inactive bodies
-
         player_castle_ = new CVCCastle(world_, false);
         enemy_castle_ = new CVCCastle(world_, true);
 
@@ -58,14 +58,24 @@ public class CVCWorld {
 
     }
 
+    public void setUpdate(){
+	    update = !update;
+    }
+
+	public boolean isUpdating() {
+		return world_.isLocked();
+	}
+
     /** Updates the world
      *
      * @param delta The time in seconds since the last update
      */
     public void update(float delta) {
-        world_.step(delta, 50, 0);
-        player_castle_.update(delta);
-        enemy_castle_.update(delta);
+	    if (update) {
+		    world_.step(delta, 50, 0);
+		    player_castle_.update(delta);
+		    enemy_castle_.update(delta);
+	    }
     }
 
     /** Dispose the world
@@ -85,18 +95,23 @@ public class CVCWorld {
 		return body_;
 	}
 
-    /** Get the structures of the player
+    /** Get the player's castle
      *
-     * @return CVCStructure[] the structures of the player
+     * @return the player's castle
      */
-	public CVCStructure[] getPlayerStructures() {
-		return player_castle_.getStructures();
+	public CVCCastle getPlayerCastle() {
+		return player_castle_;
 	}
-    public CVCStructure[] getEnemyStructures() {
-        return enemy_castle_.getStructures();
+
+	/** Get the enemy's castle
+	 *
+	 * @return the enemy's castle
+	 */
+    public CVCCastle getEnemyCastle() {
+        return enemy_castle_;
     }
 
-    public void getContextMenu(int x, int y) {
-	    player_castle_.getContextMenu(x, y);
+    public void getContextMenu(int x, int y, boolean closed) {
+	    player_castle_.getContextMenu(x, y, closed);
     }
 }

@@ -63,6 +63,7 @@ public class CVCProjectile {
 				body_.createFixture(fixture);
 				break;
 			case Dart:
+				// to do
 				break;
 		}
 	}
@@ -72,10 +73,8 @@ public class CVCProjectile {
 		float a = 4.9f * (float) Math.pow(x - x0, 2);
 		float b = vy * (x - x0);
 		float c = y - y0;
-		if (c != 0) {
-			return 1.0f / (float) ((b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a));
-		}
-		return 1.0f / (b / a);
+		if (c == 0) return 1.0f / (b / a);
+		return 1.0f / (float) ((b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a));
 	}
 
 	public Body getBody()

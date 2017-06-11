@@ -6,15 +6,15 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.cvc.logic.CVCWorld;
 
 public class CVCGame extends Game {
+	public static CVCWorld world;
+	public static CVCMenu hud = null; // to do
+	public static CVCMenu menu = null;
+
 	public static CVCGameScreen game_screen;
 
 	public static InputMultiplexer input_multi;
@@ -26,6 +26,10 @@ public class CVCGame extends Game {
 	public void create () {
 		Box2D.init();
 		World.setVelocityThreshold(Float.MAX_VALUE);
+
+		world = new CVCWorld();
+
+		Gdx.gl.glClearColor(0.7f, 1.0f, 1.0f, 1);
 
 		game_screen = new CVCGameScreen();
 		input_multi = new InputMultiplexer(game_screen);
@@ -47,6 +51,18 @@ public class CVCGame extends Game {
 	 *
 	 */
 	public void dispose () {
+		world.dispose();
+	}
+
+	public static void openMenu(CVCMenu.MenuType menuType, Object object) {
+		menu = new CVCMenu(new ScreenViewport(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), menuType, object);
+		pushProcessor(menu);
+	}
+
+	public static void closeMenu() {
+		menu.delete();
+		menu = null;
+		popProcessor();
 	}
 
 	public static void pushProcessor(InputProcessor processor) {

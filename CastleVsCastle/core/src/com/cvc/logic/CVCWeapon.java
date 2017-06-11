@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class CVCWeapon extends CVCStructure {
-	public enum WeaponType {Trebuchet, Ballista, Catapult}
+	public enum WeaponType {Catapult, Trebuchet, Ballista}
 
     protected float posX_;
     protected float posY_;

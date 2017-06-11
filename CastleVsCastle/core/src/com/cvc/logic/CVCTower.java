@@ -13,6 +13,7 @@ import java.util.Arrays;
 public class CVCTower extends CVCFortification {
     private int height_;
 
+    private boolean weapon_ = false;
     /** Creates the tower
      *
      * @param world the world where the tower is going to be created
@@ -28,6 +29,7 @@ public class CVCTower extends CVCFortification {
 
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
+        bodydef.active = false;
 
         PolygonShape shape = new PolygonShape();
         shape.set(new float[] {0.0f, 0.0f,
@@ -78,7 +80,7 @@ public class CVCTower extends CVCFortification {
 
         --originX;
         posX = originX;
-        posY = (height_ += 2);
+        posY = (height_ + 2);
 
         for (int n = 0; n < 9; ++n) {
             bodydef.position.set(posX, posY);
@@ -117,7 +119,7 @@ public class CVCTower extends CVCFortification {
      *
      * @return int tower height
      */
-    public int getHeight_(){
+    public int getHeight(){
         return height_;
     }
 
@@ -126,4 +128,8 @@ public class CVCTower extends CVCFortification {
      * @return the subtype of the fortification
      */
     public FortificationType getSubType() { return FortificationType.Tower; }
+
+    public boolean hasWeapon() {
+        return weapon_;
+    }
 }

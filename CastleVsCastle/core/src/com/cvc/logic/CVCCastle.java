@@ -2,6 +2,7 @@ package com.cvc.logic;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.cvc.game.CVCGame;
+import com.cvc.game.CVCMenu;
 
 import java.util.Arrays;
 
@@ -15,6 +16,8 @@ public class CVCCastle {
     private CVCDefender[] defenders_;
     private CVCResource[] resources_;
 
+	private CVCFortification.FortificationType plannedFortification = null;
+
     /**
      * Constructs one Castle in the world given
      *
@@ -26,63 +29,65 @@ public class CVCCastle {
 	    for (int[] i: touch_index_)
 	        Arrays.fill(i, -1);
 
-	    structures_ = new CVCStructure[]{new CVCTower(world_, 13 + (!enemy ? 0 : 100), 6),
-									     new CVCWall(world_, 19 + (!enemy ? 0 : 100), 12, 4),
-									     new CVCTower(world_, 31 + (!enemy ? 0 : 100), 6)};
+	    structures_ = new CVCStructure[]{new CVCTower(world_, 15 + (!enemy ? 0 : 100), 8),
+									     new CVCWall(world_, 21 + (!enemy ? 0 : 100), 8, 4),
+									     new CVCTower(world_, 29 + (!enemy ? 0 : 100), 8)};
 
 	    // index 0
-	    for (int j = 1; j < 7; ++j)
+	    for (int j = 1; j < 9; ++j)
 	    {
-		    for (int i = 13; i < 19; ++i)
+		    for (int i = 15; i < 21; ++i)
 		    {
 			    touch_index_[j][i] = 0;
 		    }
 	    }
-	    for (int j = 7; j < 9; ++j)
+	    for (int j = 9; j < 11; ++j)
 	    {
-		    for (int i = 12; i < 20; ++i)
+		    for (int i = 14; i < 22; ++i)
 		    {
 			    touch_index_[j][i] = 0;
 		    }
 	    }
-	    touch_index_[9][12] = 0;
-	    touch_index_[9][19] = 0;
+	    touch_index_[11][14] = 0;
+	    touch_index_[11][21] = 0;
 
 	    // index 1
 	    for (int j = 1; j < 5; ++j)
 	    {
-		    for (int i = 19; i < 31; ++i)
+		    for (int i = 21; i < 29; ++i)
 		    {
 			    touch_index_[j][i] = 1;
 		    }
 	    }
 
 	    // index 2
-	    for (int j = 1; j < 7; ++j)
+	    for (int j = 1; j < 9; ++j)
 	    {
-		    for (int i = 31; i < 37; ++i)
+		    for (int i = 29; i < 35; ++i)
 		    {
 			    touch_index_[j][i] = 2;
 		    }
 	    }
-	    for (int j = 7; j < 9; ++j)
+	    for (int j = 9; j < 11; ++j)
 	    {
-		    for (int i = 30; i < 38; ++i)
+		    for (int i = 28; i < 36; ++i)
 		    {
 			    touch_index_[j][i] = 2;
 		    }
 	    }
-	    touch_index_[9][30] = 2;
-	    touch_index_[9][37] = 2;
+	    touch_index_[11][28] = 2;
+	    touch_index_[11][35] = 2;
 
-	    for (int j = 19; j >= 0; --j) {
+	    for (CVCStructure struct : structures_)
+	    	struct.buildFortification();
+
+	 /*   for (int j = 19; j >= 0; --j) { // for testing
 		    String s = "";
 		    for (int i = 0; i < 50; ++i) {
 			    s = s.concat((touch_index_[j][i] < 0 ? "" : " ")+touch_index_[j][i]);
 		    }
 		    CVCUtils.debugOut(s);
-	    }
-
+	    } */
     }
 
     /** Updates the castle's structures
@@ -98,6 +103,96 @@ public class CVCCastle {
         health_ = health / structures_.length;
     }
 
+	public void planFortification(CVCFortification.FortificationType fortificationType, float posX, int width, int height) {
+		CVCStructure[] new_structures = new CVCStructure[structures_.length + 1];
+		int n;
+		for (n = 0; n < structures_.length; ++n)
+			new_structures[n] = structures_[n];
+
+		switch (fortificationType)
+		{
+			case Tower:
+				plannedFortification = CVCFortification.FortificationType.Tower;
+				new_structures[n] = new CVCTower(world_, posX, height);
+				break;
+			case Wall:
+				plannedFortification = CVCFortification.FortificationType.Wall;
+				new_structures[n] = new CVCWall(world_, posX, width, height);
+				break;
+		}
+		structures_ = new_structures;
+    }
+
+	public void changePlannedFortification(float posX, int width, int height) {
+		int n = structures_.length - 1;
+		structures_[n].destroyFortification();
+		switch (plannedFortification)
+		{
+			case Tower:
+				structures_[n] = new CVCTower(world_, posX, height);
+				break;
+			case Wall:
+				structures_[n] = new CVCWall(world_, posX, width, height);
+				break;
+		}
+	}
+
+    public void buildPlannedFortification(float posX, int width, int height) {
+	    int n = structures_.length - 1;
+	    switch (plannedFortification)
+	    {
+		    case Tower:
+			    for (int j = 1; j < height + 1; ++j)
+			    {
+				    for (int i = (int) posX; i < (int) posX + 6; ++i)
+				    {
+					    touch_index_[j][i] = n;
+				    }
+			    }
+			    for (int j = height + 1; j < height + 3; ++j)
+			    {
+				    for (int i = (int) posX - 1; i < (int) posX + 7; ++i)
+				    {
+					    touch_index_[j][i] = n;
+				    }
+			    }
+			    touch_index_[height + 3][(int) posX - 1] = n;
+			    touch_index_[height + 3][(int) posX + 6] = n;
+			    break;
+		    case Wall:
+			    for (int j = 1; j < height + 1; ++j)
+			    {
+				    for (int i = (int) posX; i < (int) posX + width; ++i)
+				    {
+					    touch_index_[j][i] = n;
+				    }
+			    }
+			    break;
+	    }
+	    structures_[structures_.length - 1].buildFortification();
+		plannedFortification = null;
+
+	    for (int j = 19; j >= 0; --j) { // for testing
+		    String s = "";
+		    for (int i = 0; i < 50; ++i) {
+			    s = s.concat((touch_index_[j][i] < 0 ? "" : " ")+touch_index_[j][i]);
+		    }
+		    CVCUtils.debugOut(s);
+	    }
+    }
+
+	public void cancelPlannedFortification() {
+		if (plannedFortification != null) {
+			CVCStructure[] new_structures = new CVCStructure[structures_.length - 1];
+			int i;
+			for (i = 0; i < new_structures.length; ++i)
+				new_structures[i] = structures_[i];
+			structures_[i].destroyFortification();
+			structures_ = new_structures;
+			plannedFortification = null;
+		}
+	}
+
     /** Returns all the structures of the castle
      *
      * @return CVCStructure[] all the structures of the castle
@@ -106,39 +201,65 @@ public class CVCCastle {
 		return structures_;
 	}
 
-	public void getContextMenu(int x, int y) {
-		if (y < 20 && x < 50 && touch_index_[y][x] != -1) {
-			switch(structures_[touch_index_[y][x]].getType())
-			{
-				case Fortification:
-					switch (((CVCFortification) structures_[touch_index_[y][x]]).getSubType())
-					{
-						case Tower:
-							CVCGame.game_screen.openMenu(); // Will take parameters
-							break;
-						case Wall:
-							CVCGame.game_screen.openMenu();
-							break;
-					}
-					break;
-				case Weapon:
-					switch (((CVCWeapon) structures_[touch_index_[y][x]]).getSubType())
-					{
-						case Catapult:
-
-							break;
-						case Trebuchet:
-
-							break;
-						case Ballista:
-
-							break;
-					}
-					break;
+	// documentation missing
+	public void getContextMenu(int x, int y, boolean closed) {
+		if (y < 20 && x < 50) {
+			if (touch_index_[y][x] != -1) {
+				switch (structures_[touch_index_[y][x]].getType()) {
+					case Fortification:
+						switch (((CVCFortification) structures_[touch_index_[y][x]]).getSubType()) {
+							case Tower:
+								CVCGame.openMenu(CVCMenu.MenuType.Tower, structures_[touch_index_[y][x]]);
+								break;
+							case Wall:
+								CVCGame.openMenu(CVCMenu.MenuType.Wall, structures_[touch_index_[y][x]]);
+								break;
+						}
+						break;
+					case Weapon:
+						switch (((CVCWeapon) structures_[touch_index_[y][x]]).getSubType()) {
+							case Catapult:
+								CVCGame.openMenu(CVCMenu.MenuType.Catapult, structures_[touch_index_[y][x]]);
+								break;
+							case Trebuchet:
+								CVCGame.openMenu(CVCMenu.MenuType.Trebuchet, structures_[touch_index_[y][x]]);
+								break;
+							case Ballista:
+								CVCGame.openMenu(CVCMenu.MenuType.Ballista, structures_[touch_index_[y][x]]);
+								break;
+						}
+						break;
+				}
 			}
-		}
-		else {
-			CVCGame.game_screen.closeMenu();
+			else if (touch_index_[1][x] == -1 && !closed && x > 3 && x < 47) {
+				int found = 0, i = x, j = x, fi = x, fj = x;
+				for (; i < 44 || j > 5;) {
+					if (i < 44) {
+						if (touch_index_[1][i] != -1) {
+							++found;
+							fi = i;
+							i = 44;
+						} else ++i;
+					}
+					if (j > 5) {
+						if (touch_index_[1][j] != -1) {
+							++found;
+							fj = j;
+							j = 5;
+						} else --j;
+					}
+				}
+				if (found == 2)
+					if (fi - x > 4 && x - fj > 5) // need to double check these values
+						CVCGame.openMenu(CVCMenu.MenuType.bAll, new int[]{x - 3, fj + 1, fi - fj - 1, Math.min(((CVCTower)structures_[touch_index_[1][fj]]).getHeight(),
+																											   ((CVCTower)structures_[touch_index_[1][fi]]).getHeight()) - 2});
+					else
+						CVCGame.openMenu(CVCMenu.MenuType.bWall, new int[]{fj + 1, fi - fj - 1, Math.min(((CVCTower)structures_[touch_index_[1][fj]]).getHeight(),
+																										 ((CVCTower)structures_[touch_index_[1][fi]]).getHeight()) - 2});
+				else
+					if (fi - x > 4 || x - fj > 5) // need to double check these values
+						CVCGame.openMenu(CVCMenu.MenuType.bTower, new int[]{x - 3});
+			}
 		}
 	}
 }

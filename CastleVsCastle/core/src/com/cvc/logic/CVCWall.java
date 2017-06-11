@@ -30,6 +30,7 @@ public class CVCWall extends CVCFortification {
 
         BodyDef bodydef = new BodyDef();
         bodydef.type = BodyDef.BodyType.DynamicBody;
+	    bodydef.active = false;
 
         PolygonShape shape = new PolygonShape();
 	    shape.set(new float[] {0.0f, 0.0f,

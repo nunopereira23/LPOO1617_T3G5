@@ -5,12 +5,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class CVCStructure {
-	protected float health_ = 100f;
-    protected World world_;
+    protected final World world_;
 
 	protected Body[] bodies_;
 	protected float[] dying_bodies_;
 	protected Vector2[] bodies_centers_;
+
+	protected float health_ = 100f;
+	private boolean build_ = false;
 
 	public enum StructureType {Fortification, Weapon}
 
@@ -44,6 +46,21 @@ public abstract class CVCStructure {
 		    }
 	    }
     }
+
+	public void buildFortification() {
+		for (Body body : bodies_)
+			body.setActive(true);
+		build_ = true;
+	}
+
+	public boolean isBuilt() {
+		return build_;
+	}
+
+	public void destroyFortification() {
+		for (Body body : bodies_)
+			world_.destroyBody(body);
+	}
 
     /** Returns the type of the structure
      *
