@@ -4,36 +4,211 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cvc.logic.CVCCastle;
+import com.cvc.logic.CVCDefender;
 import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCTower;
 import com.cvc.logic.CVCWeapon;
-import com.cvc.logic.CVCWorld;
 
-public class CVCMenu extends Stage {
+public class CVCMenu extends Stage { // God bless this mess
 	public enum MenuType {bTower, bWall, bAll, Tower, Wall, Catapult, Trebuchet, Ballista}
 
-	private final CVCCastle player_castle;
-
 	private Stage stage;
+	private Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-	private Skin skin;
+	private final CVCCastle player_castle = CVCGame.world.getPlayerCastle();
 
-	public CVCMenu(ScreenViewport viewport, float x, float y, final MenuType menuType, final Object object) {
+	public CVCMenu(ScreenViewport viewport) { // HUD
 		super(viewport);
-
-		player_castle = CVCGame.world.getPlayerCastle();
-
 		stage = this;
 
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		final TextField field_1 = new TextField("Defenders", skin);
+		TextField.TextFieldStyle fieldStyle = field_1.getStyle();
+		fieldStyle.disabledFontColor = Color.RED;
+		field_1.setStyle(fieldStyle);
+		field_1.setPosition(10, Gdx.graphics.getHeight() - 40);
+		field_1.setWidth(300);
+		field_1.setHeight(30);
+		field_1.setAlignment(1);
+		field_1.setDisabled(true);
+
+		final TextButton button_1 = new TextButton("", skin); // Not actually a button
+		final TextButton button_2 = new TextButton("Search", skin);
+		final TextButton button_3 = new TextButton("Teach", skin);
+		final TextButton button_4 = new TextButton("Swap work", skin);
+		final TextButton button_5 = new TextButton("\\/", skin);
+		final boolean[] open = new boolean[]{true};
+
+		final SelectBox box = new SelectBox(skin);
+		box.setPosition(10, Gdx.graphics.getHeight() - 70);
+		box.setWidth(300);
+		box.setHeight(30);
+
+		CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+		String[] itemsStrings = new String[CVCDefender.total_force_];
+		for (int n = 0; n < CVCDefender.total_force_; ++n)
+			itemsStrings[n] = items[n].getInfo();
+		Array<String> boxItems = new Array<String>(itemsStrings);
+		box.setItems(boxItems);
+		box.addListener(new ChangeListener(){
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+				String[] itemsStrings = new String[CVCDefender.total_force_];
+				for (int n = 0; n < CVCDefender.total_force_; ++n)
+					itemsStrings[n] = items[n].getInfo();
+				Array<String> boxItems = new Array<String>(itemsStrings);
+				box.setItems(boxItems);
+				box.showList();
+				button_1.setVisible(false);
+				button_2.setVisible(false);
+				button_3.setVisible(false);
+				button_4.setVisible(false);
+				button_5.setText("\\/");
+				open[0] = true;
+			}
+		});
+
+		TextButton.TextButtonStyle buttonStyle = button_1.getStyle();
+		buttonStyle.up = fieldStyle.background;
+		buttonStyle.disabled = fieldStyle.background;
+		button_1.setStyle(buttonStyle);
+		button_1.setPosition(10, Gdx.graphics.getHeight() - 100);
+		button_1.setWidth(300);
+		button_1.setHeight(30);
+		button_1.setDisabled(true);
+		button_1.setVisible(false);
+
+		button_2.setStyle(buttonStyle);
+		button_2.setPosition(10, Gdx.graphics.getHeight() - 130);
+		button_2.setWidth(150);
+		button_2.setHeight(30);
+		button_2.setVisible(false);
+		button_2.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+				items[box.getSelectedIndex()].search();
+				String[] itemsStrings = new String[CVCDefender.total_force_];
+				for (int n = 0; n < CVCDefender.total_force_; ++n)
+					itemsStrings[n] = items[n].getInfo();
+				Array<String> boxItems = new Array<String>(itemsStrings);
+				box.setItems(boxItems);
+				box.hideList();
+				button_5.setText("\\/");
+
+				button_1.setVisible(false);
+				button_2.setVisible(false);
+				button_3.setVisible(false);
+				button_4.setVisible(false);
+				open[0] = true;
+			}
+		});
+
+		button_3.setStyle(buttonStyle);
+		button_3.setPosition(160, Gdx.graphics.getHeight() - 130);
+		button_3.setWidth(150);
+		button_3.setHeight(30);
+		button_3.setVisible(false);
+		button_3.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+				items[box.getSelectedIndex()].teach();
+				String[] itemsStrings = new String[CVCDefender.total_force_];
+				for (int n = 0; n < CVCDefender.total_force_; ++n)
+					itemsStrings[n] = items[n].getInfo();
+				Array<String> boxItems = new Array<String>(itemsStrings);
+				box.setItems(boxItems);
+				box.hideList();
+				button_5.setText("\\/");
+
+				button_1.setVisible(false);
+				button_2.setVisible(false);
+				button_3.setVisible(false);
+				button_4.setVisible(false);
+				open[0] = true;
+			}
+		});
+
+		button_4.setStyle(buttonStyle);
+		button_4.setPosition(10, Gdx.graphics.getHeight() - 130);
+		button_4.setWidth(300);
+		button_4.setHeight(30);
+		button_4.setVisible(false);
+		button_4.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+				items[box.getSelectedIndex()].swapWork();
+				String[] itemsStrings = new String[CVCDefender.total_force_];
+				for (int n = 0; n < CVCDefender.total_force_; ++n)
+					itemsStrings[n] = items[n].getInfo();
+				Array<String> boxItems = new Array<String>(itemsStrings);
+				box.setItems(boxItems);
+				box.hideList();
+				button_5.setText("\\/");
+
+				button_1.setVisible(false);
+				button_2.setVisible(false);
+				button_3.setVisible(false);
+				button_4.setVisible(false);
+				open[0] = true;
+			}
+		});
+
+		button_5.setStyle(buttonStyle);
+		button_5.setPosition(310, Gdx.graphics.getHeight() - 70);
+		button_5.setWidth(30);
+		button_5.setHeight(30);
+		button_5.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				if (open[0]) {
+					CVCDefender[] items = CVCGame.world.getPlayerCastle().getDefenders();
+					button_1.setText(items[box.getSelectedIndex()].getExtendedInfo());
+					button_5.setText("/\\");
+
+					button_1.setVisible(true);
+					if (!items[box.getSelectedIndex()].isWorking()) {
+						button_2.setVisible(true);
+						button_3.setVisible(true);
+					} else button_4.setVisible(true);
+					open[0] = false;
+				}
+				else {
+					button_5.setText("\\/");
+
+					button_1.setVisible(false);
+					button_2.setVisible(false);
+					button_3.setVisible(false);
+					button_4.setVisible(false);
+					open[0] = true;
+				}
+			}
+		});
+
+		this.addActor(field_1);
+		this.addActor(button_1);
+		this.addActor(button_2);
+		this.addActor(button_3);
+		this.addActor(button_4);
+		this.addActor(button_5);
+		this.addActor(box);
+	}
+
+	public CVCMenu(ScreenViewport viewport, float x, float y, final MenuType menuType, final Object object) { // Context Menu
+		super(viewport);
+		stage = this;
 
 		TextField field = new TextField("", skin);
 		switch (menuType)
@@ -63,27 +238,26 @@ public class CVCMenu extends Stage {
 		field.setDisabled(true);
 
 		final Slider slider = new Slider(6, 14, 1, false, skin);
-		final int[] posX = new int[1]; // "Magical" trick to bypass stupid Java rules
+		final int[] posX = new int[1]; // "Magical" trick to bypass Java's rules
 		final int[] posXTower = new int[1];
 		final int[] posXWall = new int[1];
 		final int[] widthWall = new int[1];
 		final int[] heightWall = new int[1];
 
 		TextButton button_1 = new TextButton("", skin);
-		TextButton button_2 = button_1;
+		TextButton button_2 = new TextButton("", skin);
 		final TextButton button_3 = new TextButton("Confirm", skin);
 		final TextButton button_4 = new TextButton("Cancel", skin);
+		final TextButton button_5 = new TextButton("X", skin);
 		button_3.setVisible(false);
 		button_4.setVisible(false);
-		TextButton.TextButtonStyle buttonStyle = button_1.getStyle();
-		buttonStyle.disabled = fieldStyle.background;
 		switch (menuType)
 		{
 			case bTower:
 			case bWall:
 			case bAll:
-				button_1 = new TextButton("Tower", skin, "default");
-				button_2 = new TextButton("Wall", skin, "default");
+				button_1 = new TextButton("Tower", skin);
+				button_2 = new TextButton("Wall", skin);
 				switch (menuType)
 				{
 					case bTower:
@@ -108,7 +282,7 @@ public class CVCMenu extends Stage {
 					public void changed(ChangeEvent event, Actor actor) {
 						CVCGame.world.setUpdate();
 						while (CVCGame.world.isUpdating());
-						player_castle.planFortification(CVCFortification.FortificationType.Tower, (posX[0] = posXTower[0]), 6 /* Irrelevant*/, 6);
+						player_castle.planFortification(CVCFortification.FortificationType.Tower, (posX[0] = posXTower[0]), 6 /*Irrelevant*/, 6);
 						CVCGame.world.setUpdate();
 
 						slider.setValue(6);
@@ -139,7 +313,7 @@ public class CVCMenu extends Stage {
 				break;
 			case Tower:
 			case Wall:
-				button_1 = new TextButton("Repair", skin, "default");
+				button_1 = new TextButton("Repair", skin);
 				if (((CVCFortification) object).getHealth() == 100)
 					button_1.setDisabled(true);
 				else
@@ -156,7 +330,7 @@ public class CVCMenu extends Stage {
 				switch (menuType)
 				{
 					case Tower:
-						button_2 = new TextButton("Build", skin, "default");
+						button_2 = new TextButton("Build", skin);
 						if (((CVCTower) object).hasWeapon())
 							button_2.setDisabled(true);
 						else
@@ -166,13 +340,19 @@ public class CVCMenu extends Stage {
 									Timer.post(new Timer.Task() {
 										@Override
 										public void run() {
+											CVCGame.world.setUpdate();
+											while (CVCGame.world.isUpdating());
+											CVCGame.world.getPlayerCastle().buildWeapon(((CVCTower) object).getX() + 2, ((CVCTower) object).getHeight() + 3, false);
+											((CVCTower) object).getWeapon();
+											CVCGame.world.setUpdate();
+											CVCGame.closeMenu();
 										}
 									});
 								}
 							});
 						break;
 					case Wall:
-						button_2 = new TextButton("Defend", skin, "default");
+						button_2 = new TextButton("Defend", skin);
 //						if (((CVCWall) object).checkSomething()) // to do
 							button_2.setDisabled(true);
 //						else
@@ -192,8 +372,8 @@ public class CVCMenu extends Stage {
 			case Catapult:
 			case Trebuchet:
 			case Ballista:
-				button_1 = new TextButton("Load", skin, "default");
-				button_2 = new TextButton("Fire", skin, "default");
+				button_1 = new TextButton("Load", skin);
+				button_2 = new TextButton("Fire", skin);
 				if (((CVCWeapon) object).getAmmoBody() != null)
 					button_1.setDisabled(true);
 				button_2.setDisabled(true);
@@ -234,6 +414,8 @@ public class CVCMenu extends Stage {
 			}
 		});
 
+		TextButton.TextButtonStyle buttonStyle = button_1.getStyle();
+		buttonStyle.disabled = fieldStyle.background;
 		button_1.setStyle(buttonStyle);
 		button_1.setPosition(x - 100, y - 45); // y0 on top
 		button_1.setWidth(200);
@@ -276,12 +458,23 @@ public class CVCMenu extends Stage {
 				Gdx.input.setInputProcessor(CVCGame.input_multi);
 			}
 		});
+		button_5.setStyle(buttonStyle);
+		button_5.setPosition(x + 100, y - 15);
+		button_5.setWidth(30);
+		button_5.setHeight(30);
+		button_5.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCGame.closeMenu();
+			}
+		});
 
 		this.addActor(field);
 		this.addActor(button_1);
 		this.addActor(button_2);
 		this.addActor(button_3);
 		this.addActor(button_4);
+		this.addActor(button_5);
 		this.addActor(slider);
 	}
 

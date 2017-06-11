@@ -13,8 +13,11 @@ public class CVCCastle {
 	private int[][] touch_index_ = new int [20][50];
 
     private CVCStructure[] structures_;
-    private CVCDefender[] defenders_;
-    private CVCResource[] resources_;
+	private CVCDefender[] defenders_;
+	private CVCWood resources_wood = new CVCWood();
+	private CVCStone resources_stone = new CVCStone();
+	private CVCIron resources_iron = new CVCIron();
+	private CVCRope resources_rope = new CVCRope();
 
 	private CVCFortification.FortificationType plannedFortification = null;
 
@@ -32,6 +35,11 @@ public class CVCCastle {
 	    structures_ = new CVCStructure[]{new CVCTower(world_, 15 + (!enemy ? 0 : 100), 8),
 									     new CVCWall(world_, 21 + (!enemy ? 0 : 100), 8, 4),
 									     new CVCTower(world_, 29 + (!enemy ? 0 : 100), 8)};
+
+	    defenders_ = new CVCDefender[]{new CVCLumberjack(),
+			                           new CVCQuarryman(),
+			                           new CVCMiner(),
+			                           new CVCScavenger()};
 
 	    // index 0
 	    for (int j = 1; j < 9; ++j)
@@ -108,7 +116,6 @@ public class CVCCastle {
 		int n;
 		for (n = 0; n < structures_.length; ++n)
 			new_structures[n] = structures_[n];
-
 		switch (fortificationType)
 		{
 			case Tower:
@@ -172,13 +179,13 @@ public class CVCCastle {
 	    structures_[structures_.length - 1].buildFortification();
 		plannedFortification = null;
 
-	    for (int j = 19; j >= 0; --j) { // for testing
+	/*	for (int j = 19; j >= 0; --j) { // for testing
 		    String s = "";
 		    for (int i = 0; i < 50; ++i) {
 			    s = s.concat((touch_index_[j][i] < 0 ? "" : " ")+touch_index_[j][i]);
 		    }
 		    CVCUtils.debugOut(s);
-	    }
+	    } */
     }
 
 	public void cancelPlannedFortification() {
@@ -193,6 +200,32 @@ public class CVCCastle {
 		}
 	}
 
+	public void buildWeapon(float posX, float posY, boolean enemy) {
+		CVCStructure[] new_structures = new CVCStructure[structures_.length + 1];
+		int n;
+		for (n = 0; n < structures_.length; ++n)
+			new_structures[n] = structures_[n];
+		// For now only catapult
+		new_structures[n] = new CVCCatapult(world_, posX, posY, enemy);
+		structures_ = new_structures;
+		for (int j = (int) posY; j < (int) posY + 3; ++j)
+		{
+			for (int i = (int) posX - 1; i < (int) posX + 2; ++i)
+			{
+				touch_index_[j][i] = n;
+			}
+		}
+	}
+
+	public void addDefender(CVCDefender defender) {
+		CVCDefender[] new_defenders = new CVCDefender[defenders_.length + 1];
+		int n;
+		for (n = 0; n < defenders_.length; ++n)
+			new_defenders[n] = defenders_[n];
+		new_defenders[n] = defender;
+		defenders_ = new_defenders;
+	}
+
     /** Returns all the structures of the castle
      *
      * @return CVCStructure[] all the structures of the castle
@@ -201,8 +234,12 @@ public class CVCCastle {
 		return structures_;
 	}
 
+	public CVCDefender[] getDefenders() {
+		return defenders_;
+	}
+
 	// documentation missing
-	public void getContextMenu(int x, int y, boolean closed) {
+	public void getContextMenu(int x, int y) {
 		if (y < 20 && x < 50) {
 			if (touch_index_[y][x] != -1) {
 				switch (structures_[touch_index_[y][x]].getType()) {
@@ -231,7 +268,7 @@ public class CVCCastle {
 						break;
 				}
 			}
-			else if (touch_index_[1][x] == -1 && !closed && x > 3 && x < 47) {
+			else if (touch_index_[1][x] == -1 && x > 3 && x < 47) {
 				int found = 0, i = x, j = x, fi = x, fj = x;
 				for (; i < 44 || j > 5;) {
 					if (i < 44) {
@@ -261,5 +298,37 @@ public class CVCCastle {
 						CVCGame.openMenu(CVCMenu.MenuType.bTower, new int[]{x - 3});
 			}
 		}
+	}
+
+	public void investWood() {
+		resources_wood.invest();
+	}
+
+	public void investStone() {
+		resources_stone.invest();
+	}
+
+	public void investIron() {
+		resources_iron.invest();
+	}
+
+	public void investRope() {
+		resources_rope.invest();
+	}
+
+	public void divestWood() {
+		resources_wood.divest();
+	}
+
+	public void divestStone() {
+		resources_stone.divest();
+	}
+
+	public void divestIron() {
+		resources_iron.divest();
+	}
+
+	public void divestRope() {
+		resources_rope.divest();
 	}
 }

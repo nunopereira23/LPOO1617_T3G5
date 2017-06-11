@@ -12,7 +12,7 @@ import com.cvc.logic.CVCWorld;
 
 public class CVCGame extends Game {
 	public static CVCWorld world;
-	public static CVCMenu hud = null; // to do
+	public static CVCMenu hud;
 	public static CVCMenu menu = null;
 
 	public static CVCGameScreen game_screen;
@@ -28,11 +28,14 @@ public class CVCGame extends Game {
 		World.setVelocityThreshold(Float.MAX_VALUE);
 
 		world = new CVCWorld();
+		hud = new CVCMenu(new ScreenViewport());
 
 		Gdx.gl.glClearColor(0.7f, 1.0f, 1.0f, 1);
 
 		game_screen = new CVCGameScreen();
-		input_multi = new InputMultiplexer(game_screen);
+		input_multi = new InputMultiplexer();
+		input_multi.addProcessor(0, hud);
+		input_multi.addProcessor(1, game_screen);
 
 		setScreen(game_screen);
 		Gdx.input.setInputProcessor(input_multi);
@@ -67,15 +70,15 @@ public class CVCGame extends Game {
 
 	public static void pushProcessor(InputProcessor processor) {
 		Array<InputProcessor> processorsArray = input_multi.getProcessors();
-		processorsArray.insert(0, processor);
+		processorsArray.insert(1, processor);
 		input_multi.setProcessors(processorsArray);
-		Gdx.input.setInputProcessor(input_multi); // Just in case
+		Gdx.input.setInputProcessor(input_multi);
 	}
 
 	public static void popProcessor() {
 		Array<InputProcessor> processorsArray = input_multi.getProcessors();
-		processorsArray.removeIndex(0);
+		processorsArray.removeIndex(1);
 		input_multi.setProcessors(processorsArray);
-		Gdx.input.setInputProcessor(input_multi); // Just in case
+		Gdx.input.setInputProcessor(input_multi);
 	}
 }

@@ -111,7 +111,7 @@ public class CVCWorld {
         return enemy_castle_;
     }
 
-    public void getContextMenu(int x, int y, boolean closed) {
-	    player_castle_.getContextMenu(x, y, closed);
+    public void getContextMenu(int x, int y) {
+	    player_castle_.getContextMenu(x, y);
     }
 }

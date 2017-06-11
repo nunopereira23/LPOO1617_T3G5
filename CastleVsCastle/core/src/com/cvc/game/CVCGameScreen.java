@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.cvc.logic.CVCCastle;
 import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCProjectile;
 import com.cvc.logic.CVCStructure;
@@ -21,7 +19,7 @@ import com.cvc.logic.CVCWeapon;
 import com.cvc.logic.CVCWorld;
 
 
-public class CVCGameScreen implements Screen, InputProcessor{
+public class CVCGameScreen implements Screen, InputProcessor {
 	private float deltaLast = 0;
 
 	private OrthographicCamera camera;
@@ -251,6 +249,9 @@ public class CVCGameScreen implements Screen, InputProcessor{
 			    CVCGame.menu.draw();
 		    }
 
+		    CVCGame.hud.act(deltaLast);
+		    CVCGame.hud.draw();
+
 		    deltaLast = 0;
 	    }
     }
@@ -352,7 +353,6 @@ public class CVCGameScreen implements Screen, InputProcessor{
 		accDeltaX = 0;
 		accDeltaY = 0;
 		if (CVCGame.menu != null) {
-			closed = true;
 			CVCGame.closeMenu();
 		}
 		return true;
@@ -395,11 +395,10 @@ public class CVCGameScreen implements Screen, InputProcessor{
 		if (accDeltaX < 10 && accDeltaY < 10) {
 			if (absScreenY + (Gdx.graphics.getHeight() - screenY) >= CVCUtils.toPixels(1) && absScreenY + (Gdx.graphics.getHeight() - screenY) < CVCUtils.toPixels(20)) {
 				if (absScreenX + screenX >= 0 && absScreenX + screenX < CVCUtils.toPixels(50)) {
-					CVCGame.world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY), closed);
+					CVCGame.world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY));
 				}
 			}
 		}
-		closed = false;
 		return true;
 	}
 }

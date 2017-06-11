@@ -47,14 +47,14 @@ public abstract class CVCStructure {
 	    }
     }
 
+	public boolean isBuilt() {
+		return build_;
+	}
+
 	public void buildFortification() {
 		for (Body body : bodies_)
 			body.setActive(true);
 		build_ = true;
-	}
-
-	public boolean isBuilt() {
-		return build_;
 	}
 
 	public void destroyFortification() {

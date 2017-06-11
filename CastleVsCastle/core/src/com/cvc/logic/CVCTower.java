@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.Arrays;
 
 public class CVCTower extends CVCFortification {
+	private float posX_;
     private int height_;
 
     private boolean weapon_ = false;
@@ -22,6 +23,7 @@ public class CVCTower extends CVCFortification {
      */
     public CVCTower(World world, float posX, int height) { // Minimum 8 height
         super(world);
+	    posX_ = posX;
         height_ = height;
 
         float originX = posX;
@@ -115,6 +117,10 @@ public class CVCTower extends CVCFortification {
 	    Arrays.fill(dying_bodies_, 0);
     }
 
+	public float getX(){
+		return posX_;
+	}
+
     /** Get height of the tower
      *
      * @return int tower height
@@ -132,4 +138,8 @@ public class CVCTower extends CVCFortification {
     public boolean hasWeapon() {
         return weapon_;
     }
+
+	public void getWeapon() {
+		weapon_ = true;
+	}
 }
