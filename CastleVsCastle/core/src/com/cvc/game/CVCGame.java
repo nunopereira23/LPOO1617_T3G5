@@ -9,6 +9,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cvc.logic.CVCWorld;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.assets.AssetManager;
+
+import net.dermetfan.gdx.assets.AnnotationAssetManager;
+
 
 public class CVCGame extends Game {
 	public static CVCWorld world;
@@ -19,6 +24,10 @@ public class CVCGame extends Game {
 
 	public static InputMultiplexer input_multi;
 
+    private AssetManager assetManager;
+
+    private Music BACKGROUND_MUSIC;
+    private static boolean MUSIC_ENABLED = true;
 	@Override
 	/** Create the game
 	 *
@@ -33,6 +42,8 @@ public class CVCGame extends Game {
 
 		game_screen = new CVCGameScreen();
 		input_multi = new InputMultiplexer(game_screen);
+
+        assetManager = new AssetManager();
 
 		setScreen(game_screen);
 		Gdx.input.setInputProcessor(input_multi);
@@ -52,6 +63,7 @@ public class CVCGame extends Game {
 	 */
 	public void dispose () {
 		world.dispose();
+        assetManager.dispose();
 	}
 
 	public static void openMenu(CVCMenu.MenuType menuType, Object object) {
@@ -65,7 +77,34 @@ public class CVCGame extends Game {
 		popProcessor();
 	}
 
-	public static void pushProcessor(InputProcessor processor) {
+    /**
+     * Returns the asset manager used to load all textures and sounds.
+     *
+     * @return the asset manager
+     */
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public boolean isMusicEnabled() {
+        return MUSIC_ENABLED;
+    }
+
+    public void setMUSIC_ENABLED(boolean val) {
+        this.MUSIC_ENABLED=val;
+    }
+
+    public void setBackgroundMusic(Music BACKGROUND_MUSIC) {
+        this.BACKGROUND_MUSIC = BACKGROUND_MUSIC;
+    }
+
+    public Music getBackgroundMusic() {
+        return BACKGROUND_MUSIC;
+    }
+
+
+
+    public static void pushProcessor(InputProcessor processor) {
 		Array<InputProcessor> processorsArray = input_multi.getProcessors();
 		processorsArray.insert(0, processor);
 		input_multi.setProcessors(processorsArray);

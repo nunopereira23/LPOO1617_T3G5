@@ -2,6 +2,7 @@ package com.cvc.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g3d.particles.values.PrimitiveSpawnShapeValue;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +17,8 @@ import com.cvc.logic.CVCFortification;
 import com.cvc.logic.CVCTower;
 import com.cvc.logic.CVCWeapon;
 import com.cvc.logic.CVCWorld;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class CVCMenu extends Stage {
 	public enum MenuType {bTower, bWall, bAll, Tower, Wall, Catapult, Trebuchet, Ballista}
@@ -26,7 +29,17 @@ public class CVCMenu extends Stage {
 
 	private Skin skin;
 
-	public CVCMenu(ScreenViewport viewport, float x, float y, final MenuType menuType, final Object object) {
+    /**
+     * The game this screen belongs to.
+     */
+    private static CVCGame game;
+
+    private static Sound CLICK;
+    private static Sound LAUNCH;
+
+
+
+    public CVCMenu(ScreenViewport viewport, float x, float y, final MenuType menuType, final Object object) {
 		super(viewport);
 
 		player_castle = CVCGame.world.getPlayerCastle();
@@ -34,6 +47,11 @@ public class CVCMenu extends Stage {
 		stage = this;
 
 		skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        loadAssets();
+        loadSounds();
+
+
 
 		TextField field = new TextField("", skin);
 		switch (menuType)
@@ -285,7 +303,56 @@ public class CVCMenu extends Stage {
 		this.addActor(slider);
 	}
 
-	public void delete() {
+    private void loadSounds() {
+        Music backgroundMusic = game.getAssetManager().get("backgroundMusic.mp3");
+        backgroundMusic.setLooping(true);
+        game.setBackgroundMusic(backgroundMusic);
+        CLICK = game.getAssetManager().get("click.wav");
+
+        LAUNCH = game.getAssetManager().get("launch.wav");
+    }
+
+    /**
+     * Plays the button click sound.
+     */
+    public static void playClick() {
+        if (game.isMusicEnabled())
+            CLICK.play();
+    }
+
+    public static void playLaunch(){
+        if(game.isMusicEnabled())
+            LAUNCH.play();
+    }
+
+
+    public void loadAssets(){
+        this.game.getAssetManager().load("backgroundMusic.mp3", Music.class);
+        this.game.getAssetManager().load("click.wav", Sound.class);
+        this.game.getAssetManager().load("launch.wav", Sound.class);
+
+        this.game.getAssetManager().finishLoading();
+    }
+
+
+    /*
+
+    // Probably something like this Idk
+
+    SOUND_BUTTON.addListener(new ChangeListener() {
+        @Override
+        public void changed(ChangeEvent event, Actor actor) {
+            playClick();
+            game.setMUSIC_ENABLED(!game.isMusicEnabled());
+            if (game.isMusicEnabled() && !game.getBackgroundMusic().isPlaying())
+                game.getBackgroundMusic().play();
+            else
+                game.getBackgroundMusic().pause();
+        }
+    });
+    */
+
+    public void delete() {
 		CVCGame.world.setUpdate();
 		while (CVCGame.world.isUpdating());
 		player_castle.cancelPlannedFortification();

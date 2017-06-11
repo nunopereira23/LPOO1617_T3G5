@@ -48,11 +48,11 @@
         android:id="@+id/castle"
         android:layout_width="384dp"
         android:layout_height="224dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="0dp"
         android:scaleType="fitCenter"
         android:src="@drawable/castle"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
