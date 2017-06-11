@@ -3,7 +3,8 @@ package com.cvc.logic;
 import com.cvc.game.CVCGame;
 
 public class CVCQuarryman extends CVCDefender {
-	public CVCQuarryman() {
+	public CVCQuarryman(int id) {
+		super(id);
 	}
 
 	private static float learning_ = 0;
@@ -11,8 +12,8 @@ public class CVCQuarryman extends CVCDefender {
 	public void update(float delta)
 	{
 		deltaTime_ += delta;
-		float knowledge = 0;
 		if (searching_) {
+			CVCGame.world.getPlayerCastle().getStone().update(delta);
 			experience_ += delta;
 			if (rank_ == Rank.Novice && deltaTime_ > 180)
 				if (random_.nextInt(240 - (int) deltaTime_ + 1) == 0 ||
@@ -28,6 +29,7 @@ public class CVCQuarryman extends CVCDefender {
 					rank_ = Rank.Master;
 		}
 		else if (teaching_) {
+			float knowledge = 0;
 			switch (rank_)
 			{
 				case Master:
@@ -44,10 +46,10 @@ public class CVCQuarryman extends CVCDefender {
 		}
 		else experience_ -= delta;
 		if (experience_ < 0) experience_ = 0;
-		if (learning_ > 100) {
-			CVCGame.world.getPlayerCastle().addDefender(new CVCQuarryman());
+		if (learning_ > 500) {
+			CVCGame.world.getPlayerCastle().addDefender(new CVCQuarryman(++id_base_));
 			++total_force_;
-			learning_ %= 100;
+			learning_ -= 500;
 		}
 	}
 
@@ -67,8 +69,8 @@ public class CVCQuarryman extends CVCDefender {
 	}
 
 	public String getInfo() {
-		if (searching_) return "Quarryman - S";
-		if (teaching_) return "Quarryman - T";
-		return "Quarryman";
+		if (searching_) return id_+" - Quarryman - S";
+		if (teaching_) return id_+" - Quarryman - T";
+		return id_+" - Quarryman";
 	}
 }

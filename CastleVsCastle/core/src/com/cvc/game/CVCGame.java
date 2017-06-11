@@ -4,16 +4,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cvc.logic.CVCWorld;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.assets.AssetManager;
-
-import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 
 public class CVCGame extends Game {
@@ -42,6 +39,7 @@ public class CVCGame extends Game {
 		BGM = Gdx.audio.newMusic(Gdx.files.internal("bgm.wav"));
 
 		BGM.setLooping(true);
+		BGM.setVolume(0.5f);
 		BGM.play();
 
 		world = new CVCWorld();

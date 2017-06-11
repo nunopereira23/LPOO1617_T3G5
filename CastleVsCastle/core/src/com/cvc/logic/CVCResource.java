@@ -5,14 +5,13 @@ import java.util.Random;
 public class CVCResource {
 	public enum Quality {Low, Ordinary, High, Extraordinary} // for now won't affect gameplay
 
-	protected static int total_amount_  = 0;
 	protected int amount_ = 0;
 
 	protected int investment_ = 1;
 	protected Quality quality_ = Quality.Low;
 
 	protected float deltaTime_ = 0;
-	protected Random random_;
+	protected Random random_ = new Random();
 
 	public CVCResource() {
 	}
@@ -32,10 +31,9 @@ public class CVCResource {
 				difficulty += 2;
 				break;
 		}
-		if (deltaTime_ % difficulty == 0 &&
-				random_.nextInt((total_amount_ / investment_) + 1) == 0) {
+		if (((int) deltaTime_) % difficulty == 0 &&
+				random_.nextInt((amount_ / investment_) + 1) == 0) {
 			++amount_;
-			++total_amount_;
 		}
 	}
 
@@ -54,7 +52,6 @@ public class CVCResource {
 	public boolean getAmount(int amount) {
 		if (amount_ >= amount) {
 			amount -= amount;
-			total_amount_ -= amount;
 			return true;
 		}
 		return false;

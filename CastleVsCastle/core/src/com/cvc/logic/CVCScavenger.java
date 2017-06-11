@@ -3,15 +3,16 @@ package com.cvc.logic;
 import com.cvc.game.CVCGame;
 
 public class CVCScavenger extends CVCDefender {
-	public CVCScavenger() {
+	public CVCScavenger(int id) {
+		super(id);
 	}
 	private static float learning_ = 0;
 
 	public void update(float delta)
 	{
 		deltaTime_ += delta;
-		float knowledge = 0;
 		if (searching_) {
+			CVCGame.world.getPlayerCastle().getRope().update(delta);
 			experience_ += delta;
 			if (rank_ == Rank.Novice && deltaTime_ > 180)
 				if (random_.nextInt(240 - (int) deltaTime_ + 1) == 0 ||
@@ -27,6 +28,7 @@ public class CVCScavenger extends CVCDefender {
 					rank_ = Rank.Master;
 		}
 		else if (teaching_) {
+			float knowledge = 0;
 			switch (rank_)
 			{
 				case Master:
@@ -43,10 +45,10 @@ public class CVCScavenger extends CVCDefender {
 		}
 		else experience_ -= delta;
 		if (experience_ < 0) experience_ = 0;
-		if (learning_ > 100) {
-			CVCGame.world.getPlayerCastle().addDefender(new CVCScavenger());
+		if (learning_ > 500) {
+			CVCGame.world.getPlayerCastle().addDefender(new CVCScavenger(++id_base_));
 			++total_force_;
-			learning_ %= 100;
+			learning_ -= 500;
 		}
 	}
 
@@ -66,8 +68,8 @@ public class CVCScavenger extends CVCDefender {
 	}
 
 	public String getInfo() {
-		if (searching_) return "Scavenger - S";
-		if (teaching_) return "Scavenger - T";
-		return "Scavenger";
+		if (searching_) return id_+" - Scavenger - S";
+		if (teaching_) return id_+" - Scavenger - T";
+		return id_+" - Scavenger";
 	}
 }

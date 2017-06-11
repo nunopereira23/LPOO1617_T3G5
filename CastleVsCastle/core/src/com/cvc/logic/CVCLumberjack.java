@@ -3,7 +3,8 @@ package com.cvc.logic;
 import com.cvc.game.CVCGame;
 
 public class CVCLumberjack extends CVCDefender {
-	public CVCLumberjack() {
+	public CVCLumberjack(int id) {
+		super(id);
 	}
 
 	private static float learning_ = 0;
@@ -11,8 +12,8 @@ public class CVCLumberjack extends CVCDefender {
 	public void update(float delta)
 	{
 		deltaTime_ += delta;
-		float knowledge = 0;
 		if (searching_) {
+			CVCGame.world.getPlayerCastle().getWood().update(delta);
 			experience_ += delta;
 			if (rank_ == Rank.Novice && deltaTime_ > 180)
 				if (random_.nextInt(240 - (int) deltaTime_ + 1) == 0 ||
@@ -28,6 +29,7 @@ public class CVCLumberjack extends CVCDefender {
 					rank_ = Rank.Master;
 		}
 		else if (teaching_) {
+			float knowledge = 0;
 			switch (rank_)
 			{
 				case Master:
@@ -44,10 +46,10 @@ public class CVCLumberjack extends CVCDefender {
 		}
 		else experience_ -= delta;
 		if (experience_ < 0) experience_ = 0;
-		if (learning_ > 100) {
-			CVCGame.world.getPlayerCastle().addDefender(new CVCLumberjack());
+		if (learning_ > 500) {
+			CVCGame.world.getPlayerCastle().addDefender(new CVCLumberjack(++id_base_));
 			++total_force_;
-			learning_ %= 100;
+			learning_ -= 500;
 		}
 	}
 
@@ -67,8 +69,8 @@ public class CVCLumberjack extends CVCDefender {
 	}
 
 	public String getInfo() {
-		if (searching_) return "Lumberjack - S";
-		if (teaching_) return "Lumberjack - T";
-		return "Lumberjack";
+		if (searching_) return id_+" - Lumberjack - S";
+		if (teaching_) return id_+" - Lumberjack - T";
+		return id_+" - Lumberjack";
 	}
 }

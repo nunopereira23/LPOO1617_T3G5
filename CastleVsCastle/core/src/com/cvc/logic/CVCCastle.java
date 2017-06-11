@@ -14,10 +14,10 @@ public class CVCCastle {
 
     private CVCStructure[] structures_;
 	private CVCDefender[] defenders_;
-	private CVCWood resources_wood = new CVCWood();
-	private CVCStone resources_stone = new CVCStone();
-	private CVCIron resources_iron = new CVCIron();
-	private CVCRope resources_rope = new CVCRope();
+	private CVCWood resources_wood_ = new CVCWood();
+	private CVCStone resources_stone_ = new CVCStone();
+	private CVCIron resources_iron_ = new CVCIron();
+	private CVCRope resources_rope_ = new CVCRope();
 
 	private CVCFortification.FortificationType plannedFortification = null;
 
@@ -36,10 +36,10 @@ public class CVCCastle {
 									     new CVCWall(world_, 21 + (!enemy ? 0 : 100), 8, 4),
 									     new CVCTower(world_, 29 + (!enemy ? 0 : 100), 8)};
 
-	    defenders_ = new CVCDefender[]{new CVCLumberjack(),
-			                           new CVCQuarryman(),
-			                           new CVCMiner(),
-			                           new CVCScavenger()};
+	    defenders_ = new CVCDefender[]{new CVCLumberjack(1),
+			                           new CVCQuarryman(2),
+			                           new CVCMiner(3),
+			                           new CVCScavenger(4)};
 
 	    // index 0
 	    for (int j = 1; j < 9; ++j)
@@ -107,6 +107,9 @@ public class CVCCastle {
         for (CVCStructure struct : structures_) {
 	        struct.update(delta);
 	        health += struct.getHealth();
+        }
+        for (CVCDefender defender : defenders_) {
+	        defender.update(delta);
         }
         health_ = health / structures_.length;
     }
@@ -238,6 +241,22 @@ public class CVCCastle {
 		return defenders_;
 	}
 
+	public CVCWood getWood() {
+		return resources_wood_;
+	}
+
+	public CVCStone getStone() {
+		return resources_stone_;
+	}
+
+	public CVCIron getIron() {
+		return resources_iron_;
+	}
+
+	public CVCRope getRope() {
+		return resources_rope_;
+	}
+
 	// documentation missing
 	public void getContextMenu(int x, int y) {
 		if (y < 20 && x < 50) {
@@ -301,34 +320,34 @@ public class CVCCastle {
 	}
 
 	public void investWood() {
-		resources_wood.invest();
+		resources_wood_.invest();
 	}
 
 	public void investStone() {
-		resources_stone.invest();
+		resources_stone_.invest();
 	}
 
 	public void investIron() {
-		resources_iron.invest();
+		resources_iron_.invest();
 	}
 
 	public void investRope() {
-		resources_rope.invest();
+		resources_rope_.invest();
 	}
 
 	public void divestWood() {
-		resources_wood.divest();
+		resources_wood_.divest();
 	}
 
 	public void divestStone() {
-		resources_stone.divest();
+		resources_stone_.divest();
 	}
 
 	public void divestIron() {
-		resources_iron.divest();
+		resources_iron_.divest();
 	}
 
 	public void divestRope() {
-		resources_rope.divest();
+		resources_rope_.divest();
 	}
 }
