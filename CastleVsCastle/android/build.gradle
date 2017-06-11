@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "23.0.1"
-    compileSdkVersion 20
+    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -14,12 +14,15 @@ android {
 
         instrumentTest.setRoot('tests')
     }
+    aaptOptions {
+        cruncherEnabled = false
+    }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
         applicationId "com.cvc.game.android"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 20
     }
 }
@@ -126,4 +129,18 @@ idea {
             }
         }
     }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:multidex:1.0.1'
+//    compile 'com.android.support:gridLayout-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.23.0'
 }
