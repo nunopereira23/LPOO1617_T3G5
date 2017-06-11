@@ -4,11 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cvc.logic.CVCWorld;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.assets.AssetManager;
+
+import net.dermetfan.gdx.assets.AnnotationAssetManager;
+
 
 public class CVCGame extends Game {
 	public static CVCWorld world;
@@ -19,6 +25,10 @@ public class CVCGame extends Game {
 
 	public static InputMultiplexer input_multi;
 
+	public static Sound CLICK;
+	public static Sound LAUNCH;
+    private Music BGM;
+
 	@Override
 	/** Create the game
 	 *
@@ -26,6 +36,13 @@ public class CVCGame extends Game {
 	public void create () {
 		Box2D.init();
 		World.setVelocityThreshold(Float.MAX_VALUE);
+
+		CLICK = Gdx.audio.newSound(Gdx.files.internal("click.ogg"));
+		LAUNCH = Gdx.audio.newSound(Gdx.files.internal("launch.ogg"));
+		BGM = Gdx.audio.newMusic(Gdx.files.internal("bgm.wav"));
+
+		BGM.setLooping(true);
+		BGM.play();
 
 		world = new CVCWorld();
 		hud = new CVCMenu(new ScreenViewport());
@@ -54,6 +71,12 @@ public class CVCGame extends Game {
 	 *
 	 */
 	public void dispose () {
+		BGM.stop();
+
+		BGM.dispose();
+        CLICK.dispose();
+		LAUNCH.dispose();
+
 		world.dispose();
 	}
 
@@ -68,7 +91,7 @@ public class CVCGame extends Game {
 		popProcessor();
 	}
 
-	public static void pushProcessor(InputProcessor processor) {
+    public static void pushProcessor(InputProcessor processor) {
 		Array<InputProcessor> processorsArray = input_multi.getProcessors();
 		processorsArray.insert(1, processor);
 		input_multi.setProcessors(processorsArray);

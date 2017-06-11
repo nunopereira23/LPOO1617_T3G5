@@ -333,7 +333,6 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	}
 
 	private boolean dragging = false;
-	private boolean closed = false;
 	private int absScreenX = 0;
 	private int absScreenY = 0;
 	private int lastScreenX;
@@ -393,6 +392,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		if (button == Input.Buttons.RIGHT) return false;
 		dragging = false;
 		if (accDeltaX < 10 && accDeltaY < 10) {
+			CVCGame.CLICK.play();
 			if (absScreenY + (Gdx.graphics.getHeight() - screenY) >= CVCUtils.toPixels(1) && absScreenY + (Gdx.graphics.getHeight() - screenY) < CVCUtils.toPixels(20)) {
 				if (absScreenX + screenX >= 0 && absScreenX + screenX < CVCUtils.toPixels(50)) {
 					CVCGame.world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY));

@@ -64,6 +64,15 @@
         <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\pre-dexed\debug\bolts-applinks-1.4.0_0a669fc1786aba64c7ed20ee67a3d63fef869167.jar" />
     </item>
     <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="85dda30771b451bc463113f3db7345d82e544255">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_5a25959106cecbeeddffbdd082848ec2efe9644d\classes.dex" />
+    </item>
+    <item
         is-multidex="false"
         jar="C:\Users\Utilizador\.android\build-cache\7845f35c75aa7ad4ff8db9a5607bb2957d40486f\output\jars\classes.jar"
         jumboMode="false"
@@ -215,6 +224,15 @@
         revision="25.0.0"
         sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
         <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0_783367917bd9d787c94141725a2a29ac7a62986b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        <dex dex="C:\Users\Utilizador\Documents\SourceTree\LPOO1617_T3G5\CastleVsCastle\android\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a3fc62c5e52a1f7d6cc0f829686cb0e2d97e7b31\classes.dex" />
     </item>
     <item
         is-multidex="false"

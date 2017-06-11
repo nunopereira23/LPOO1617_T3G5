@@ -478,7 +478,7 @@ public class CVCMenu extends Stage { // God bless this mess
 		this.addActor(slider);
 	}
 
-	public void delete() {
+    public void delete() {
 		CVCGame.world.setUpdate();
 		while (CVCGame.world.isUpdating());
 		player_castle.cancelPlannedFortification();
