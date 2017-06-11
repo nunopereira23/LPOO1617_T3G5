@@ -336,6 +336,8 @@ public class CVCCastle {
 	public void isFiring(float x, float y) {
 		weaponFiring_.fireWeapon(x, y, false);
 		weaponFiring_.fireWeapon(x, y, false);
+		weaponFiring_ = null;
+		isTargeting_ = false; // double checking
 	}
 
 	public void investWood() {

@@ -570,7 +570,7 @@ public class CVCMenu extends Stage { // God bless this mess
 		this.addActor(button_3);
 		this.addActor(button_4);
 		this.addActor(button_5);
-		this.addActor(button_6);
+//		this.addActor(button_6);
 		this.addActor(slider);
 	}
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.utils.Timer;
+import com.cvc.game.CVCGame;
 
 import java.util.Arrays;
 
@@ -125,9 +126,16 @@ public class CVCCatapult extends CVCWeapon {
 		    		new Vector2(CVCProjectile.projectileEquation(19.6f, x, posX_, y, posY_), 19.6f).scl(CVCProjectile.ROCK_DENSITY_BY_AREA),
 				    ammo_.getBody().getWorldCenter(),
 				    true);
-
-		    // Start counter until projectile disappears (thread) 10 secs
-		    // delete body
+		    Timer.schedule(new Timer.Task() {
+			    @Override
+			    public void run() {
+				    CVCGame.world.setUpdate();
+				    while (CVCGame.world.isUpdating());
+				    world_.destroyBody(getAmmoBody());
+				    CVCGame.world.setUpdate();
+				    ammo_ = null;
+			    }
+		    }, 10);
 	    }
 	    else {
 		    ammo_.setJoint(world_);
