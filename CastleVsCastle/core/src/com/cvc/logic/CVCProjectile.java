@@ -11,6 +11,9 @@ import com.badlogic.gdx.physics.box2d.World;
 public class CVCProjectile {
 	public enum ProjectileType {Rock, Dart}
 
+	public static final float ROCK_RADIUS = 0.5f;
+	public static final float ROCK_DENSITY_BY_AREA = 20802.5f; // 26500 * 0.785
+
 	private Body body_;
 	private Joint joint_ = null;
 
@@ -27,10 +30,10 @@ public class CVCProjectile {
 		switch (type)
 		{
 			case Rock:
-				rock_shape.setRadius(0.5f);
+				rock_shape.setRadius(ROCK_RADIUS);
 
 				fixture.shape = rock_shape;
-				fixture.density = 2560.0f; // Limestone kg/m^3
+				fixture.density = 26500f; // Limestone * 10 kg/m^3
 				fixture.friction = 0.75f; // Limestone on limestone
 				fixture.restitution = 0.20f; // Limestone
 				break;
@@ -64,6 +67,17 @@ public class CVCProjectile {
 		}
 	}
 
+	public static float projectileEquation(float vy, float x, float x0, float y, float y0)
+	{
+		float a = 4.9f * (float) Math.pow(x - x0, 2);
+		float b = vy * (x - x0);
+		float c = y - y0;
+		if (c != 0) {
+			return 1.0f / (float) ((b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a));
+		}
+		return 1.0f / (b / a);
+	}
+
 	public Body getBody()
 	{
 		return body_;
@@ -76,7 +90,9 @@ public class CVCProjectile {
 
 	public void setJoint(World world) // fireWeapon uses this
 	{
-		world.destroyJoint(joint_);
-		joint_ = null;
+		if (joint_ != null) {
+			world.destroyJoint(joint_);
+			joint_ = null;
+		}
 	}
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class CVCStructure {
+public abstract class CVCStructure {
 	protected float health_ = 100f;
     protected World world_;
 
@@ -47,23 +47,29 @@ public class CVCStructure {
 
     /** Returns the type of the structure
      *
-     * @return StructureType the type of the structure
+     * @return the type of the structure
      */
-    public StructureType getType() {
-	    return null;
+    public abstract StructureType getType();
+
+	/** Returns the total health of the structure
+	 *
+	 * @return the current total health
+	 */
+    public float getHealth() {
+	    return health_;
     }
 
 	/** Get the bodies of the structure
 	 *
-	 * @return Body[] the bodies of the structure
+	 * @return the bodies of the structure
 	 */
 	public Body[] getBodies(){
 		return bodies_;
 	}
 
-	/** Get how long have the bodies of the structure been "dead"
+	/** Get how long ago the bodies of the structure started "dying"
 	 *
-	 * @return float[] duration of bodies' death
+	 * @return time since bodies started "dying" in seconds
 	 */
 	public float[] getDyingBodies(){
 		return dying_bodies_;

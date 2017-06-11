@@ -4,7 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class CVCFortification extends CVCStructure {
+public abstract class CVCFortification extends CVCStructure {
+	public enum FortificationType {Tower, Wall}
+
     public static final float STONE_WIDTH = 2.0f;
     public static final float STONE_HEIGHT = 1.0f;
     public static final float STONE_EDGE_WIDTH = 1.0f;
@@ -19,14 +21,6 @@ public class CVCFortification extends CVCStructure {
 	 */
 	public CVCFortification(World world) {
 		super(world);
-	}
-
-	/** Returns the type of the structure
-	 *
-	 * @return StructureType the type of the structure
-	 */
-	public StructureType getType() {
-		return StructureType.Fortification;
 	}
 
 	/** Get the edges
@@ -44,4 +38,14 @@ public class CVCFortification extends CVCStructure {
     public int getHighEdges() {
         return high_edges_;
     }
+
+	/** Returns the type of the structure
+	 *
+	 * @return StructureType the type of the structure
+	 */
+	public StructureType getType() {
+		return StructureType.Fortification;
+	}
+
+	public abstract FortificationType getSubType();
 }

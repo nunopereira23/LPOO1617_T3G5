@@ -18,6 +18,14 @@ public abstract class CVCWeapon extends CVCStructure {
         super(world);
     }
 
+	/** Fires the weapon
+	 *
+	 * @param x target position in the x-axis
+	 * @param y target position in the y-axis
+	 * @param enemy whether the weapon being fired belongs to the enemy castle or not
+	 */
+	public abstract void fireWeapon(float x, float y, boolean enemy);
+
     /** Loads the weapon
      *
      * @param enemy whether the weapon being loaded belongs to the enemy castle or not
@@ -27,9 +35,11 @@ public abstract class CVCWeapon extends CVCStructure {
 	/** Get the body of the ammunition
 	 *
 	 */
-	public Body getAmmo()
+	public Body getAmmoBody()
 	{
-		return ammo_.getBody();
+		if (ammo_ != null)
+			return ammo_.getBody();
+		return null;
 	}
 
     /** Get type of the structure

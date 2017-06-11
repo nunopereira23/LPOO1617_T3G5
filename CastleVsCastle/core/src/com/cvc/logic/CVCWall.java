@@ -32,9 +32,15 @@ public class CVCWall extends CVCFortification {
         bodydef.type = BodyDef.BodyType.DynamicBody;
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(STONE_WIDTH / 2, STONE_HEIGHT / 2);
+	    shape.set(new float[] {0.0f, 0.0f,
+			                   STONE_WIDTH, 0.0f,
+	                           STONE_WIDTH, STONE_HEIGHT,
+	                           0.0f, STONE_HEIGHT});
         PolygonShape shape_edge = new PolygonShape();
-        shape_edge.setAsBox(STONE_EDGE_WIDTH / 2, STONE_HEIGHT / 2);
+        shape_edge.set(new float[] {0.0f, 0.0f,
+							        STONE_EDGE_WIDTH, 0.0f,
+							        STONE_EDGE_WIDTH, STONE_HEIGHT,
+							        0.0f, STONE_HEIGHT});
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
@@ -88,4 +94,10 @@ public class CVCWall extends CVCFortification {
 	    dying_bodies_ = new float[bodies_.length];
 	    Arrays.fill(dying_bodies_, 0);
     }
+
+	/** Get the subtype of the fortification
+	 *
+	 * @return the subtype of the fortification
+	 */
+	public FortificationType getSubType() { return FortificationType.Wall; }
 }

@@ -7,10 +7,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.Arrays;
 
 public class CVCCatapult extends CVCWeapon {
+	private boolean fire = true;
+
 	/** Creates the catapult
 	 *
 	 * @param world the world where the catapult is created
@@ -73,16 +76,16 @@ public class CVCCatapult extends CVCWeapon {
 	    fixture_arm.restitution = 0.44f; // Ashwood
 
 	    bodies_ = new Body[4];
-	    bodydef.position.set(posX, posY);
+	    bodydef.position.set(posX + (!enemy ? 0 : -1), posY);
 	    bodies_[0] = world_.createBody(bodydef);
 	    bodies_[0].createFixture(fixture_center);
-	    bodydef.position.set(posX + (!enemy ? 1 : 0), posY);
+	    bodydef.position.set(posX + (!enemy ? 1 : -1), posY);
 	    bodies_[1] = world_.createBody(bodydef);
 	    bodies_[1].createFixture(fixture_left);
-	    bodydef.position.set(posX + (!enemy ? 2 : 1), posY);
+	    bodydef.position.set(posX + (!enemy ? 2 : 0), posY);
 	    bodies_[2] = world_.createBody(bodydef);
 	    bodies_[2].createFixture(fixture_right);
-	    bodydef.position.set(posX + 1, posY);
+	    bodydef.position.set(posX + (!enemy ? 1 : 0), posY);
 	    bodies_[3] = world_.createBody(bodydef);
 	    bodies_[3].createFixture(fixture_arm);
 
@@ -115,6 +118,22 @@ public class CVCCatapult extends CVCWeapon {
 	    Arrays.fill(dying_bodies_, 0);
     }
 
+    public void fireWeapon(float x, float y, boolean enemy)
+    {
+	    if (fire = !fire) {
+		    ammo_.getBody().applyLinearImpulse(
+		    		new Vector2(CVCProjectile.projectileEquation(19.6f, x, posX_, y, posY_), 19.6f).scl(CVCProjectile.ROCK_DENSITY_BY_AREA),
+				    ammo_.getBody().getWorldCenter(),
+				    true);
+
+		    // Start counter until projectile disappears (thread) 10 secs
+		    // delete body
+	    }
+	    else {
+		    ammo_.setJoint(world_);
+	    }
+    }
+
     public void loadWeapon(boolean enemy)
     {
 	    ammo_ = new CVCProjectile(world_, CVCProjectile.ProjectileType.Rock, posX_ + (!enemy ? -0.66f : 0.66f), posY_ + 2.5f, enemy);
@@ -124,6 +143,13 @@ public class CVCCatapult extends CVCWeapon {
 	    weldjointdef.localAnchorA.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y + 0.001f);
 	    weldjointdef.localAnchorB.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y - 0.001f);
 	    ammo_.setJoint(world_.createJoint(weldjointdef));
+	    Timer.post(new Timer.Task() {
+		    @Override
+		    public void run() {
+				// to do
+
+		    }
+	    });
     }
 
     /** Get the subtype of the weapon

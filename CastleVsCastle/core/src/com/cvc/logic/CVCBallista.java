@@ -8,6 +8,11 @@ public class CVCBallista extends CVCWeapon {
         super(world);
     }
 
+    public void fireWeapon(float x, float y, boolean enemy)
+    {
+        // to do
+    }
+
     public void loadWeapon(boolean enemy)
     {
         // to do

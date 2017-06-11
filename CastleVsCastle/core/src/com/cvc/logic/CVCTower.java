@@ -13,7 +13,6 @@ import java.util.Arrays;
 public class CVCTower extends CVCFortification {
     private int height_;
 
-
     /** Creates the tower
      *
      * @param world the world where the tower is going to be created
@@ -31,11 +30,20 @@ public class CVCTower extends CVCFortification {
         bodydef.type = BodyDef.BodyType.DynamicBody;
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(STONE_WIDTH / 2, STONE_HEIGHT / 2);
+        shape.set(new float[] {0.0f, 0.0f,
+                               STONE_WIDTH, 0.0f,
+                               STONE_WIDTH, STONE_HEIGHT,
+                               0.0f, STONE_HEIGHT});
         PolygonShape shape_edge = new PolygonShape();
-        shape_edge.setAsBox(STONE_EDGE_WIDTH / 2, STONE_HEIGHT / 2);
+        shape_edge.set(new float[] {0.0f, 0.0f,
+                                    STONE_EDGE_WIDTH, 0.0f,
+                                    STONE_EDGE_WIDTH, STONE_HEIGHT,
+                                    0.0f, STONE_HEIGHT});
         PolygonShape shape_high_edge = new PolygonShape();
-        shape_high_edge.setAsBox(STONE_EDGE_WIDTH / 2, STONE_EDGE_HEIGHT / 2);
+        shape_high_edge.set(new float[] {0.0f, 0.0f,
+                                         STONE_EDGE_WIDTH, 0.0f,
+                                         STONE_EDGE_WIDTH, STONE_EDGE_HEIGHT,
+                                         0.0f, STONE_EDGE_HEIGHT});
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
@@ -112,4 +120,10 @@ public class CVCTower extends CVCFortification {
     public int getHeight_(){
         return height_;
     }
+
+    /** Get the subtype of the fortification
+     *
+     * @return the subtype of the fortification
+     */
+    public FortificationType getSubType() { return FortificationType.Tower; }
 }

@@ -17,11 +17,8 @@ public class CVCWorld {
 //    private static long timer_;
 
     private CVCCastle player_castle_;
-//    private CVCCastle enemy_castle_;
+    private CVCCastle enemy_castle_;
 
-    private PolygonShape shape_;
-    private FixtureDef fixture_;
-    private BodyDef bodydef_;
 	private Body body_;
 
 
@@ -31,24 +28,27 @@ public class CVCWorld {
     public CVCWorld() {
         world_ = new World(new Vector2(0, -9.8f), true); // don't simulate inactive bodies
 
-        player_castle_ = new CVCCastle(world_);
-     //   enemy_castle_ = new CVCCastle(world_);
+        player_castle_ = new CVCCastle(world_, false);
+        enemy_castle_ = new CVCCastle(world_, true);
 
-        bodydef_ = new BodyDef();
-        bodydef_.position.set(0f, 0f);
-        bodydef_.type = BodyDef.BodyType.StaticBody;
+        BodyDef bodydef = new BodyDef();
+        bodydef.position.set(0f, 0f);
+        bodydef.type = BodyDef.BodyType.StaticBody;
 
-        shape_ = new PolygonShape();
-        shape_.setAsBox(GROUND_WIDTH / 2, GROUND_HEIGHT / 2); // halfwidth, halfheight
+        PolygonShape shape = new PolygonShape();
+        shape.set(new float[] {0.0f, 0.0f,
+                               GROUND_WIDTH, 0.0f,
+                               GROUND_WIDTH, GROUND_HEIGHT,
+                               0.0f, GROUND_HEIGHT});
 
-        fixture_ = new FixtureDef();
-        fixture_.shape = shape_;
-        fixture_.density = 1220; // Dirt kg/m^3
-        fixture_.friction = 0.325f; // Dirt
-        fixture_.restitution = 0.393f; // Dirt
+        FixtureDef fixture = new FixtureDef();
+        fixture.shape = shape;
+        fixture.density = 1220; // Dirt kg/m^3
+        fixture.friction = 0.325f; // Dirt
+        fixture.restitution = 0.393f; // Dirt
 
-	    body_ = world_.createBody(bodydef_);
-	    body_.createFixture(fixture_);
+	    body_ = world_.createBody(bodydef);
+	    body_.createFixture(fixture);
     }
 
     /**  Connect and synchronize with other phone
@@ -65,15 +65,7 @@ public class CVCWorld {
     public void update(float delta) {
         world_.step(delta, 50, 0);
         player_castle_.update(delta);
-//        enemy_castle_.update();
-    }
-
-    /** Get the ground
-     *
-     * @return Body ground
-     */
-    public Body getGround(){
-	    return body_;
+        enemy_castle_.update(delta);
     }
 
     /** Dispose the world
@@ -85,6 +77,14 @@ public class CVCWorld {
 
     // Getters
 
+	/** Get the ground
+	 *
+	 * @return Body ground
+	 */
+	public Body getGround(){
+		return body_;
+	}
+
     /** Get the structures of the player
      *
      * @return CVCStructure[] the structures of the player
@@ -92,4 +92,11 @@ public class CVCWorld {
 	public CVCStructure[] getPlayerStructures() {
 		return player_castle_.getStructures();
 	}
+    public CVCStructure[] getEnemyStructures() {
+        return enemy_castle_.getStructures();
+    }
+
+    public void getContextMenu(int x, int y) {
+	    player_castle_.getContextMenu(x, y);
+    }
 }
