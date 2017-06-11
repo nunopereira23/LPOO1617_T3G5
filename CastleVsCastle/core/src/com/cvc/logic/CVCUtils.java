@@ -3,8 +3,12 @@ package com.cvc.logic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
+import java.util.Random;
+
 public class CVCUtils {
 	public static final float DEGUNIT = 180.0f / (float) Math.PI;
+
+	public static final Random RNG = new Random();
 
 	public static final Color DARK_GRAY = new Color(0.38f, 0.38f, 0.38f, 1);
 	public static final Color GRAY = new Color(0.5f, 0.5f, 0.5f, 1);

@@ -143,13 +143,6 @@ public class CVCCatapult extends CVCWeapon {
 	    weldjointdef.localAnchorA.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y + 0.001f);
 	    weldjointdef.localAnchorB.set(ammo_.getBody().getPosition().x, ammo_.getBody().getPosition().y - 0.001f);
 	    ammo_.setJoint(world_.createJoint(weldjointdef));
-	    Timer.post(new Timer.Task() {
-		    @Override
-		    public void run() {
-				// to do
-
-		    }
-	    });
     }
 
     /** Get the subtype of the weapon

@@ -17,8 +17,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cvc.logic.CVCCastle;
 import com.cvc.logic.CVCDefender;
 import com.cvc.logic.CVCFortification;
+import com.cvc.logic.CVCIron;
+import com.cvc.logic.CVCRope;
+import com.cvc.logic.CVCStone;
 import com.cvc.logic.CVCTower;
 import com.cvc.logic.CVCWeapon;
+import com.cvc.logic.CVCWood;
 
 public class CVCMenu extends Stage { // God bless this mess
 	public enum MenuType {bTower, bWall, bAll, Tower, Wall, Catapult, Trebuchet, Ballista}
@@ -271,19 +275,27 @@ public class CVCMenu extends Stage { // God bless this mess
 		final Label label_2 = new Label("Stone:", skin);
 		final Label label_3 = new Label("Iron:", skin);
 		final Label label_4 = new Label("Rope:", skin);
-		Label label_5 = new Label(""+CVCGame.world.getPlayerCastle().getWood().getAmount(), skin);
-		Label label_6 = new Label(""+CVCGame.world.getPlayerCastle().getStone().getAmount(), skin);
-		Label label_7 = new Label(""+CVCGame.world.getPlayerCastle().getIron().getAmount(), skin);
-		Label label_8 = new Label(""+CVCGame.world.getPlayerCastle().getRope().getAmount(), skin);
+		final Label label_5 = new Label(""+CVCWood.PRICE, skin);
+		final Label label_6 = new Label(""+CVCStone.PRICE, skin);
+		final Label label_7 = new Label(""+CVCIron.PRICE, skin);
+		final Label label_8 = new Label(""+CVCRope.PRICE, skin);
 
-		label_1.setPosition(x + 100, y - 15);
-		label_2.setPosition(x + 100, y - 45);
-		label_3.setPosition(x + 100, y - 75);
-		label_4.setPosition(x + 100, y - 105);
-		label_5.setPosition(x + 150, y - 15);
-		label_6.setPosition(x + 150, y - 15);
-		label_7.setPosition(x + 150, y - 15);
-		label_8.setPosition(x + 150, y - 15);
+		label_1.setPosition(x - 170, y);
+		label_2.setPosition(x - 170, y - 30);
+		label_3.setPosition(x - 170, y - 60);
+		label_4.setPosition(x - 170, y - 90);
+		label_5.setPosition(x - 120, y);
+		label_6.setPosition(x - 120, y - 30);
+		label_7.setPosition(x - 120, y - 60);
+		label_8.setPosition(x - 120, y - 90);
+		label_1.setVisible(false);
+		label_2.setVisible(false);
+		label_3.setVisible(false);
+		label_4.setVisible(false);
+		label_5.setVisible(false);
+		label_6.setVisible(false);
+		label_7.setVisible(false);
+		label_8.setVisible(false);
 
 		final Slider slider = new Slider(6, 14, 1, false, skin);
 		final int[] posX = new int[1]; // "Magical" trick to bypass Java's rules
@@ -292,11 +304,12 @@ public class CVCMenu extends Stage { // God bless this mess
 		final int[] widthWall = new int[1];
 		final int[] heightWall = new int[1];
 
-		TextButton button_1 = new TextButton("", skin);
-		TextButton button_2 = new TextButton("", skin);
+		final TextButton button_1 = new TextButton("", skin);
+		final TextButton button_2 = new TextButton("", skin);
 		final TextButton button_3 = new TextButton("Confirm", skin);
 		final TextButton button_4 = new TextButton("Cancel", skin);
 		final TextButton button_5 = new TextButton("X", skin);
+		final TextButton button_6 = new TextButton("X", skin);
 		button_3.setVisible(false);
 		button_4.setVisible(false);
 		switch (menuType)
@@ -304,8 +317,8 @@ public class CVCMenu extends Stage { // God bless this mess
 			case bTower:
 			case bWall:
 			case bAll:
-				button_1 = new TextButton("Tower", skin);
-				button_2 = new TextButton("Wall", skin);
+				button_1.setText("Tower");
+				button_2.setText("Wall");
 				switch (menuType)
 				{
 					case bTower:
@@ -335,6 +348,8 @@ public class CVCMenu extends Stage { // God bless this mess
 
 						slider.setValue(6);
 						slider.setVisible(true);
+						button_1.setDisabled(true);
+						button_2.setDisabled(true);
 						button_3.setVisible(true);
 						button_4.setVisible(true);
 
@@ -352,6 +367,8 @@ public class CVCMenu extends Stage { // God bless this mess
 						slider.setRange(4, heightWall[0]);
 						slider.setValue(4);
 						slider.setVisible(true);
+						button_1.setDisabled(true);
+						button_2.setDisabled(true);
 						button_3.setVisible(true);
 						button_4.setVisible(true);
 
@@ -361,7 +378,7 @@ public class CVCMenu extends Stage { // God bless this mess
 				break;
 			case Tower:
 			case Wall:
-				button_1 = new TextButton("Repair", skin);
+				button_1.setText("Repair");
 				if (((CVCFortification) object).getHealth() == 100)
 					button_1.setDisabled(true);
 				else
@@ -378,7 +395,7 @@ public class CVCMenu extends Stage { // God bless this mess
 				switch (menuType)
 				{
 					case Tower:
-						button_2 = new TextButton("Build", skin);
+						button_2.setText("Build");
 						if (((CVCTower) object).hasWeapon())
 							button_2.setDisabled(true);
 						else
@@ -388,7 +405,6 @@ public class CVCMenu extends Stage { // God bless this mess
 								/*	Timer.post(new Timer.Task() {
 										@Override
 										public void run() { */
-
 											CVCGame.world.setUpdate();
 											while (CVCGame.world.isUpdating());
 											CVCGame.world.getPlayerCastle().buildWeapon(((CVCTower) object).getX() + 2, ((CVCTower) object).getHeight() + 3, false);
@@ -401,7 +417,7 @@ public class CVCMenu extends Stage { // God bless this mess
 							});
 						break;
 					case Wall:
-						button_2 = new TextButton("Defend", skin);
+						button_2.setText("Defend");
 //						if (((CVCWall) object).checkSomething()) // to do
 							button_2.setDisabled(true);
 //						else
@@ -421,29 +437,27 @@ public class CVCMenu extends Stage { // God bless this mess
 			case Catapult:
 			case Trebuchet:
 			case Ballista:
-				button_1 = new TextButton("Load", skin);
-				button_2 = new TextButton("Fire", skin);
+				button_1.setText("Load");
+				button_2.setText("Fire");
 				if (((CVCWeapon) object).getAmmoBody() != null)
 					button_1.setDisabled(true);
 				button_2.setDisabled(true);
 				button_1.addListener(new ChangeListener() {
 					@Override
 					public void changed(ChangeEvent event, Actor actor) {
-						Timer.post(new Timer.Task() {
-							@Override
-							public void run() {
-							}
-						});
+						((CVCWeapon) object).loadWeapon(false);
+
+						button_1.setDisabled(true);
+						button_2.setDisabled(false);
 					}
 				});
 				button_2.addListener(new ChangeListener() {
 					@Override
 					public void changed(ChangeEvent event, Actor actor) {
-						Timer.post(new Timer.Task() {
-							@Override
-							public void run() {
-							}
-						});
+						CVCGame.world.getPlayerCastle().setTargeting();
+						CVCGame.world.getPlayerCastle().setFiring((CVCWeapon) object);
+
+						CVCGame.closeMenu();
 					}
 				});
 				break;
@@ -501,6 +515,19 @@ public class CVCMenu extends Stage { // God bless this mess
 				CVCGame.world.setUpdate();
 
 				slider.setVisible(false);
+				switch (menuType)
+				{
+					case bTower:
+						button_1.setDisabled(false);
+						break;
+					case bWall:
+						button_2.setDisabled(false);
+						break;
+					case bAll:
+						button_1.setDisabled(false);
+						button_2.setDisabled(false);
+						break;
+				}
 				button_3.setVisible(false);
 				button_4.setVisible(false);
 
@@ -514,6 +541,17 @@ public class CVCMenu extends Stage { // God bless this mess
 		button_5.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				CVCGame.closeMenu();
+			}
+		});
+		button_6.setStyle(buttonStyle);
+		button_6.setPosition(Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
+		button_6.setWidth(30);
+		button_6.setHeight(30);
+		button_6.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				CVCGame.world.getPlayerCastle().setTargeting();
 				CVCGame.closeMenu();
 			}
 		});
@@ -532,6 +570,7 @@ public class CVCMenu extends Stage { // God bless this mess
 		this.addActor(button_3);
 		this.addActor(button_4);
 		this.addActor(button_5);
+		this.addActor(button_6);
 		this.addActor(slider);
 	}
 
@@ -553,6 +592,7 @@ public class CVCMenu extends Stage { // God bless this mess
 		}
 		super.act(delta);
 	}
+
 
     public void delete() {
 		CVCGame.world.setUpdate();

@@ -135,7 +135,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	                    if (ammo_body != null) {
 		                    switch (((CVCWeapon) playerStructure).getSubType()) {
 			                    case Catapult:
-				                    renderer.setColor(0.5f, 0.5f, 0.5f, 0.5f); // not final
+				                    renderer.setColor(CVCUtils.LIGHT_GRAY); // not final
 				                    renderer.circle(
 						                    CVCUtils.toPixels(ammo_body.getPosition().x),
 						                    CVCUtils.toPixels(ammo_body.getPosition().y),
@@ -215,7 +215,7 @@ public class CVCGameScreen implements Screen, InputProcessor {
 	                    if (ammo_body != null) {
 		                    switch (((CVCWeapon) enemyStructure).getSubType()) {
 			                    case Catapult:
-				                    renderer.setColor(0.5f, 0.5f, 0.5f, 0.5f); // Not final
+				                    renderer.setColor(CVCUtils.LIGHT_GRAY); // Not final
 				                    renderer.circle(
 						                    CVCUtils.toPixels(ammo_body.getPosition().x),
 						                    CVCUtils.toPixels(ammo_body.getPosition().y),
@@ -232,11 +232,11 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		    }
 
 		    // Debugging
-		    renderer.rect(0f, CVCUtils.toPixels(20f), CVCUtils.toPixels(150f), CVCUtils.toPixels(0.25f), Color.RED, Color.BLUE, Color.BLUE, Color.RED); // Debug
+	/*	    renderer.rect(0f, CVCUtils.toPixels(20f), CVCUtils.toPixels(150f), CVCUtils.toPixels(0.25f), Color.RED, Color.BLUE, Color.BLUE, Color.RED); // Debug
 		    renderer.rect(0f, 0f, CVCUtils.toPixels(0.25f), CVCUtils.toPixels(30f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug
 		    renderer.rect(CVCUtils.toPixels(50f), 0f, CVCUtils.toPixels(0.25f), CVCUtils.toPixels(30f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug
 		    renderer.rect(CVCUtils.toPixels(100f), 0f, CVCUtils.toPixels(0.25f), CVCUtils.toPixels(30f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug
-		    renderer.rect(CVCUtils.toPixels(125f), 0f, CVCUtils.toPixels(1f), CVCUtils.toPixels(1f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug
+		    renderer.rect(CVCUtils.toPixels(125f), 0f, CVCUtils.toPixels(1f), CVCUtils.toPixels(1f), Color.RED, Color.RED, Color.BLUE, Color.BLUE); // Debug */
 
 		    renderer.end();
 
@@ -394,8 +394,12 @@ public class CVCGameScreen implements Screen, InputProcessor {
 		if (accDeltaX < 10 && accDeltaY < 10) {
 			CVCGame.CLICK.play();
 			if (absScreenY + (Gdx.graphics.getHeight() - screenY) >= CVCUtils.toPixels(1) && absScreenY + (Gdx.graphics.getHeight() - screenY) < CVCUtils.toPixels(20)) {
-				if (absScreenX + screenX >= 0 && absScreenX + screenX < CVCUtils.toPixels(50)) {
+				if (absScreenX + screenX >= 0 && absScreenX + screenX < CVCUtils.toPixels(50) && !CVCGame.world.getPlayerCastle().isTargeting()) {
 					CVCGame.world.getContextMenu(CVCUtils.toMeters(absScreenX + screenX), CVCUtils.toMeters(absScreenY + Gdx.graphics.getHeight() - screenY));
+				}
+				else if (absScreenX + screenX >= CVCUtils.toPixels(100) && absScreenX + screenX < CVCUtils.toPixels(150) && CVCGame.world.getPlayerCastle().isTargeting()) {
+					CVCGame.world.getPlayerCastle().isFiring(CVCUtils.toMeters(absScreenX + screenX) + 5 - CVCUtils.RNG.nextFloat() * 10,
+										                     CVCUtils.toMeters(absScreenY + (Gdx.graphics.getHeight() - screenY)) + 5 - CVCUtils.RNG.nextFloat() * 10);
 				}
 			}
 		}

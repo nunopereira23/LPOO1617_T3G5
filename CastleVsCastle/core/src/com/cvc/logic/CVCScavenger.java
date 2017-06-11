@@ -15,15 +15,15 @@ public class CVCScavenger extends CVCDefender {
 			CVCGame.world.getPlayerCastle().getRope().update(delta);
 			experience_ += delta;
 			if (rank_ == Rank.Novice && deltaTime_ > 180)
-				if (random_.nextInt(240 - (int) deltaTime_ + 1) == 0 ||
+				if (CVCUtils.RNG.nextInt(240 - (int) deltaTime_ + 1) == 0 ||
 						deltaTime_ > 240)
 					rank_ = Rank.Journeyman;
 			if (rank_ == Rank.Journeyman && deltaTime_ > 360)
-				if (random_.nextInt(420 - (int) deltaTime_ + 1) == 0 ||
+				if (CVCUtils.RNG.nextInt(420 - (int) deltaTime_ + 1) == 0 ||
 						deltaTime_ > 420)
 					rank_ = Rank.Professional;
 			if (rank_ == Rank.Professional && deltaTime_ > 540)
-				if (random_.nextInt(600 - (int) deltaTime_ + 1) == 0 ||
+				if (CVCUtils.RNG.nextInt(600 - (int) deltaTime_ + 1) == 0 ||
 						deltaTime_ > 600)
 					rank_ = Rank.Master;
 		}
@@ -40,7 +40,7 @@ public class CVCScavenger extends CVCDefender {
 				case Novice:
 					knowledge += 0.02f;
 			}
-			learning_ += random_.nextInt((int) experience_ + 1) * knowledge;
+			learning_ += CVCUtils.RNG.nextInt((int) experience_ + 1) * knowledge;
 			experience_ -= (delta / 10);
 		}
 		else experience_ -= delta;

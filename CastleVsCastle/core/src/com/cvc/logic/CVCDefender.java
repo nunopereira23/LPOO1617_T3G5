@@ -15,7 +15,6 @@ public abstract class CVCDefender {
 	protected Rank rank_ = Rank.Novice;
 
 	protected float deltaTime_ = 0;
-	protected Random random_ = new Random();
 
 	public CVCDefender(int id) {
 		id_ = id;

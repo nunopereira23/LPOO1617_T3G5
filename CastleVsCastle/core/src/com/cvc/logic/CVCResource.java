@@ -11,7 +11,6 @@ public class CVCResource {
 	protected Quality quality_ = Quality.Low;
 
 	protected float deltaTime_ = 0;
-	protected Random random_ = new Random();
 
 	public CVCResource() {
 	}
@@ -32,7 +31,7 @@ public class CVCResource {
 				break;
 		}
 		if (((int) deltaTime_) % difficulty == 0 &&
-				random_.nextInt((amount_ / investment_) + 1) == 0) {
+				CVCUtils.RNG.nextInt((amount_ / investment_) + 1) == 0) {
 			++amount_;
 		}
 	}

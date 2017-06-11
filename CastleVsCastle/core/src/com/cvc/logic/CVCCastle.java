@@ -12,6 +12,9 @@ public class CVCCastle {
     private float health_ = 100;
 	private int[][] touch_index_ = new int [20][50];
 
+	private boolean isTargeting_ = false;
+	private CVCWeapon weaponFiring_ = null;
+
     private CVCStructure[] structures_;
 	private CVCDefender[] defenders_;
 	private CVCWood resources_wood_ = new CVCWood();
@@ -257,7 +260,6 @@ public class CVCCastle {
 		return resources_rope_;
 	}
 
-	// documentation missing
 	public void getContextMenu(int x, int y) {
 		if (y < 20 && x < 50) {
 			if (touch_index_[y][x] != -1) {
@@ -317,6 +319,23 @@ public class CVCCastle {
 						CVCGame.openMenu(CVCMenu.MenuType.bTower, new int[]{x - 3});
 			}
 		}
+	}
+
+	public void setTargeting() {
+		isTargeting_ = !isTargeting_;
+	}
+
+	public boolean isTargeting() {
+		return isTargeting_;
+	}
+
+	public void setFiring(CVCWeapon weapon) {
+		weaponFiring_ = weapon;
+	}
+
+	public void isFiring(float x, float y) {
+		weaponFiring_.fireWeapon(x, y, false);
+		weaponFiring_.fireWeapon(x, y, false);
 	}
 
 	public void investWood() {
